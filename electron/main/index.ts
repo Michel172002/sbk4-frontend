@@ -36,6 +36,8 @@ const indexHtml = join(process.env.DIST, 'index.html')
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
+    width:1280,
+    height:720,
     icon: join(process.env.PUBLIC, 'favicon.svg'),
     webPreferences: {
       preload,
