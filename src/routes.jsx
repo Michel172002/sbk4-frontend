@@ -4,6 +4,7 @@ import Login from './pages/login'
 import Register from './pages/register'
 import Clientes from './pages/clientes';
 import Proprietarios from './pages/proprietarios';
+import Imoveis from './pages/imoveis';
 import {
   BrowserRouter,
   Routes,
@@ -20,6 +21,7 @@ function AppRoutes(){
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/clientes' element={<Clientes/>}></Route>
       <Route path='/proprietarios' element={<Proprietarios/>}></Route>
+      <Route path='/imoveis' element={<Imoveis/>}></Route>
     </Routes>
   </BrowserRouter>
   )

@@ -42,10 +42,11 @@ function useLoading() {
 }
 .${className} > div {
   animation-fill-mode: both;
-  width: 50px;
-  height: 50px;
-  background: #fff;
-  animation: square-spin 3s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
+  width: 300px;
+  height: 300px;
+  background-image: url("src/assets/logo.png");
+  background-repeat: no-repeat;
+  // animation: square-spin 3s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
 }
 .app-loading-wrap {
   position: fixed;
