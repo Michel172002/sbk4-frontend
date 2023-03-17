@@ -3,7 +3,12 @@ function ShortPropriedades(){
 
     return(
         <Containner>
-           <h1>teste</h1>
+           <form method="post" action>
+            <input type="text" />
+            <label htmlFor="dd">dd</label>
+            <input type="text" />
+            <label htmlFor="dd">22</label>
+           </form>
         </Containner>
     )
 }

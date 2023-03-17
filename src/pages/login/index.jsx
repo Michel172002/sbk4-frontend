@@ -1,7 +1,23 @@
+import { useState } from 'react'
 import {Containner} from './styled.js'
 import Logo from '/src/assets/logo.png'
 
+function initialState(){
+   return {user:'',password:''}   
+}
+
 function Login(){
+
+
+   const[values,setValues]=useState(initialState);
+
+   function onChange(event){
+      const {value,name}=event.target;
+      setValues({
+         ...values,
+         [name]:value,  
+      });
+   }
 
     return (
         <div>
@@ -19,12 +35,12 @@ function Login(){
                <form>
                   <div class="form-group">
                      <label>Nome</label>
-                     <input type="text" class="form-control" placeholder="Nome"/>
+                     <input type="text" class="form-control" placeholder="Nome" name='user' onChange={onChange} value={values.user}/>
                   </div>
                   <br />
                   <div class="form-group">
                      <label>Senha</label>
-                     <input type="password" class="form-control" placeholder="Senha"/>
+                     <input type="password" class="form-control" placeholder="Senha" name='password' onChange={onChange} value={values.password}/>
                   </div>
                   <button type="submit" class="btn btn-login"  formAction='/'>Login</button>
                   <button type="submit" class="btn btn-register "formAction='/register'>Register</button>

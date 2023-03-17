@@ -5,6 +5,8 @@ import Register from './pages/register'
 import Clientes from './pages/clientes';
 import Proprietarios from './pages/proprietarios';
 import Imoveis from './pages/imoveis';
+import Corretores from './pages/corretores'
+import StoreProvaider from './components/Store/Provider';
 import {
   BrowserRouter,
   Routes,
@@ -15,6 +17,7 @@ function AppRoutes(){
 
   return(
  <BrowserRouter>
+ <StoreProvaider>
     <Routes>
       <Route path="/" element={<Inicial/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
@@ -22,7 +25,9 @@ function AppRoutes(){
       <Route path='/clientes' element={<Clientes/>}></Route>
       <Route path='/proprietarios' element={<Proprietarios/>}></Route>
       <Route path='/imoveis' element={<Imoveis/>}></Route>
+      <Route path='/corretores' element={<Corretores/>}></Route>
     </Routes>
+    </StoreProvaider>
   </BrowserRouter>
   )
 }

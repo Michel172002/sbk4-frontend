@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 
 export const Containner = styled.div`
-width: 94vw;
-margin-top: 2%;
-height: 65vh;
-display: block;
-max-width: 90vw;
 
+margin-left: 4vw;
+margin-top: 2%;
+display: inline-flexbox;
+
+.card-img-top{
+    width: 100px;
+}
 `
