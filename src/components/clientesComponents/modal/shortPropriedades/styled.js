@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const Containner = styled.div`
-color:red;
-width: 70vw;
-height: 25vh;
+width: 60vw;
 margin-top: 2%;
-margin-left: 25%;
+height: 55vh;
+display: block;
+max-width: 60vw;
 
 `

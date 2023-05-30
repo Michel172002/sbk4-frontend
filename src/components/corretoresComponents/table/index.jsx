@@ -1,24 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Containner } from "./styled.js"
 import {FaBuffer} from 'react-icons/fa';
 import sbk4Fetch from "../../../axios/config.js";
+import { useEffect } from "react";
 
 function Table(handleOpenModal){
 
-  const [proprietarios, setProprietarios] = useState([])
+  const [corretores, setCorretores] = useState([])
 
-  const getProprietarios = async() => {
+  const getCorretores = async() => {
     try{
-      const response = await sbk4Fetch.get("/proprietarios/")
+      const response = await sbk4Fetch.get("/corretores/")
+
       const data = response.data
-      setProprietarios(data)
+
+      setCorretores(data)
     }catch(error){
       console.log(error)
     }
   }
 
   useEffect(() => {
-    getProprietarios()
+    getCorretores()
   }, [])
 
   return (
@@ -29,17 +32,17 @@ function Table(handleOpenModal){
             <tr>
               <th scope="col">#</th>
               <th scope="col">NOME</th>
-              <th scope="col">TELEFONE</th>
+              <th scope="col">CRECI</th>
               <th scope="col">CONFIG</th>
             </tr>
           </thead>
           <tbody>
-            {proprietarios.length === 0 ? (<p>Sem Proprietarios</p>): (
-              proprietarios.map((proprietario) => (
+            {corretores.length === 0 ? (<p>Sem Corretores</p>): (
+              corretores.map((corretor) => (
                 <tr>
-                  <th scope="row">{proprietario.id}</th>
-                  <td>{proprietario.nome}</td>
-                  <td>{proprietario.n_tel}</td>
+                  <th scope="row">{corretor.id}</th>
+                  <td>{corretor.nome}</td>
+                  <td>{corretor.creci}</td>
                   <td className="teste">
                     <div className="td_Button">
                     <button onClick={() => handleOpenModal.handleOpenModal()}><FaBuffer/></button>
@@ -49,12 +52,14 @@ function Table(handleOpenModal){
                   </td>
                 </tr>
               ))
-            )}    
+            )}  
           </tbody>
         </table>
+
+
       </Containner>
     </div>
-  )
+    )
 }
 
 export default Table

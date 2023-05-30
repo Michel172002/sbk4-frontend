@@ -1,11 +1,10 @@
 import { Containner } from "./styled.js"
-import Image from "/home/ajusten/Documentos/Development/sbk4/clienteElectron/electron-vite-react/src/assets/logo.png"
 function Imovel(){
 
     return(
         <Containner>
          <div class="card" style={{width: "18rem"}}>
-  <img class="card-img-top" src={Image} alt="Card image cap"/>
+  <img class="card-img-top" alt="Card image cap"/>
   <div class="card-body">
     <h5 class="card-title">Card title</h5>
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

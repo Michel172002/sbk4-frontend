@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const Containner = styled.div`
-width: 94vw;
+width: 60vw;
 margin-top: 2%;
-height: 65vh;
+height: 27vh;
 display: block;
-max-width: 90vw;
+max-width: 60vw;
 
 `

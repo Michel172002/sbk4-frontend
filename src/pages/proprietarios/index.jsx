@@ -4,46 +4,45 @@ import { useState } from "react";
 import Aside from "../../components/aside/index.jsx"
 import Navbar from "../../components/navbar/index.jsx";
 import Header from "../../components/header/index.jsx";
-import Form from "../../components/proprietariosComponents/formPesquisar/index.jsx"
 import Table from "../../components/proprietariosComponents/table/index.jsx"
-import Modal from "../../components/proprietariosComponents/modal/index.jsx"
-import Pesquisar from "../../components/proprietariosComponents/pesquisar/index.jsx";
+import HeaderModal from "../../components/proprietariosComponents/modal/header/index.jsx";
+import ShortPropriedades from "../../components/proprietariosComponents/modal/shortPropriedades/index.jsx"
+import FormPesquisar from "../../components/proprietariosComponents/formPesquisar/index.jsx";
 
 ReactModal.setAppElement('#root');
 
 function Proprietarios(){
+
+    const [modalIsOpen, setIsOpen] = useState(false);
     
-    const [modalIsOpen,setIsOpen]=useState(false);
-    const handleOpenModal=()=>{
+    const handleOpenModal = () => {
         return setIsOpen(true);
-    }
-    const handleCloseModal=()=>{
+    };
+
+    const handleCloseModal = () => {
         return setIsOpen(false);
     }
-    const teste=()=>{
-        return  alert("teste");
-    }
-
+    
     return(
         <div>
             <Containner>
-                
-                <ReactModal isOpen={modalIsOpen} onRequestClose={handleCloseModal}>
-                <Modal/>
+                <ReactModal isOpen={modalIsOpen} onRequestClose={handleOpenModal}>           
+                    <Containner>
+                        <HeaderModal handleCloseModal = {handleCloseModal}/>
+                        <br />
+                        <ShortPropriedades/>
+                    </Containner>
                 </ReactModal>
                 <Navbar/>
                 <Aside/>
                 <br />
-                <Header/>   
-                <br /><br />
-                <Pesquisar/>
-                <br /><br /><br /><br /><br /><br />
-                {/* <Form/> */}
-                <br />
-                <Table
+                <Header/>
+                <FormPesquisar
                 handleOpenModal={handleOpenModal}
                 />
-                
+                {/* <Pesquisar/> */}
+                <br />
+                <Table/>
             </Containner>
         </div>
     )

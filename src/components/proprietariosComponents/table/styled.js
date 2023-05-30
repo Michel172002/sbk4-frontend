@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const Containner = styled.div`
 
-margin-top: -2%;
+margin-top: -9%;
 margin-left: 25%;
 overflow: auto;
-height: 40vh;
+height: 57vh;
 width: 70vw;
 .thead-dark{
     background-color: #0f1a2c;

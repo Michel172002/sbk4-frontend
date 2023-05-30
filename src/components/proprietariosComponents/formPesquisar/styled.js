@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
 export const Containner = styled.div`
-color: black;
-width: 68%;
-height: 250px;
-margin-top: 5%;
-margin-left: 22%;
+color:red;
+width: 70vw;
+height: 25vh;
+margin-top: 2%;
+margin-left: 25%;
 
 
 
