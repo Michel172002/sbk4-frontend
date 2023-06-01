@@ -9,15 +9,12 @@ const ShortPropriedades = () => {
     const[n_tel, setTel] = useState()
     const[creci, setCreci] = useState()
 
-    const createCorretor = async(e) => {
-        e.preventDefault()
+    const createCorretor = async() => {
 
-        const post = {nome, n_tel, creci, ativo: true}
+        const corretor = {nome, n_tel, creci, ativo: true}
         
         try{
-            await sbk4Fetch.post("/corretores/", {
-                body: post
-            })
+            await sbk4Fetch.post("/corretores/", corretor)
         }catch(error){
             console.log(error);
         }
@@ -25,7 +22,7 @@ const ShortPropriedades = () => {
 
     return(
         <Containner>
-           <form method="post" class="needs-validation" novalidate onSubmit={(e) => createCorretor(e)}>
+           <form class="needs-validation" novalidate onSubmit={(e) => createCorretor(e)}>
             <div class="col align-self-center">
                 <div class="row justify-content-center">
                     <div class="col-auto mb-3">

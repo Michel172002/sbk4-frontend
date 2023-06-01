@@ -1,124 +1,248 @@
- import {Containner} from "./styled.js";
+ import { useState } from "react";
+import {Containner} from "./styled.js";
+import { useEffect } from "react";
+import sbk4Fetch from "../../../../axios/config.js";
 function ShortPropriedades(){
+
+    const [proprietarios, setProprietarios] = useState([])
+    const getProprietarios = async() => {
+        try{
+            const response = await sbk4Fetch.get("/proprietarios/")
+            const data = response.data
+            setProprietarios(data)
+          }catch(error){
+            console.log(error)
+        }
+    }
+
+    const [proprietario, setProprietario] = useState()
+    const [tipo, setTipo] = useState("CASA")
+    const [preco, setPreco] = useState()
+    const [alugando, setAlugando] = useState(false)
+    const [financia, setFinancia] = useState(false)
+    const [area, setArea] = useState()
+    const [rua, setRua] = useState()
+    const [bairro, setBairro] = useState()
+    const [cidade, setCidade] = useState()
+    const [numero, setNumero] = useState()
+    const [complemento, setComplemento] = useState()
+    const [estado, setEstado] = useState()
+    const [cep, setCep] = useState()
+    const [comodos, setComodos] = useState()
+    const [descricao, setDescricao] = useState()
+
+    const createImovel = async() => {
+        const imovel = {proprietario, tipo, preco, alugando, financia, area, rua, bairro, cidade, numero, complemento, estado, cep, comodos, descricao}
+        
+        try{
+            await sbk4Fetch.post("/imoveis/", imovel)
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getProprietarios()
+    }, [])
 
     return(
         <Containner>
-           <form method="post" class="needs-validation" novalidate>
+           <form class="needs-validation" novalidate onSubmit={(e) => createImovel(e)}>
             <div class="col align-self-center">
                 <div class="row justify-content-around">
-                    <div class="col-auto">
+                    <div class="col-8">
                         <div>
-                            <label htmlFor="nome">Nome</label>
+                            <label htmlFor="nome">Rua</label>
                         </div>
                         <div>
-                            <input class="form-control" type={"text"}></input>
+                            <input 
+                            class="form-control" 
+                            type={"text"}
+                            onChange={(e) => setRua(e.target.value)}
+                            ></input>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-2 mb-2">
                         <div>
-                            <label htmlFor="nascimento">Data de Nascimento</label>
+                            <label htmlFor="numero">Numero</label>
                         </div>
                         <div>
-                            <input class="form-control" type={"date"}></input>
+                            <input 
+                            class="form-control" 
+                            type={"text"}
+                            onChange={(e) => setNumero(e.target.value)}
+                            ></input>
+                        </div>
+                    </div>
+                    <div class="col-auto mb-2">
+                        <div>
+                            <label htmlFor="bairro">Bairro</label>
+                        </div>
+                        <div>
+                            <input 
+                            class="form-control" 
+                            type={"text"}
+                            onChange={(e) => setBairro(e.target.value)}
+                            ></input>
+                        </div>
+                    </div>
+                    <div class="col-auto mb-2">
+                        <div>
+                            <label htmlFor="estado">Cidade</label>
+                        </div>
+                        <div>
+                            <input 
+                            class="form-control" 
+                            type={"text"}
+                            onChange={(e) => setCidade(e.target.value)}
+                            ></input>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-around">
                     <div class="col-auto mb-2">
                         <div>
-                            <label htmlFor="telefone">Telefone</label>
+                            <label htmlFor="estado">Estado</label>
                         </div>
                         <div class="col-auto">
-                            <input class="form-control" type={"number"}></input>
+                            <input 
+                            class="form-control" 
+                            type={"text"}
+                            onChange={(e) => setEstado(e.target.value)}
+                            ></input>
                         </div>
                     </div>
                     <div class="col-auto">
                         <div>
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="cep">CEP</label>
                         </div>
-                        <div class="col-auto">
-                            <input class="form-control" type={"email"}></input>
+                        <div class="col-5">
+                            <input 
+                            class="form-control" 
+                            type={"text"}
+                            onChange={(e) => setCep(e.target.value)}
+                            ></input>
                         </div>
                     </div>
+                    <div class="col-8 mb-3">
+                        <div>
+                            <label htmlFor="complemento">Complemento</label>
+                        </div>
+                        <div class="col-5">
+                            <input 
+                            class="form-control" 
+                            type={"text"}
+                            onChange={(e) => setComplemento(e.target.value)}
+                            ></input>
+                        </div>
+                    </div>
+
+                    <div class="col-auto">
+                            <label htmlFor="proprietario">Proprietario</label>
+                            <select class="form-control" name="idProp" id="idProp" onChange={(e) => setProprietario(e.target.value)}>
+                                {proprietarios.length === 0 ? (<option value={null}>Sem Proprietarios</option>): (
+                                    proprietarios.map((proprietario) => (
+                                        <option value={proprietario.id}>{proprietario.nome}</option>
+                                    ))
+                                )}
+                            </select>
+                        </div>
                 </div>
                 <div class="row justify-content-around">
-                    <div class="col-auto">
-                        <label htmlFor="sexo">Sexo</label>
-                        <div>
-                            <select class="form-control" name="sexo" id="selectSexo">
-                                <option value={1}>Homem</option>
-                                <option value={0}>Mulher</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-auto mb-3">
                         <div class="col-3">
-                            <select class="form-control" name="indentificacao" id="selectDoc">
-                                <option value={1}>RG</option>
-                                <option value={2}>CNH</option>
-                                <option value={3}>CPF</option>
-                            </select>
-                        </div>
-                        <div class="col-auto">
-                            <input class="form-control" type={"number"}></input>
-                        </div>
-                    </div>
-                <div class="row justify-content-around">
-                    <div class="col-auto">
-                        <label htmlFor="procura">Procura</label>
-                        <div>
-                            <input type={"checkbox"} id="checkboxCasa" name="casa" value={"casa"}></input>
-                            <label htmlFor="casa">Casa</label>
-                        </div>
-                        <div>
-                            <input type={"checkbox"} id="checkboxAp" name="apartamento" value={"apartamento"}></input>
-                            <label htmlFor="apartamento">Apartamento</label>
-                        </div>
-                        <div>
-                            <input type={"checkbox"} id="checkboxTerreno" name="terreno" value={"terreno"}></input>
-                            <label htmlFor="terreno">Terreno</label>
-                        </div>
-                        <div>
-                            <input type={"checkbox"} id="checkboxLote" name="lote" value={"lote"}></input>
-                            <label htmlFor="lote">Lote</label>
-                        </div>
-                        <div>
-                            <input type={"checkbox"} id="checkboxChacara" name="chacara" value={"chacara"}></input>
-                            <label htmlFor="chacara">Chacara</label>
-                        </div>
-                    </div> 
-                    
-                    <div class="col-auto mb-3">
-                        <div>
                             <div>
-                                <label htmlFor="email">Comodos</label>
+                                <label htmlFor="preco">Preco</label>
                             </div>
-                            <div class="col-auto mb-2">
-                                <input class="form-control" type={"text"}></input>
+                            <div class="col-auto">
+                                <input 
+                                class="form-control" 
+                                type={"number"}
+                                onChange={(e) => setPreco(e.target.value)}
+                                ></input>
                             </div>
                         </div>
-                        <div class="row align-items-center">
-                        <div class="col-auto offset-md-3">
+                        <div class="col-3">
                             <label htmlFor="tipo">Tipo</label>
                             <div>
+                                <select class="form-control" name="tipo" id="selectTipo" onChange={(e) => setTipo(e.target.value)}>
+                                    <option value={"CASA"}>Casa</option>
+                                    <option value={"APARTAMENTO"}>Apartamento</option>
+                                    <option value={"LOTE"}>Lote</option>
+                                    <option value={"SALA COMERCIAL"}>Sala Comercial</option>
+                                    <option value={"KIT NET"}>Kit Net</option>
+                                    <option value={"CHACARA"}>Chacara</option>
+                                    <option value={"TERRENO"}>Terreno</option>
+                                </select>
+                            </div>
+                        </div>
+                    <div class="col-2">
+                            <label htmlFor="tipo">Financia</label>
                                 <div>
-                                    <input type="radio" id="alugar" name="tipoRadio" value={"alugar"}></input>
+                                    <input type="radio" id="sim" name="financiaRadio" value={"sim"} onChange={() => setFinancia(true)}></input>
+                                    <label htmlFor="sim">Sim</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="nao" name="financiaRadio" value={"nao"} onChange={() => setFinancia(false)}></input>
+                                    <label htmlFor="nao">Não</label>
+                                </div>
+                        </div>
+                    <div class="col-3 ">
+                            <label htmlFor="tipo">ALUGAR/VENDER</label>
+                                <div>
+                                    <input type="radio" id="alugar" name="tipoRadio" value={"alugar"} onChange={() => setAlugando(true)}></input>
                                     <label htmlFor="alugar">Alugar</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="comprar" name="tipoRadio" value={"comprar"}></input>
-                                    <label htmlFor="comprar">Comprar</label>
+                                    <input type="radio" id="comprar" name="tipoRadio" value={"comprar"} onChange={() => setAlugando(false)}></input>
+                                    <label htmlFor="comprar">Vender</label>
                                 </div>
+                        </div>
+                    
+                    <div class="row align-items-center">
+                        <div class="col-3 mb-2">
+                            <div>
+                                <label htmlFor="email">Comodos</label>
+                            </div>
+                            <div>
+                                <input 
+                                class="form-control" 
+                                type={"text"}
+                                onChange={(e) => setComodos(e.target.value)}
+                                ></input>
                             </div>
                         </div>
+                        <div class="col-3">
+                            <div>
+                                <label htmlFor="email">Area</label>
+                            </div>
+                            <div>
+                                <input 
+                                class="form-control" 
+                                type={"text"}
+                                onChange={(e) => setArea(e.target.value)}
+                                ></input>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div>
+                                <label htmlFor="email">Descricao</label>
+                            </div>
+                            <div>
+                                <input 
+                                class="form-control" 
+                                type={"text"}
+                                onChange={(e) => setDescricao(e.target.value)}
+                                ></input>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row align-items-center">
                         <div class="col-auto">
                             <input class="btn btn-success btn-lg" type={"submit"}/>
                         </div>
                     </div>
-                    </div>
                 </div>
                 </div>
-            </div>
            </form>
         </Containner>
     )
