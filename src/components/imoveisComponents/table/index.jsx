@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Containner } from "./styled.js"
 import {FaBuffer} from 'react-icons/fa';
 import sbk4Fetch from "../../../axios/config.js";
+import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
 
 function Table(handleOpenModal){
 
@@ -15,6 +16,31 @@ function Table(handleOpenModal){
     }catch(error){
       console.log(error)
     }  
+  }
+
+
+  const [id, setId] = useState(null)
+  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
+  const [alertMessage, setAlertMessage] = useState(null)
+  
+  const showDeleteModal = (id) => {
+    setId(id)
+    setAlertMessage(`Você tem certeza que quer excluir o Imovel '${imoveis.find((x) => x.id === id).id}'?`)
+    setDisplayConfirmationModal(true)
+  }
+
+  const hideConfirmationModal = () => {
+    setDisplayConfirmationModal(false)
+  }
+
+  const submitDelete = async(id) => {
+    try {
+      await sbk4Fetch.delete(`/imoveis/${id}`)
+      setDisplayConfirmationModal(false)
+      location.reload()
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -43,8 +69,8 @@ function Table(handleOpenModal){
           <td className="teste">
             <div className="td_Button">
             <button onClick={() => handleOpenModal.handleOpenModal()}><FaBuffer/></button>
-            <button>teste</button>
-            <button>teste</button>
+            <button>Editar</button>
+            <button onClick={() => showDeleteModal(imovel.id)}>Apagar</button>
             </div>
           </td>
         </tr>    
@@ -53,11 +79,10 @@ function Table(handleOpenModal){
 
   </tbody>
 </table>
-
-
-            </Containner>
-        </div>
-    )
+<DeleteConfirmation showModal={displayConfirmationModal} confirmModal={submitDelete} hideModal={hideConfirmationModal} id={id} message={alertMessage}/>
+</Containner>
+</div>
+)
 }
 
 export default Table

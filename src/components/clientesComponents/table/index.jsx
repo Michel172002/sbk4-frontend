@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import sbk4Fetch from "../../../axios/config.js";
 import { Containner } from "./styled.js"
 import {FaBuffer} from 'react-icons/fa';
+import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
 
 function Table(){
 
@@ -17,6 +18,31 @@ function Table(){
       setClientes(data)
     }catch(error){
       console.log(error)
+    }
+  }
+
+
+  const [id, setId] = useState(null)
+  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
+  const [alertMessage, setAlertMessage] = useState(null)
+  
+  const showDeleteModal = (id) => {
+    setId(id)
+    setAlertMessage(`Você tem certeza que quer excluir o cliente '${clientes.find((x) => x.id === id).nome}'?`)
+    setDisplayConfirmationModal(true)
+  }
+
+  const hideConfirmationModal = () => {
+    setDisplayConfirmationModal(false)
+  }
+
+  const submitDelete = async(id) => {
+    try {
+      await sbk4Fetch.delete(`/clientes/${id}`)
+      setDisplayConfirmationModal(false)
+      location.reload()
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -47,8 +73,8 @@ function Table(){
                         <td className="teste">
                           <div className="td_Button">
                           <button><FaBuffer/></button>
-                          <button>teste</button>
-                          <button>teste</button>
+                          <button>Editar</button>
+                          <button onClick={() => showDeleteModal(cliente.id)}>Apagar</button>
                           </div>
                         </td>
                       </tr>
@@ -56,6 +82,7 @@ function Table(){
                   )}
                 </tbody>
               </table>
+              <DeleteConfirmation showModal={displayConfirmationModal} confirmModal={submitDelete} hideModal={hideConfirmationModal} id={id} message={alertMessage} />
             </Containner>
         </div>
     )
