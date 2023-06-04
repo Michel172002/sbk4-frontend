@@ -2,7 +2,7 @@
 import {Containner} from "./styled.js";
 import { useEffect } from "react";
 import sbk4Fetch from "../../../../axios/config.js";
-function ShortPropriedades(){
+function ShortPropriedadesEdit({imovelProp}){
 
     const [proprietarios, setProprietarios] = useState([])
     const getProprietarios = async() => {
@@ -15,39 +15,65 @@ function ShortPropriedades(){
         }
     }
 
-    const [proprietario, setProprietario] = useState()
+    const [proprietario, setProprietario] = useState("")
     const [tipo, setTipo] = useState("CASA")
-    const [preco, setPreco] = useState()
+    const [preco, setPreco] = useState("")
     const [alugando, setAlugando] = useState(false)
     const [financia, setFinancia] = useState(false)
-    const [area, setArea] = useState()
-    const [rua, setRua] = useState()
-    const [bairro, setBairro] = useState()
-    const [cidade, setCidade] = useState()
-    const [numero, setNumero] = useState()
-    const [complemento, setComplemento] = useState()
-    const [estado, setEstado] = useState()
-    const [cep, setCep] = useState()
-    const [comodos, setComodos] = useState()
-    const [descricao, setDescricao] = useState()
+    const [area, setArea] = useState("")
+    const [rua, setRua] = useState("")
+    const [bairro, setBairro] = useState("")
+    const [cidade, setCidade] = useState("")
+    const [numero, setNumero] = useState("")
+    const [complemento, setComplemento] = useState("")
+    const [estado, setEstado] = useState("")
+    const [cep, setCep] = useState("")
+    const [comodos, setComodos] = useState("")
+    const [descricao, setDescricao] = useState("")
 
-    const createImovel = async() => {
-        const imovel = {proprietario, tipo, preco, alugando, financia, area, rua, bairro, cidade, numero, complemento, estado, cep, comodos, descricao}
-   
+    const editImovel = async(e) => {
+        const imovel = {proprietario, tipo, preco, alugando, financia, area, rua, bairro, cidade, numero, complemento, estado, cep, comodos, descricao}       
         try{
-            await sbk4Fetch.post("/imoveis/", imovel)
+            await sbk4Fetch.put(`/imoveis/${imovelProp.id}/`, imovel)
         }catch(error){
             console.log(error);
         }
     }
 
+    const getImovel = async(imovelId) => {
+        try {
+            const response = await sbk4Fetch.get(`/imoveis/${imovelId}/`)
+            const data = response.data
+            setProprietario(data.proprietario)
+            setTipo(data.tipo)
+            setPreco(data.preco)
+            setAlugando(data.alugando)
+            setFinancia(data.financia)
+            setArea(data.area)
+            setRua(data.rua)
+            setBairro(data.bairro)
+            setCidade(data.cidade)
+            setNumero(data.numero)
+            setComplemento(data.complemento)
+            setEstado(data.estado)
+            setCep(data.cep)
+            setComodos(data.comodos)
+            setDescricao(data.descricao)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
+        if(imovelProp){
+            getImovel(imovelProp.id)
+        }
         getProprietarios()
-    }, [])
+    }, [imovelProp])
 
     return(
         <Containner>
-           <form class="needs-validation" novalidate onSubmit={(e) => createImovel(e)}>
+           <form class="needs-validation" novalidate onSubmit={(e) => editImovel(e)}>
             <div class="col align-self-center">
                 <div class="row justify-content-around">
                     <div class="col-8">
@@ -58,6 +84,7 @@ function ShortPropriedades(){
                             <input 
                             class="form-control" 
                             type={"text"}
+                            value={rua}
                             onChange={(e) => setRua(e.target.value)}
                             ></input>
                         </div>
@@ -70,6 +97,7 @@ function ShortPropriedades(){
                             <input 
                             class="form-control" 
                             type={"text"}
+                            value={numero}
                             onChange={(e) => setNumero(e.target.value)}
                             ></input>
                         </div>
@@ -82,6 +110,7 @@ function ShortPropriedades(){
                             <input 
                             class="form-control" 
                             type={"text"}
+                            value={bairro}
                             onChange={(e) => setBairro(e.target.value)}
                             ></input>
                         </div>
@@ -94,6 +123,7 @@ function ShortPropriedades(){
                             <input 
                             class="form-control" 
                             type={"text"}
+                            value={cidade}
                             onChange={(e) => setCidade(e.target.value)}
                             ></input>
                         </div>
@@ -108,6 +138,7 @@ function ShortPropriedades(){
                             <input 
                             class="form-control" 
                             type={"text"}
+                            value={estado}
                             onChange={(e) => setEstado(e.target.value)}
                             ></input>
                         </div>
@@ -120,6 +151,7 @@ function ShortPropriedades(){
                             <input 
                             class="form-control" 
                             type={"text"}
+                            value={cep}
                             onChange={(e) => setCep(e.target.value)}
                             ></input>
                         </div>
@@ -132,6 +164,7 @@ function ShortPropriedades(){
                             <input 
                             class="form-control" 
                             type={"text"}
+                            value={complemento}
                             onChange={(e) => setComplemento(e.target.value)}
                             ></input>
                         </div>
@@ -139,7 +172,7 @@ function ShortPropriedades(){
 
                     <div class="col-auto">
                             <label htmlFor="proprietario">Proprietario</label>
-                            <select class="form-control" name="idProp" id="idProp" onChange={(e) => setProprietario(e.target.value)}>
+                            <select class="form-control" name="idProp" id="idProp" value={proprietario} onChange={(e) => setProprietario(e.target.value)}>
                                 {proprietarios.length === 0 ? (<option value={null}>Sem Proprietarios</option>): (
                                     proprietarios.map((proprietario) => (
                                         <option value={proprietario.id}>{proprietario.nome}</option>
@@ -157,6 +190,7 @@ function ShortPropriedades(){
                                 <input 
                                 class="form-control" 
                                 type={"number"}
+                                value={preco}
                                 onChange={(e) => setPreco(e.target.value)}
                                 ></input>
                             </div>
@@ -164,7 +198,7 @@ function ShortPropriedades(){
                         <div class="col-3">
                             <label htmlFor="tipo">Tipo</label>
                             <div>
-                                <select class="form-control" name="tipo" id="selectTipo" onChange={(e) => setTipo(e.target.value)}>
+                                <select class="form-control" name="tipo" id="selectTipo" value={tipo} onChange={(e) => setTipo(e.target.value)}>
                                     <option value={"CASA"}>Casa</option>
                                     <option value={"APARTAMENTO"}>Apartamento</option>
                                     <option value={"LOTE"}>Lote</option>
@@ -207,6 +241,7 @@ function ShortPropriedades(){
                                 <input 
                                 class="form-control" 
                                 type={"text"}
+                                value={comodos}
                                 onChange={(e) => setComodos(e.target.value)}
                                 ></input>
                             </div>
@@ -219,6 +254,7 @@ function ShortPropriedades(){
                                 <input 
                                 class="form-control" 
                                 type={"text"}
+                                value={area}
                                 onChange={(e) => setArea(e.target.value)}
                                 ></input>
                             </div>
@@ -231,6 +267,7 @@ function ShortPropriedades(){
                                 <input 
                                 class="form-control" 
                                 type={"text"}
+                                value={descricao}
                                 onChange={(e) => setDescricao(e.target.value)}
                                 ></input>
                             </div>
@@ -247,4 +284,4 @@ function ShortPropriedades(){
         </Containner>
     )
 }
-export default ShortPropriedades
+export default ShortPropriedadesEdit

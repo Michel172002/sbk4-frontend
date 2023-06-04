@@ -5,7 +5,7 @@ import sbk4Fetch from "../../../axios/config.js";
 import { useEffect } from "react";
 import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
 
-function Table(handleOpenModal){
+function Table(handleOpenModalEdit){
   const [corretores, setCorretores] = useState([])
 
   const getCorretores = async() => {
@@ -69,8 +69,8 @@ function Table(handleOpenModal){
                   <td>{corretor.creci}</td>
                   <td className="teste">
                     <div className="td_Button">
-                    <button onClick={() => handleOpenModal.handleOpenModal()}><FaBuffer/></button>
-                    <button>Editar</button>
+                    <button><FaBuffer/></button>
+                    <button onClick={() => handleOpenModalEdit.handleOpenModalEdit(corretor)}>Editar</button>
                     <button onClick={() => showDeleteModal(corretor.id)}>Apagar</button>
                     </div>
                   </td>

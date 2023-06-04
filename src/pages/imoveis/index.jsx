@@ -8,41 +8,60 @@ import ReactModal from "react-modal";
 import { useState } from "react";
 import HeaderModal from '../../components/imoveisComponents/modal/header/index.jsx'
 import ShortPropriedades from "../../components/imoveisComponents/modal/shortPropriedades/index.jsx"
+import HeaderModalEdit from '../../components/imoveisComponents/modalEdit/header/index.jsx'
+import ShortPropriedadesEdit from '../../components/imoveisComponents/modalEdit/shortPropriedades/index.jsx'
 
 ReactModal.setAppElement('#root');
 
 function Imoveis(){
 
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalCreateIsOpen, setIsOpenCreate] = useState(false)
+    const [modalEditIsOpen, setIsOpenEdit] = useState(false)
     
-    const handleOpenModal = () => {
-      
-        return setIsOpen(true);
+    const handleOpenModalCreate = () => {
+        return setIsOpenCreate(true);
     };
 
-    const handleCloseModal = () => {
-        return setIsOpen(false);
+    const handleCloseModalCreate = () => {
+        return setIsOpenCreate(false)
     }
+
+    const [imovelSelecionado, setImovelSelecionado] = useState(null);
+
+    const handleOpenModalEdit = (imovel) => {
+        setImovelSelecionado(imovel)
+        setIsOpenEdit(true)
+    }
+
+    const handleCloseModalEdit = () => {
+        return setIsOpenEdit(false)
+    }
+
 
     return(
         <Containner>
-            <ReactModal isOpen={modalIsOpen} onRequestClose={handleOpenModal}>
+            <ReactModal isOpen={modalCreateIsOpen} onRequestClose={handleOpenModalCreate}>
                 <Containner>
-                    <HeaderModal handleCloseModal = {handleCloseModal}/>
+                    <HeaderModal handleCloseModalCreate={handleCloseModalCreate}/>
                     <br />
                     <ShortPropriedades/>
+                </Containner>
+            </ReactModal>
+            <ReactModal isOpen={modalEditIsOpen} onRequestClose={handleOpenModalEdit}>
+                <Containner>
+                    <HeaderModalEdit handleCloseModalEdit={handleCloseModalEdit}/>
+                    <br />
+                    <ShortPropriedadesEdit imovelProp={imovelSelecionado}/>
                 </Containner>
             </ReactModal>
             <Navbar/>
             <Aside/>
             <br />
             <Header/>
-            <FormPesquisar
-                handleOpenModal={handleOpenModal}
-            />
-        {/* <Pesquisar/> */}
-        <br />
-        <Table/>
+            <FormPesquisar handleOpenModalCreate={handleOpenModalCreate}/>
+            {/* <Pesquisar/> */}
+            <br />
+            <Table handleOpenModalEdit={handleOpenModalEdit}/>
         </Containner>
     )
 }

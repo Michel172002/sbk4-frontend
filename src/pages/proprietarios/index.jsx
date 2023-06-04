@@ -8,41 +8,60 @@ import Table from "../../components/proprietariosComponents/table/index.jsx"
 import HeaderModal from "../../components/proprietariosComponents/modal/header/index.jsx";
 import ShortPropriedades from "../../components/proprietariosComponents/modal/shortPropriedades/index.jsx"
 import FormPesquisar from "../../components/proprietariosComponents/formPesquisar/index.jsx";
+import HeaderModalEdit from "../../components/proprietariosComponents/modalEdit/header/index.jsx";
+import ShortPropriedadesEdit from "../../components/proprietariosComponents/modalEdit/shortPropriedades/index.jsx";
 
 ReactModal.setAppElement('#root');
 
 function Proprietarios(){
 
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [modalCreateIsOpen, setIsOpenCreate] = useState(false)
+    const [modalEditIsOpen, setIsOpenEdit] = useState(false)
     
-    const handleOpenModal = () => {
-        return setIsOpen(true);
+    const handleOpenModalCreate = () => {
+        return setIsOpenCreate(true);
     };
 
-    const handleCloseModal = () => {
-        return setIsOpen(false);
+    const handleCloseModalCreate = () => {
+        return setIsOpenCreate(false)
+    }
+
+    const [proprietarioSelecionado, setProprietarioSelecionado] = useState(null);
+
+    const handleOpenModalEdit = (proprietario) => {
+        setProprietarioSelecionado(proprietario)
+        setIsOpenEdit(true)
+    }
+
+    const handleCloseModalEdit = () => {
+        return setIsOpenEdit(false)
     }
     
     return(
         <div>
             <Containner>
-                <ReactModal isOpen={modalIsOpen} onRequestClose={handleOpenModal}>           
+                <ReactModal isOpen={modalCreateIsOpen} onRequestClose={handleOpenModalCreate}>           
                     <Containner>
-                        <HeaderModal handleCloseModal = {handleCloseModal}/>
+                        <HeaderModal handleCloseModalCreate = {handleCloseModalCreate}/>
                         <br />
                         <ShortPropriedades/>
+                    </Containner>
+                </ReactModal>
+                <ReactModal isOpen={modalEditIsOpen} onRequestClose={handleCloseModalEdit}>
+                    <Containner>
+                        <HeaderModalEdit handleCloseModalEdit = {handleCloseModalEdit}/>
+                        <br/>
+                        <ShortPropriedadesEdit proprietarioProp={proprietarioSelecionado}/>
                     </Containner>
                 </ReactModal>
                 <Navbar/>
                 <Aside/>
                 <br />
                 <Header/>
-                <FormPesquisar
-                handleOpenModal={handleOpenModal}
-                />
+                <FormPesquisar handleOpenModal={handleOpenModalCreate}/>
                 {/* <Pesquisar/> */}
                 <br />
-                <Table/>
+                <Table handleOpenModalEdit={handleOpenModalEdit}/>
             </Containner>
         </div>
     )

@@ -4,7 +4,7 @@ import {FaBuffer} from 'react-icons/fa';
 import sbk4Fetch from "../../../axios/config.js";
 import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
 
-function Table(handleOpenModal){
+function Table(handleOpenModalEdit){
 
   const [imoveis, setImoveis] = useState([])
 
@@ -68,8 +68,8 @@ function Table(handleOpenModal){
           <td>{imovel.proprietario}</td>
           <td className="teste">
             <div className="td_Button">
-            <button onClick={() => handleOpenModal.handleOpenModal()}><FaBuffer/></button>
-            <button>Editar</button>
+            <button><FaBuffer/></button>
+            <button onClick={() => handleOpenModalEdit.handleOpenModalEdit(imovel)}>Editar</button>
             <button onClick={() => showDeleteModal(imovel.id)}>Apagar</button>
             </div>
           </td>

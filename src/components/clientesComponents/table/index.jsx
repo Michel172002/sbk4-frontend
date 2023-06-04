@@ -4,7 +4,7 @@ import { Containner } from "./styled.js"
 import {FaBuffer} from 'react-icons/fa';
 import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
 
-function Table(){
+function Table(handleOpenModalEdit){
 
   const [clientes, setClientes] = useState([])
 
@@ -73,7 +73,7 @@ function Table(){
                         <td className="teste">
                           <div className="td_Button">
                           <button><FaBuffer/></button>
-                          <button>Editar</button>
+                          <button onClick={() => handleOpenModalEdit.handleOpenModalEdit(cliente)}>Editar</button>
                           <button onClick={() => showDeleteModal(cliente.id)}>Apagar</button>
                           </div>
                         </td>

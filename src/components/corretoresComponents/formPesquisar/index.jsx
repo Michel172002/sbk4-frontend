@@ -1,7 +1,7 @@
 import { Containner } from './styled.js'
 import {FaSearch} from 'react-icons/fa';
 
-function FormPesquisar(handleOpenModal) {
+function FormPesquisar(handleOpenModalCreate) {
     return(
         <div>
           <Containner>
@@ -23,7 +23,7 @@ function FormPesquisar(handleOpenModal) {
                 <button class="btn btn-secondary" type="submit"><FaSearch/></button>
               </div>
               <div class="col-auto mb-3 ms-auto">
-                <a class="btn btn-success btn-lg" onClick={() => handleOpenModal.handleOpenModal()} role="button">Novo Corretor</a>
+                <a class="btn btn-success btn-lg" onClick={() => handleOpenModalCreate.handleOpenModalCreate()} role="button">Novo Corretor</a>
               </div>
             </div>
           </form>
