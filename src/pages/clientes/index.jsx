@@ -10,6 +10,8 @@ import Header from '../../components/header/index.jsx'
 import { Containner } from './styled.js'
 import HeaderModalEdit from '../../components/clientesComponents/modalEdit/header/index.jsx';
 import ShortPropriedadesEdit from '../../components/clientesComponents/modalEdit/shortPropriedades/index.jsx';
+import HeaderModalDados from '../../components/clientesComponents/modalDados/header/index.jsx';
+import ShortPropriedadesDados from '../../components/clientesComponents/modalDados/shortPropriedades/index.jsx';
 
 ReactModal.setAppElement('#root');
 
@@ -17,6 +19,7 @@ function Clientes(){
 
     const [modalCreateIsOpen, setIsOpenCreate] = useState(false)
     const [modalEditIsOpen, setIsOpenEdit] = useState(false)
+    const [modalDadosIsOpen, setIsOpenDados] = useState(false)
     
     const handleOpenModalCreate = () => {
         return setIsOpenCreate(true);
@@ -36,6 +39,15 @@ function Clientes(){
     const handleCloseModalEdit = () => {
         return setIsOpenEdit(false)
     }
+    
+    const handleOpenModalDados = (cliente) => {
+        setClienteSelecionado(cliente)
+        setIsOpenDados(true)
+    }
+
+    const handleCloseModalDados = () => {
+        return setIsOpenDados(false)
+    }
 
     return(
         <Containner>
@@ -53,15 +65,21 @@ function Clientes(){
                     <ShortPropriedadesEdit clienteProp={clienteSelecionado}/>
                 </Containner>
             </ReactModal>
+            <ReactModal isOpen={modalDadosIsOpen} onRequestClose={handleCloseModalDados}>
+                <Containner>
+                    <HeaderModalDados handleCloseModalDados={handleCloseModalDados}/>
+                    <br/>
+                    <ShortPropriedadesDados clienteProp={clienteSelecionado}/>
+                </Containner>
+            </ReactModal>
             <Navbar/>
             <Aside/>
             <br />
-            <Header/>
-            
+            <Header/> 
             <FormPesquisar handleOpenModal={handleOpenModalCreate}/>
             {/* <Pesquisar/> */}
             <br />
-            <Table handleOpenModalEdit={handleOpenModalEdit}/>
+            <Table handleOpenModalEdit={handleOpenModalEdit} handleOpenModalDados={handleOpenModalDados}/>
         </Containner>    
     )
 }

@@ -4,7 +4,7 @@ import {FaBuffer} from 'react-icons/fa';
 import sbk4Fetch from "../../../axios/config.js";
 import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
 
-function Table(handleOpenModalEdit){
+function Table({handleOpenModalEdit, handleOpenModalDados}){
 
   const [proprietarios, setProprietarios] = useState([])
 
@@ -44,7 +44,7 @@ function Table(handleOpenModalEdit){
   const showDeleteModal = (id) => {
     setId(id)
     getImoveisProprietarios(id)
-    setAlertMessage(`Você tem certeza que quer excluir o proprietario '${proprietarios.find((x) => x.id === id).nome}'?`)
+    setAlertMessage(`Você tem certeza que quer excluir o proprietario '${proprietarios.find((x) => x.id === id).nome}' e seus imoveis?`)
     setDisplayConfirmationModal(true)
   }
 
@@ -91,8 +91,8 @@ function Table(handleOpenModalEdit){
                   <td>{proprietario.n_tel}</td>
                   <td className="teste">
                     <div className="td_Button">
-                    <button ><FaBuffer/></button>
-                    <button onClick={() => handleOpenModalEdit.handleOpenModalEdit(proprietario)}>Editar</button>
+                    <button onClick={() => handleOpenModalDados(proprietario)}><FaBuffer/></button>
+                    <button onClick={() => handleOpenModalEdit(proprietario)}>Editar</button>
                     <button onClick={() => showDeleteModal(proprietario.id)}>Apagar</button>
                     </div>
                   </td>

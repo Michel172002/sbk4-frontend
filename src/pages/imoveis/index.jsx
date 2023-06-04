@@ -10,6 +10,8 @@ import HeaderModal from '../../components/imoveisComponents/modal/header/index.j
 import ShortPropriedades from "../../components/imoveisComponents/modal/shortPropriedades/index.jsx"
 import HeaderModalEdit from '../../components/imoveisComponents/modalEdit/header/index.jsx'
 import ShortPropriedadesEdit from '../../components/imoveisComponents/modalEdit/shortPropriedades/index.jsx'
+import HeaderModalDados from '../../components/imoveisComponents/modalDados/header/index.jsx'
+import ShortPropriedadesDados from '../../components/imoveisComponents/modalDados/shortPropriedades/index.jsx'
 
 ReactModal.setAppElement('#root');
 
@@ -17,6 +19,7 @@ function Imoveis(){
 
     const [modalCreateIsOpen, setIsOpenCreate] = useState(false)
     const [modalEditIsOpen, setIsOpenEdit] = useState(false)
+    const [modalDadosIsOpen, setIsOpenDados] = useState(false)
     
     const handleOpenModalCreate = () => {
         return setIsOpenCreate(true);
@@ -37,6 +40,14 @@ function Imoveis(){
         return setIsOpenEdit(false)
     }
 
+    const handleOpenModalDados = (imovel) => {
+        setImovelSelecionado(imovel)
+        setIsOpenDados(true)
+    }
+
+    const handleCloseModalDados = () => {
+        return setIsOpenDados(false)
+    }
 
     return(
         <Containner>
@@ -54,6 +65,13 @@ function Imoveis(){
                     <ShortPropriedadesEdit imovelProp={imovelSelecionado}/>
                 </Containner>
             </ReactModal>
+            <ReactModal isOpen={modalDadosIsOpen} onRequestClose={handleOpenModalDados}>
+                <Containner>
+                    <HeaderModalDados handleCloseModalDados={handleCloseModalDados}/>
+                    <br/>
+                    <ShortPropriedadesDados imovelProp={imovelSelecionado}/>
+                </Containner>
+            </ReactModal>
             <Navbar/>
             <Aside/>
             <br />
@@ -61,7 +79,7 @@ function Imoveis(){
             <FormPesquisar handleOpenModalCreate={handleOpenModalCreate}/>
             {/* <Pesquisar/> */}
             <br />
-            <Table handleOpenModalEdit={handleOpenModalEdit}/>
+            <Table handleOpenModalEdit={handleOpenModalEdit} handleOpenModalDados={handleOpenModalDados}/>
         </Containner>
     )
 }

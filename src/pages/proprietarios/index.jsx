@@ -10,6 +10,8 @@ import ShortPropriedades from "../../components/proprietariosComponents/modal/sh
 import FormPesquisar from "../../components/proprietariosComponents/formPesquisar/index.jsx";
 import HeaderModalEdit from "../../components/proprietariosComponents/modalEdit/header/index.jsx";
 import ShortPropriedadesEdit from "../../components/proprietariosComponents/modalEdit/shortPropriedades/index.jsx";
+import HeaderModalDados from "../../components/proprietariosComponents/modalDados/header/index.jsx";
+import ShortPropriedadesDados from "../../components/proprietariosComponents/modalDados/shortPropriedades/index.jsx";
 
 ReactModal.setAppElement('#root');
 
@@ -17,6 +19,7 @@ function Proprietarios(){
 
     const [modalCreateIsOpen, setIsOpenCreate] = useState(false)
     const [modalEditIsOpen, setIsOpenEdit] = useState(false)
+    const [modalDadosIsOpen, setIsOpenDados] = useState(false)
     
     const handleOpenModalCreate = () => {
         return setIsOpenCreate(true);
@@ -36,6 +39,15 @@ function Proprietarios(){
     const handleCloseModalEdit = () => {
         return setIsOpenEdit(false)
     }
+
+    const handleOpenModalDados = (proprietario) => {
+        setProprietarioSelecionado(proprietario)
+        setIsOpenDados(true)
+    }
+
+    const handleCloseModalDados = () => {
+        return setIsOpenDados(false)
+    }
     
     return(
         <div>
@@ -54,6 +66,13 @@ function Proprietarios(){
                         <ShortPropriedadesEdit proprietarioProp={proprietarioSelecionado}/>
                     </Containner>
                 </ReactModal>
+                <ReactModal isOpen={modalDadosIsOpen} onRequestClose={handleCloseModalDados}>
+                    <Containner>
+                        <HeaderModalDados handleCloseModalDados={handleCloseModalDados}/>
+                        <br/>
+                        <ShortPropriedadesDados proprietarioProp={proprietarioSelecionado}/>
+                    </Containner>
+                </ReactModal>
                 <Navbar/>
                 <Aside/>
                 <br />
@@ -61,7 +80,7 @@ function Proprietarios(){
                 <FormPesquisar handleOpenModal={handleOpenModalCreate}/>
                 {/* <Pesquisar/> */}
                 <br />
-                <Table handleOpenModalEdit={handleOpenModalEdit}/>
+                <Table handleOpenModalEdit={handleOpenModalEdit} handleOpenModalDados={handleOpenModalDados}/>
             </Containner>
         </div>
     )

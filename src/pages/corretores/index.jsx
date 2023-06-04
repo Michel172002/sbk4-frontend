@@ -11,6 +11,8 @@ import ShortPropriedades from "../../components/corretoresComponents/modal/short
 import ShortPropriedadesEdit from '../../components/corretoresComponents/modalEdit/shortPropriedades/index.jsx'
 import HeaderModalEdit from '../../components/corretoresComponents/modalEdit/header/index.jsx'
 import sbk4Fetch from '../../axios/config.js'
+import HeaderModalDados from '../../components/corretoresComponents/modalDados/header/index.jsx'
+import ShortPropriedadesDados from '../../components/corretoresComponents/modalDados/shortPropriedades/index.jsx'
 
 ReactModal.setAppElement('#root');
 
@@ -18,6 +20,7 @@ function Corretores(){
 
     const [modalCreateIsOpen, setIsOpenCreate] = useState(false)
     const [modalEditIsOpen, setIsOpenEdit] = useState(false)
+    const [modalDadosIsOpen, setIsOpenDados] = useState(false)
     
     const handleOpenModalCreate = () => {
         return setIsOpenCreate(true);
@@ -38,6 +41,16 @@ function Corretores(){
         return setIsOpenEdit(false)
     }
 
+    const handleOpenModalDados = (corretor) => {
+        setCorretorSelecionado(corretor)
+        setIsOpenDados(true)
+    }
+
+    const handleCloseModalDados = () => {
+        return setIsOpenDados(false)
+    }
+ 
+
     return(
         <Containner>
             <ReactModal isOpen={modalCreateIsOpen} onRequestClose={handleOpenModalCreate}>
@@ -54,6 +67,13 @@ function Corretores(){
                     <ShortPropriedadesEdit corretorProp={corretorSelecionado} />
                 </Containner>
             </ReactModal>
+            <ReactModal isOpen={modalDadosIsOpen} onRequestClose={handleCloseModalDados}>
+                <Containner>
+                    <HeaderModalDados handleCloseModalDados={handleCloseModalDados}/>
+                    <br/>
+                    <ShortPropriedadesDados corretorProp={corretorSelecionado} />
+                </Containner>
+            </ReactModal>
             <Navbar/>
             <Aside/>
             <br />
@@ -61,7 +81,7 @@ function Corretores(){
             <FormPesquisar handleOpenModalCreate={handleOpenModalCreate}/>
             {/* <Pesquisar/> */}
             <br />
-            <Table handleOpenModalEdit={handleOpenModalEdit}/>
+            <Table handleOpenModalEdit={handleOpenModalEdit} handleOpenModalDados={handleOpenModalDados}/>
         </Containner>
     )
 }
