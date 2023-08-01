@@ -176,9 +176,6 @@ const ShortPropriedadesEdit= ({clienteProp}) => {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-auto">
-                            <input class="btn btn-success btn-lg" type={"submit"}/>
-                        </div>
                     <label>Observações</label>
                     <input 
                     class="form-control" 
@@ -187,6 +184,9 @@ const ShortPropriedadesEdit= ({clienteProp}) => {
                     onChange={(e) => setObs(e.target.value)}
                     />
                     </div>
+                        <div class="col-auto">
+                            <input class="btn btn-success btn-lg" type={"submit"}/>
+                        </div>
                     </div>
                 </div>
                 </div>

@@ -51,21 +51,27 @@ function Imoveis(){
 
     return(
         <Containner>
-            <ReactModal isOpen={modalCreateIsOpen} onRequestClose={handleOpenModalCreate}>
+            <ReactModal isOpen={modalCreateIsOpen} onRequestClose={handleOpenModalCreate} style={{content:{
+                padding:"0px"
+            }}}>
                 <Containner>
                     <HeaderModal handleCloseModalCreate={handleCloseModalCreate}/>
                     <br />
                     <ShortPropriedades/>
                 </Containner>
             </ReactModal>
-            <ReactModal isOpen={modalEditIsOpen} onRequestClose={handleOpenModalEdit}>
+            <ReactModal isOpen={modalEditIsOpen} onRequestClose={handleOpenModalEdit} style={{content:{
+                padding:"0px"
+            }}}>
                 <Containner>
                     <HeaderModalEdit handleCloseModalEdit={handleCloseModalEdit}/>
                     <br />
                     <ShortPropriedadesEdit imovelProp={imovelSelecionado}/>
                 </Containner>
             </ReactModal>
-            <ReactModal isOpen={modalDadosIsOpen} onRequestClose={handleOpenModalDados}>
+            <ReactModal isOpen={modalDadosIsOpen} onRequestClose={handleOpenModalDados} style={{content:{
+                padding:"0px"
+            }}}>
                 <Containner>
                     <HeaderModalDados handleCloseModalDados={handleCloseModalDados}/>
                     <br/>

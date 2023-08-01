@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Containner } from "./styled.js"
-import {FaBuffer} from 'react-icons/fa';
+import {FaClipboardList} from 'react-icons/fa';
 import sbk4Fetch from "../../../axios/config.js";
 import { useEffect } from "react";
 import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
@@ -69,7 +69,7 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
                   <td>{corretor.creci}</td>
                   <td className="teste">
                     <div className="td_Button">
-                    <button onClick={() => handleOpenModalDados(corretor)}><FaBuffer/></button>
+                    <button onClick={() => handleOpenModalDados(corretor)}><FaClipboardList/></button>
                     <button onClick={() => handleOpenModalEdit(corretor)}>Editar</button>
                     <button onClick={() => showDeleteModal(corretor.id)}>Apagar</button>
                     </div>

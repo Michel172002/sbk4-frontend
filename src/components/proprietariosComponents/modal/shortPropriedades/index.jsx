@@ -96,15 +96,17 @@ function ShortPropriedades(){
                         onChange={(e) => setNumDoc(e.target.value)}
                         ></input>
                     </div>
+                    <div class="col-5">
+                        <label>Observações</label>
+                        <input 
+                        class="form-control" 
+                        type="text"
+                        onChange={(e) => setObs(e.target.value)}
+                        />
+                    </div>
                     <div class="col-auto">
                         <input class="btn btn-success btn-lg" type={"submit"}/>
                     </div>
-                    <label>Observações</label>
-                    <input 
-                    class="form-control" 
-                    type="text"
-                    onChange={(e) => setObs(e.target.value)}
-                    />
                 </div>
             </div>
            </form>

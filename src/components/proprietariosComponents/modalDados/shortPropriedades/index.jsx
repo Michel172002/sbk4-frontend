@@ -35,9 +35,9 @@ function ShortPropriedadesDados({proprietarioProp}){
 
     const getSexo = (sexo) => {
         if(sexo) {
-            return <label>Homem</label>
+            return <label class="form-control">Homem</label>
         }else{
-            return <label>Mulher</label>
+            return <label class="form-control">Mulher</label>
         }
     }
 
@@ -67,13 +67,13 @@ function ShortPropriedadesDados({proprietarioProp}){
                         <label htmlFor="nome">Nome:</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <label htmlFor="nome">{nome}</label>
+                        <label class="form-control" htmlFor="nome">{nome}</label>
                     </div>
                     <div class="col-auto mb-3">
                         <label htmlFor="nascimento">Data de Nascimento:</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <label htmlFor="nascimento">{data_nas}</label>
+                        <label class="form-control" htmlFor="nascimento">{data_nas}</label>
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -81,13 +81,13 @@ function ShortPropriedadesDados({proprietarioProp}){
                         <label htmlFor="telefone">Telefone:</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <label htmlFor="telefone">{n_tel}</label>
+                        <label class="form-control" htmlFor="telefone">{n_tel}</label>
                     </div>
                     <div class="col-auto mb-3">
                         <label htmlFor="email">Email:</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <label htmlFor="email">{email}</label>
+                        <label class="form-control" htmlFor="email">{email}</label>
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -101,11 +101,15 @@ function ShortPropriedadesDados({proprietarioProp}){
                         {getTipoDoc(t_doc)}
                     </div>
                     <div class="col-auto">
-                        <label>{n_doc}</label>
+                        <label class="form-control">{n_doc}</label>
                     </div>
-                    <label>Observações:</label>
-                    <label>{obs}</label>
                 </div>
+                <div class="row justify-content-center">
+                    <div class="col-5">   
+                        <label>Observações:</label>
+                        <label class="form-control">{obs}</label>
+                    </div>
+                </div> 
             </div>
            </form>
         </Containner>

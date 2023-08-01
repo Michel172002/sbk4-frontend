@@ -52,21 +52,27 @@ function Proprietarios(){
     return(
         <div>
             <Containner>
-                <ReactModal isOpen={modalCreateIsOpen} onRequestClose={handleOpenModalCreate}>           
+                <ReactModal isOpen={modalCreateIsOpen} onRequestClose={handleOpenModalCreate} style={{content:{
+                padding:"0px"
+            }}}>           
                     <Containner>
                         <HeaderModal handleCloseModalCreate = {handleCloseModalCreate}/>
                         <br />
                         <ShortPropriedades/>
                     </Containner>
                 </ReactModal>
-                <ReactModal isOpen={modalEditIsOpen} onRequestClose={handleCloseModalEdit}>
+                <ReactModal isOpen={modalEditIsOpen} onRequestClose={handleCloseModalEdit} style={{content:{
+                padding:"0px"
+            }}}>
                     <Containner>
                         <HeaderModalEdit handleCloseModalEdit = {handleCloseModalEdit}/>
                         <br/>
                         <ShortPropriedadesEdit proprietarioProp={proprietarioSelecionado}/>
                     </Containner>
                 </ReactModal>
-                <ReactModal isOpen={modalDadosIsOpen} onRequestClose={handleCloseModalDados}>
+                <ReactModal isOpen={modalDadosIsOpen} onRequestClose={handleCloseModalDados} style={{content:{
+                padding:"0px"
+            }}}>
                     <Containner>
                         <HeaderModalDados handleCloseModalDados={handleCloseModalDados}/>
                         <br/>

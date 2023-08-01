@@ -124,16 +124,22 @@ function ShortPropriedadesEdit({proprietarioProp}){
                         onChange={(e) => setNumDoc(e.target.value)}
                         ></input>
                     </div>
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <label>Observações</label>
+                            <input 
+                            class="form-control" 
+                            type="text"
+                            value={obs}
+                            onChange={(e) => setObs(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
                     <div class="col-auto">
                         <input class="btn btn-success btn-lg" type={"submit"}/>
                     </div>
-                    <label>Observações</label>
-                    <input 
-                    class="form-control" 
-                    type="text"
-                    value={obs}
-                    onChange={(e) => setObs(e.target.value)}
-                    />
                 </div>
             </div>
            </form>

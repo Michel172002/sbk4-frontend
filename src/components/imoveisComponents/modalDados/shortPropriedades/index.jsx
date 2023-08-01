@@ -56,38 +56,38 @@ function ShortPropriedadesDados({imovelProp}){
 
     const getTipo = (tipo) => {
         if(tipo === "APARTAMENTO"){
-            return <label>APARTAMENTO</label>
+            return <label class="form-control">APARTAMENTO</label>
         }
         if(tipo === "LOTE"){
-            return <label>LOTE</label>
+            return <label class="form-control">LOTE</label>
         }
         if(tipo === "SALA COMERCIAL"){
-            return <label>SALA COMERCIAL</label>
+            return <label class="form-control">SALA COMERCIAL</label>
         }
         if(tipo === "KIT NET"){
-            return <label>KIT NET</label>
+            return <label class="form-control">KIT NET</label>
         }
         if(tipo === "CHACARA"){
-            return <label>CHACARA</label>
+            return <label class="form-control">CHACARA</label>
         }
         if(tipo === "TERRENO"){
-            return <label>TERRENO</label>
+            return <label class="form-control">TERRENO</label>
         }
     }
 
     const getFinancia = (financia) => {
         if(financia){
-            return <label>Financiavel</label>
+            return <label class="form-control">Financiavel</label>
         }else{
-            return <label>Não Financiavel</label>
+            return <label class="form-control">Não Financiavel</label>
         }
     }
 
     const getAlugando = (alugando) => {
         if(alugando){
-            return <label>Disponivel para Locação</label>
+            return <label class="form-control" >Disponivel para Locação</label>
         }else{
-            return <label>Disponivel para venda</label>
+            return <label class="form-control">Disponivel para venda</label>
         }
     }
 
@@ -107,7 +107,7 @@ function ShortPropriedadesDados({imovelProp}){
                             <label htmlFor="rua">Rua:</label>
                         </div>
                         <div>
-                            <label htmlFor="rua">{rua}</label>
+                            <label class="form-control" htmlFor="rua">{rua}</label>
                         </div>
                     </div>
                     <div class="col-2 mb-2">
@@ -115,7 +115,7 @@ function ShortPropriedadesDados({imovelProp}){
                             <label htmlFor="numero">Numero:</label>
                         </div>
                         <div>
-                            <label htmlFor="numero">{numero}</label>
+                            <label class="form-control" htmlFor="numero">{numero}</label>
                         </div>
                     </div>
                     <div class="col-auto mb-2">
@@ -123,7 +123,7 @@ function ShortPropriedadesDados({imovelProp}){
                             <label htmlFor="bairro">Bairro:</label>
                         </div>
                         <div>
-                            <label htmlFor="bairro">{bairro}</label>
+                            <label class="form-control" htmlFor="bairro">{bairro}</label>
                         </div>
                     </div>
                     <div class="col-auto mb-2">
@@ -131,7 +131,7 @@ function ShortPropriedadesDados({imovelProp}){
                             <label htmlFor="cidade">Cidade:</label>
                         </div>
                         <div>
-                            <label htmlFor="cidade">{cidade}</label>
+                            <label class="form-control" htmlFor="cidade">{cidade}</label>
                         </div>
                     </div>
                 </div>
@@ -141,15 +141,15 @@ function ShortPropriedadesDados({imovelProp}){
                             <label htmlFor="estado">Estado:</label>
                         </div>
                         <div class="col-auto">
-                            <label htmlFor="estado">{estado}</label>
+                            <label class="form-control" htmlFor="estado">{estado}</label>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-5">
                         <div>
                             <label htmlFor="cep">CEP:</label>
                         </div>
                         <div class="col-5">
-                            <label htmlFor="cep">{cep}</label>
+                            <label class="form-control" htmlFor="cep">{cep}</label>
                         </div>
                     </div>
                     <div class="col-8 mb-3">
@@ -157,13 +157,13 @@ function ShortPropriedadesDados({imovelProp}){
                             <label htmlFor="complemento">Complemento:</label>
                         </div>
                         <div class="col-5">
-                            <label htmlFor="complemento">{complemento}</label>
+                            <label class="form-control" htmlFor="complemento">{complemento}</label>
                         </div>
                     </div>
 
                     <div class="col-auto">
                             <label htmlFor="proprietario">Proprietario:</label>
-                            <label htmlFor="proprietario">{proprietario.nome}</label>
+                            <label class="form-control" htmlFor="proprietario">{proprietario.nome}</label>
                         </div>
                 </div>
                 <div class="row justify-content-around">
@@ -172,7 +172,7 @@ function ShortPropriedadesDados({imovelProp}){
                                 <label htmlFor="preco">Preco:</label>
                             </div>
                             <div class="col-auto">
-                                <label htmlFor="preco">{preco}</label>
+                                <label class="form-control" htmlFor="preco">{preco}</label>
                             </div>
                         </div>
                         <div class="col-3">
@@ -195,7 +195,7 @@ function ShortPropriedadesDados({imovelProp}){
                                 <label htmlFor="comodos">Comodos:</label>
                             </div>
                             <div>
-                                <label htmlFor="comodos">{comodos}</label>
+                                <label class="form-control" htmlFor="comodos">{comodos}</label>
                             </div>
                         </div>
                         <div class="col-3">
@@ -203,7 +203,7 @@ function ShortPropriedadesDados({imovelProp}){
                                 <label htmlFor="area">Area:</label>
                             </div>
                             <div>
-                                <label>{area}</label>
+                                <label class="form-control">{area}</label>
                             </div>
                         </div>
                         <div class="col-6">
@@ -211,7 +211,7 @@ function ShortPropriedadesDados({imovelProp}){
                                 <label htmlFor="descricao">Descricao:</label>
                             </div>
                             <div>
-                                <label htmlFor="descricao">{descricao}</label>
+                                <label class="form-control" htmlFor="descricao">{descricao}</label>
                             </div>
                         </div>
                     </div>

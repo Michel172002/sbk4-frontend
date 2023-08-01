@@ -37,9 +37,9 @@ const ShortPropriedadesDados= ({clienteProp}) => {
 
     const getSexo = (sexo) => {
         if(sexo) {
-            return <label>Homem</label>
+            return <label class="form-control">Homem</label>
         }else{
-            return <label>Mulher</label>
+            return <label class="form-control">Mulher</label>
         }
     }
 
@@ -51,15 +51,15 @@ const ShortPropriedadesDados= ({clienteProp}) => {
             return <label>CNH:</label>
         }
         if(t_doc === 3) {
-            return <label>CPF:</label>
+            return <label >CPF:</label>
         }
     }
 
     const getTipoProc = (a_search) => {
         if(a_search){
-            return <label htmlFor="tipo_proc">Alugar</label>
+            return <label class="form-control" htmlFor="tipo_proc">Alugar</label>
         }else{
-            return <label htmlFor="tipo_proc">Comprar</label>
+            return <label class="form-control" htmlFor="tipo_proc">Comprar</label>
         }
     }
 
@@ -79,7 +79,7 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                             <label htmlFor="nome">Nome:</label>
                         </div>
                         <div>
-                            <label>{nome}</label>
+                            <label class="form-control">{nome}</label>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -87,7 +87,7 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                             <label htmlFor="nascimento">Data de Nascimento:</label>
                         </div>
                         <div>
-                            <label htmlFor="nascimento">{data_nas}</label>
+                            <label class="form-control" htmlFor="nascimento">{data_nas}</label>
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                             <label htmlFor="telefone">Telefone:</label>
                         </div>
                         <div class="col-auto">
-                            <label htmlFor="telefone">{n_tel}</label>
+                            <label class="form-control" htmlFor="telefone">{n_tel}</label>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -105,7 +105,7 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                             <label htmlFor="email">Email:</label>
                         </div>
                         <div class="col-auto">
-                            <label htmlFor="email">{email}</label>
+                            <label class="form-control" htmlFor="email">{email}</label>
                         </div>
                     </div>
                 </div>
@@ -121,13 +121,13 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                             {getTipoDoc(t_doc)}
                         </div>
                         <div class="col-auto">
-                            <label htmlFor="n_doc">{n_doc}</label>
+                            <label  class="form-control" htmlFor="n_doc">{n_doc}</label>
                         </div>
                     </div>
                 <div class="row justify-content-around">
                     <div class="col-auto">
                         <label htmlFor="procura">Procurando:</label>
-                        <label htmlFor="procura">{t_search}</label>
+                        <label class="form-control" htmlFor="procura">{t_search}</label>
                     </div> 
                     <div class="col-auto mb-3">
                         <div>
@@ -135,7 +135,7 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                                 <label htmlFor="comodos">Comodos:</label>
                             </div>
                             <div class="col-auto mb-2">
-                                <label htmlFor="comodos">{c_search}</label>
+                                <label class="form-control" htmlFor="comodos">{c_search}</label>
                             </div>
                         </div>
                         <div class="row align-items-center">
@@ -146,7 +146,7 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                             </div>
                         </div>
                     <label>Observações</label>
-                    <label htmlFor="obs">{obs}</label>
+                    <label class="form-control" htmlFor="obs">{obs}</label>
                     </div>
                     </div>
                 </div>

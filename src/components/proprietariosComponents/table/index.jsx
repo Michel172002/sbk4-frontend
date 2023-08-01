@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Containner } from "./styled.js"
-import {FaBuffer} from 'react-icons/fa';
+import {FaClipboardList} from 'react-icons/fa';
 import sbk4Fetch from "../../../axios/config.js";
 import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
 
@@ -91,7 +91,7 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
                   <td>{proprietario.n_tel}</td>
                   <td className="teste">
                     <div className="td_Button">
-                    <button onClick={() => handleOpenModalDados(proprietario)}><FaBuffer/></button>
+                    <button onClick={() => handleOpenModalDados(proprietario)}><FaClipboardList/></button>
                     <button onClick={() => handleOpenModalEdit(proprietario)}>Editar</button>
                     <button onClick={() => showDeleteModal(proprietario.id)}>Apagar</button>
                     </div>

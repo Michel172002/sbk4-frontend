@@ -38,13 +38,13 @@ const ShortPropriedadesDados = ({corretorProp}) => {
                         <label htmlFor="nome">Nome:</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <label htmlFor="nome">{nome}</label>
+                        <label class="form-control" htmlFor="nome">{nome}</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <label htmlFor="creci">Creci:</label>
+                        <label  htmlFor="creci">Creci:</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <label htmlFor="creci">{creci}</label>
+                        <label class="form-control" htmlFor="creci">{creci}</label>
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -52,7 +52,7 @@ const ShortPropriedadesDados = ({corretorProp}) => {
                         <label htmlFor="telefone">Telefone:</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <label htmlFor="telefone">{n_tel}</label>
+                        <label class="form-control" htmlFor="telefone">{n_tel}</label>
                     </div>
                 </div>
             </div>
