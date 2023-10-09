@@ -3,42 +3,41 @@ import {Containner} from "./styled.js";
 import sbk4Fetch from "../../../../axios/config.js";
 
 const ShortPropriedadesEdit= ({clienteProp}) => {
-    const [nome, setNome] = useState("")
-    const [data_nas, setDataNas] = useState("")
-    const [sexo, setSexo] = useState(true)
-    const [n_tel, setTelefone] = useState("")
-    const [email, setEmail] = useState("")
-    const [t_doc, setTipoDoc] = useState(1)
-    const [n_doc, setNumDoc] = useState("")
-    const [obs, setObs] = useState("")
-    const [t_search, setProcTipo] = useState("")
-    const [a_search, setAlugar] = useState("")
-    const [c_search, setComodos] = useState("")
+  const [nome, setNome] = useState("")
+  const [dataNas, setDataNasm] = useState("")
+  const [sexo, setSexo] = useState(true)
+  const [telefone, setTelefone] = useState("")
+  const [email, setEmail] = useState("")
+  const [identificacao, setTipoDoc] = useState("")
+  const [identificacaoNumber, setNumDoc] = useState("")
+  const [observacao, setObservacao] = useState("")
+  const [procTipo, setProcTipo] = useState("")
+  const [procAlugando, setAlugar] = useState(true)
+  const [procComodos, setComodos] = useState("")
 
     const getCliente = async(clienteId) => {
         try {
-            const response = await sbk4Fetch.get(`/clientes/${clienteId}`)
+            const response = await sbk4Fetch.get(`/cliente/${clienteId}`)
             const data = response.data
             setNome(data.nome)
-            setDataNas(data.data_nas)
-            setSexo(data.sexo)
-            setTelefone(data.n_tel)
+            setDataNasm(data.dataNasm)
+            setTelefone(data.telefone)
             setEmail(data.email)
-            setTipoDoc(data.t_doc)
-            setNumDoc(data.n_doc)
-            setObs(data.obs)
-            setProcTipo(data.t_search)
-            setAlugar(data.a_search)
-            setComodos(data.c_search)
+            setTipoDoc(data.identificacao)
+            setNumDoc(data.identificacaoNumber)
+            setObservacao(data.observacao)
+            setProcTipo(data.procTipo)
+            setAlugar(data.procAlugando)
+            setComodos(data.procComodos)
         } catch (error) {
             console.log(error);
         }
     }
 
     const editCliente = async(e) => {
-        const clienteEditado = {nome, data_nas, sexo, n_tel, email, t_doc, n_doc, obs, t_search, a_search, c_search, active: true}
+        const clienteEditado = {nome, dataNas, sexo, telefone, email, identificacao, identificacaoNumber, observacao, procTipo, procAlugando, procComodos, ativo: true}
         try {
-            await sbk4Fetch.put(`/clientes/${clienteProp.id}/`, clienteEditado)
+            await sbk4Fetch.put(`/cliente/${clienteProp.id}`, clienteEditado)
         } catch (error) {
             console.log(error);
         }
@@ -73,11 +72,11 @@ const ShortPropriedadesEdit= ({clienteProp}) => {
                             <label htmlFor="nascimento">Data de Nascimento</label>
                         </div>
                         <div>
-                            <input 
-                            class="form-control" 
+                            <input
+                            class="form-control"
                             type={"date"}
-                            value={data_nas}
-                            onChange={(e) => setDataNas(e.target.value)}
+                            value={dataNas}
+                            onChange={(e) => setDataNasm(e.target.value)}
                             ></input>
                         </div>
                     </div>
@@ -88,10 +87,10 @@ const ShortPropriedadesEdit= ({clienteProp}) => {
                             <label htmlFor="telefone">Telefone</label>
                         </div>
                         <div class="col-auto">
-                            <input 
-                            class="form-control" 
+                            <input
+                            class="form-control"
                             type={"number"}
-                            value={n_tel}
+                            value={telefone}
                             onChange={(e) => setTelefone(e.target.value)}
                             ></input>
                         </div>
@@ -101,8 +100,8 @@ const ShortPropriedadesEdit= ({clienteProp}) => {
                             <label htmlFor="email">Email</label>
                         </div>
                         <div class="col-auto">
-                            <input 
-                            class="form-control" 
+                            <input
+                            class="form-control"
                             type={"email"}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -114,25 +113,25 @@ const ShortPropriedadesEdit= ({clienteProp}) => {
                     <div class="col-auto">
                         <label htmlFor="sexo">Sexo</label>
                         <div>
-                            <select class="form-control" name="sexo" id="selectSexo" value={sexo} onChange={(e) => setSexo(e.target.value)}>
-                                <option value={true}>Homem</option>
-                                <option value={false}>Mulher</option>
+                            <select class="form-control" name="sexo" id="selectSexo" value={sexo} onChange={(e) => setSexo(e.target.value === "true")}>
+                                <option value={"true"}>Homem</option>
+                                <option value={"false"}>Mulher</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-auto mb-3">
                         <div class="col-3">
-                            <select class="form-control" name="indentificacao" id="selectDoc" value={t_doc} onChange={(e) => setTipoDoc(e.target.value)}>
-                                <option value={"1"} >RG</option>
-                                <option value={"2"} >CNH</option>
-                                <option value={"3"} >CPF</option>
+                            <select class="form-control" name="indentificacao" id="selectDoc" value={identificacao} onChange={(e) => setTipoDoc(e.target.value)}>
+                                <option value={"RG"} >RG</option>
+                                <option value={"CNH"} >CNH</option>
+                                <option value={"CNPJ"} >CNPJ</option>
                             </select>
                         </div>
                         <div class="col-auto">
-                            <input 
-                            class="form-control" 
+                            <input
+                            class="form-control"
                             type={"number"}
-                            value={n_doc}
+                            value={identificacaoNumber}
                             onChange={(e) => setNumDoc(e.target.value)}
                             ></input>
                         </div>
@@ -140,24 +139,24 @@ const ShortPropriedadesEdit= ({clienteProp}) => {
                 <div class="row justify-content-around">
                     <div class="col-auto">
                         <label htmlFor="procura">Procurando</label>
-                        <input 
-                        class="form-control" 
+                        <input
+                        class="form-control"
                         type={"text"}
-                        value={t_search}
+                        value={procTipo}
                         onChange={(e) => setProcTipo(e.target.value)}
                         ></input>
-                    </div> 
-                    
+                    </div>
+
                     <div class="col-auto mb-3">
                         <div>
                             <div>
                                 <label htmlFor="comodos">Comodos</label>
                             </div>
                             <div class="col-auto mb-2">
-                                <input 
-                                class="form-control" 
+                                <input
+                                class="form-control"
                                 type={"text"}
-                                value={c_search}
+                                value={procComodos}
                                 onChange={(e) => setComodos(e.target.value)}
                                 ></input>
                             </div>
@@ -177,11 +176,11 @@ const ShortPropriedadesEdit= ({clienteProp}) => {
                             </div>
                         </div>
                     <label>Observações</label>
-                    <input 
-                    class="form-control" 
+                    <input
+                    class="form-control"
                     type="text"
-                    value={obs}
-                    onChange={(e) => setObs(e.target.value)}
+                    value={observacao}
+                    onChange={(e) => setObservacao(e.target.value)}
                     />
                     </div>
                         <div class="col-auto">

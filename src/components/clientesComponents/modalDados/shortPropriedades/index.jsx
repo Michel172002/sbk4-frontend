@@ -4,32 +4,32 @@ import sbk4Fetch from "../../../../axios/config.js";
 
 const ShortPropriedadesDados= ({clienteProp}) => {
     const [nome, setNome] = useState("")
-    const [data_nas, setDataNas] = useState("")
+    const [dataNasm, setDataNasm] = useState("")
     const [sexo, setSexo] = useState(true)
-    const [n_tel, setTelefone] = useState("")
+    const [telefone, setTelefone] = useState("")
     const [email, setEmail] = useState("")
-    const [t_doc, setTipoDoc] = useState(1)
-    const [n_doc, setNumDoc] = useState("")
-    const [obs, setObs] = useState("")
-    const [t_search, setProcTipo] = useState("")
-    const [a_search, setAlugar] = useState("")
-    const [c_search, setComodos] = useState("")
+    const [identificacao, setTipoDoc] = useState("")
+    const [identificacaoNumber, setNumDoc] = useState("")
+    const [observacao, setobservacao] = useState("")
+    const [procTipo, setProcTipo] = useState("")
+    const [procAlugando, setAlugar] = useState("")
+    const [procComodos, setComodos] = useState("")
 
     const getCliente = async(clienteId) => {
         try {
-            const response = await sbk4Fetch.get(`/clientes/${clienteId}`)
+            const response = await sbk4Fetch.get(`/cliente/${clienteId}`)
             const data = response.data
             setNome(data.nome)
-            setDataNas(data.data_nas)
+            setDataNasm(data.dataNasm)
             setSexo(data.sexo)
-            setTelefone(data.n_tel)
+            setTelefone(data.telefone)
             setEmail(data.email)
-            setTipoDoc(data.t_doc)
-            setNumDoc(data.n_doc)
-            setObs(data.obs)
-            setProcTipo(data.t_search)
-            setAlugar(data.a_search)
-            setComodos(data.c_search)
+            setTipoDoc(data.identificacao)
+            setNumDoc(data.identificacaoNumber)
+            setobservacao(data.observacao)
+            setProcTipo(data.procTipo)
+            setAlugar(data.procAlugando)
+            setComodos(data.procComodos)
         } catch (error) {
             console.log(error);
         }
@@ -43,20 +43,20 @@ const ShortPropriedadesDados= ({clienteProp}) => {
         }
     }
 
-    const getTipoDoc = (t_doc) => {
-        if(t_doc === 1) {
+    const getTipoDoc = (identificacao) => {
+        if(identificacao === "RG") {
             return <label>RG:</label>
         }
-        if(t_doc === 2) {
-            return <label>CNH:</label>
+        if(identificacao === "CPF") {
+            return <label>CPF:</label>
         }
-        if(t_doc === 3) {
-            return <label >CPF:</label>
+        if(identificacao === "CNPJ") {
+            return <label >CNPJ:</label>
         }
     }
 
-    const getTipoProc = (a_search) => {
-        if(a_search){
+    const getTipoProc = (procAlugando) => {
+        if(procAlugando){
             return <label class="form-control" htmlFor="tipo_proc">Alugar</label>
         }else{
             return <label class="form-control" htmlFor="tipo_proc">Comprar</label>
@@ -87,7 +87,7 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                             <label htmlFor="nascimento">Data de Nascimento:</label>
                         </div>
                         <div>
-                            <label class="form-control" htmlFor="nascimento">{data_nas}</label>
+                            <label class="form-control" htmlFor="nascimento">{dataNasm}</label>
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                             <label htmlFor="telefone">Telefone:</label>
                         </div>
                         <div class="col-auto">
-                            <label class="form-control" htmlFor="telefone">{n_tel}</label>
+                            <label class="form-control" htmlFor="telefone">{telefone}</label>
                         </div>
                     </div>
                     <div class="col-auto">
@@ -118,35 +118,35 @@ const ShortPropriedadesDados= ({clienteProp}) => {
                     </div>
                     <div class="col-auto mb-3">
                         <div class="col-3">
-                            {getTipoDoc(t_doc)}
+                            {getTipoDoc(identificacao)}
                         </div>
                         <div class="col-auto">
-                            <label  class="form-control" htmlFor="n_doc">{n_doc}</label>
+                            <label  class="form-control" htmlFor="identificacaoNumber">{identificacaoNumber}</label>
                         </div>
                     </div>
                 <div class="row justify-content-around">
                     <div class="col-auto">
                         <label htmlFor="procura">Procurando:</label>
-                        <label class="form-control" htmlFor="procura">{t_search}</label>
-                    </div> 
+                        <label class="form-control" htmlFor="procura">{procTipo}</label>
+                    </div>
                     <div class="col-auto mb-3">
                         <div>
                             <div>
                                 <label htmlFor="comodos">Comodos:</label>
                             </div>
                             <div class="col-auto mb-2">
-                                <label class="form-control" htmlFor="comodos">{c_search}</label>
+                                <label class="form-control" htmlFor="comodos">{procComodos}</label>
                             </div>
                         </div>
                         <div class="row align-items-center">
                         <div class="col-auto offset-md-3">
                             <label htmlFor="tipo">Tipo:</label>
                             <div>
-                                {getTipoProc(a_search)}
+                                {getTipoProc(procAlugando)}
                             </div>
                         </div>
-                    <label>Observações</label>
-                    <label class="form-control" htmlFor="obs">{obs}</label>
+                    <label>observacaoervações</label>
+                    <label class="form-control" htmlFor="observacao">{observacao}</label>
                     </div>
                     </div>
                 </div>

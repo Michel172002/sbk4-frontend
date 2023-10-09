@@ -11,11 +11,10 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
   const getClientes = async() => {
 
     try{
-      const response = await sbk4Fetch.get("/clientes/")
+      const response = await sbk4Fetch.get("/cliente")
 
       const data = response.data
-
-      setClientes(data)
+      setClientes(data.content)
     }catch(error){
       console.log(error)
     }
@@ -25,7 +24,7 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
   const [id, setId] = useState(null)
   const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
   const [alertMessage, setAlertMessage] = useState(null)
-  
+
   const showDeleteModal = (id) => {
     setId(id)
     setAlertMessage(`Você tem certeza que quer excluir o cliente '${clientes.find((x) => x.id === id).nome}'?`)
@@ -38,7 +37,7 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
 
   const submitDelete = async(id) => {
     try {
-      await sbk4Fetch.delete(`/clientes/${id}`)
+      await sbk4Fetch.delete(`/cliente/${id}`)
       setDisplayConfirmationModal(false)
       location.reload()
     } catch (error) {
@@ -69,7 +68,7 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
                       <tr>
                         <th scope="row">{cliente.id}</th>
                         <td>{cliente.nome}</td>
-                        <td>{cliente.n_tel}</td>
+                        <td>{cliente.telefone}</td>
                         <td className="teste">
                           <div className="td_Button">
                           <button onClick={() => handleOpenModalDados(cliente)}><FaClipboardList/></button>
