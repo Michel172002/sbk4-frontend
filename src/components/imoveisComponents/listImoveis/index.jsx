@@ -1,14 +1,11 @@
-import { Containner } from "./styled.js"
+import { Containner } from "./styled.js";
 
-function ListImoveis(){
-
-    return(
-        <Containner>
-         <div className="grid">
-         </div>
-
-        </Containner>
-    )
+function ListImoveis() {
+  return (
+    <Containner>
+      <div className="grid"></div>
+    </Containner>
+  );
 }
 
-export default ListImoveis
+export default ListImoveis;

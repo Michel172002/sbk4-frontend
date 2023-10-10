@@ -4,7 +4,7 @@ import { Containner } from "./styled.js";
 
 function ShortPropriedades() {
   const [proprietarios, setProprietarios] = useState([]);
-  
+
   const getProprietarios = async () => {
     try {
       const response = await sbk4Fetch.get("/proprietario");
@@ -56,14 +56,14 @@ function ShortPropriedades() {
     } catch (error) {
       console.log(error);
     }
-    location.reload()
+    location.reload();
   };
 
   useEffect(() => {
     getProprietarios();
 
-    if(proprietarios.length >= 1){
-      setIdProp(proprietarios[0].id)
+    if (proprietarios.length >= 1) {
+      setIdProp(proprietarios[0].id);
     }
   }, [proprietarios]);
 

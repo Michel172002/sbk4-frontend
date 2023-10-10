@@ -16,7 +16,7 @@ const ShortPropriedades = () => {
   const [procComodos, setComodos] = useState("");
 
   const createCliente = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const cliente = {
       nome,

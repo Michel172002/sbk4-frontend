@@ -1,52 +1,57 @@
 import { useState } from "react";
-import { Containner } from "./styled.js"
-import {FaClipboardList} from 'react-icons/fa';
+import { Containner } from "./styled.js";
+import { FaClipboardList } from "react-icons/fa";
 import sbk4Fetch from "../../../axios/config.js";
 import { useEffect } from "react";
 import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
 
-function Table({handleOpenModalEdit, handleOpenModalDados}){
-  const [corretores, setCorretores] = useState([])
+function Table({ handleOpenModalEdit, handleOpenModalDados }) {
+  const [corretores, setCorretores] = useState([]);
 
-  const getCorretores = async() => {
-    try{
-      const response = await sbk4Fetch.get("/corretor")
-
-      const data = response.data
-
-      setCorretores(data.content)
-    }catch(error){
-      console.log(error)
-    }
-  }
-
-  const [id, setId] = useState(null)
-  const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false)
-  const [alertMessage, setAlertMessage] = useState(null)
-  
-  const showDeleteModal = (id) => {
-    setId(id)
-    setAlertMessage(`Você tem certeza que quer excluir o Corretor '${corretores.find((x) => x.id === id).nome}'?`)
-    setDisplayConfirmationModal(true)
-  }
-
-  const hideConfirmationModal = () => {
-    setDisplayConfirmationModal(false)
-  }
-
-  const submitDelete = async(id) => {
+  const getCorretores = async () => {
     try {
-      await sbk4Fetch.delete(`/corretor/${id}`)
-      setDisplayConfirmationModal(false)
-      location.reload()
+      const response = await sbk4Fetch.get("/corretor");
+
+      const data = response.data;
+
+      setCorretores(data.content);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const [id, setId] = useState(null);
+  const [displayConfirmationModal, setDisplayConfirmationModal] =
+    useState(false);
+  const [alertMessage, setAlertMessage] = useState(null);
+
+  const showDeleteModal = (id) => {
+    setId(id);
+    setAlertMessage(
+      `Você tem certeza que quer excluir o Corretor '${
+        corretores.find((x) => x.id === id).nome
+      }'?`
+    );
+    setDisplayConfirmationModal(true);
+  };
+
+  const hideConfirmationModal = () => {
+    setDisplayConfirmationModal(false);
+  };
+
+  const submitDelete = async (id) => {
+    try {
+      await sbk4Fetch.delete(`/corretor/${id}`);
+      setDisplayConfirmationModal(false);
+      location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    getCorretores()
-  }, [])
+    getCorretores();
+  }, []);
 
   return (
     <div>
@@ -61,7 +66,9 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
             </tr>
           </thead>
           <tbody>
-            {corretores.length === 0 ? (<p>Sem Corretores</p>): (
+            {corretores.length === 0 ? (
+              <p>Sem Corretores</p>
+            ) : (
               corretores.map((corretor) => (
                 <tr>
                   <th scope="row">{corretor.id}</th>
@@ -69,20 +76,32 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
                   <td>{corretor.creci}</td>
                   <td className="teste">
                     <div className="td_Button">
-                    <button onClick={() => handleOpenModalDados(corretor)}><FaClipboardList/></button>
-                    <button onClick={() => handleOpenModalEdit(corretor)}>Editar</button>
-                    <button onClick={() => showDeleteModal(corretor.id)}>Apagar</button>
+                      <button onClick={() => handleOpenModalDados(corretor)}>
+                        <FaClipboardList />
+                      </button>
+                      <button onClick={() => handleOpenModalEdit(corretor)}>
+                        Editar
+                      </button>
+                      <button onClick={() => showDeleteModal(corretor.id)}>
+                        Apagar
+                      </button>
                     </div>
                   </td>
                 </tr>
               ))
-            )}  
+            )}
           </tbody>
         </table>
-        <DeleteConfirmation showModal={displayConfirmationModal} confirmModal={submitDelete} hideModal={hideConfirmationModal} id={id} message={alertMessage}/>
+        <DeleteConfirmation
+          showModal={displayConfirmationModal}
+          confirmModal={submitDelete}
+          hideModal={hideConfirmationModal}
+          id={id}
+          message={alertMessage}
+        />
       </Containner>
     </div>
-    )
+  );
 }
 
-export default Table
+export default Table;

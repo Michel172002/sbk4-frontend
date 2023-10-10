@@ -9,7 +9,7 @@ const ShortPropriedades = () => {
   const [creci, setCreci] = useState();
 
   const createCorretor = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const corretor = { nome, telefone, creci, ativo: true };
 
