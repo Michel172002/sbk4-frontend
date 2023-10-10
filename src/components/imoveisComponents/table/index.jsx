@@ -10,9 +10,9 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
 
   const getImoveis = async() => {
     try{
-      const response = await sbk4Fetch.get("/imoveis/")
+      const response = await sbk4Fetch.get("/imovel")
       const data = response.data
-      setImoveis(data)
+      setImoveis(data.content)
     }catch(error){
       console.log(error)
     }  
@@ -35,7 +35,7 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
 
   const submitDelete = async(id) => {
     try {
-      await sbk4Fetch.delete(`/imoveis/${id}`)
+      await sbk4Fetch.delete(`/imovel/${id}`)
       setDisplayConfirmationModal(false)
       location.reload()
     } catch (error) {
@@ -65,7 +65,7 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
         <tr>
           <th scope="row">{imovel.id}</th>
           <td>{imovel.rua}</td>
-          <td>{imovel.proprietario}</td>
+          <td>{imovel.proprietario.nome}</td>
           <td className="teste">
             <div className="td_Button">
             <button onClick={() => handleOpenModalDados(imovel)}><FaClipboardList/></button>

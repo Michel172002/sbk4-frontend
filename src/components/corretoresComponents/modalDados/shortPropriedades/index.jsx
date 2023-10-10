@@ -12,12 +12,12 @@ const ShortPropriedadesDados = ({corretorProp}) => {
 
     const getCorretor = async (corretorId) => {
         try {
-          const response = await sbk4Fetch.get(`/corretores/${corretorId}`);
+          const response = await sbk4Fetch.get(`/corretor/${corretorId}`);
           const data = response.data;
           setCorretor(data);
           setNome(data.nome)
           setCreci(data.creci)
-          setTel(data.n_tel)
+          setTel(data.telefone)
         } catch (error) {
           console.log(error);
         }

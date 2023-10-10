@@ -7,29 +7,31 @@ const ShortPropriedadesEdit = ({corretorProp}) => {
 
     const [corretor, setCorretor] = useState([])
     const [nome, setNome] = useState("")
-    const [n_tel, setTel] = useState("")
+    const [telefone, setTel] = useState("")
     const [creci, setCreci] = useState("")
 
     const getCorretor = async (corretorId) => {
         try {
-          const response = await sbk4Fetch.get(`/corretores/${corretorId}`);
+          const response = await sbk4Fetch.get(`/corretor/${corretorId}`);
           const data = response.data;
           setCorretor(data);
           setNome(data.nome)
           setCreci(data.creci)
-          setTel(data.n_tel)
+          setTel(data.telefone)
         } catch (error) {
           console.log(error);
         }
     }
 
     const editCorretor = async(e) => {
-        const corretorEditado = {nome, n_tel, creci, ativo: true}
+        e.preventDefault()
+        const corretorEditado = {nome, telefone, creci, ativo: true}
         try {
-            await sbk4Fetch.put(`/corretores/${corretorProp.id}/`, corretorEditado)
+            await sbk4Fetch.put(`/corretor/${corretorProp.id}`, corretorEditado)
         } catch (error) {
             console.log(error);
         }
+        location.reload(); 
     }
     
     useEffect(() => {
@@ -74,7 +76,7 @@ const ShortPropriedadesEdit = ({corretorProp}) => {
                         <input 
                         class="form-control" 
                         type={"text"}
-                        value={n_tel}
+                        value={telefone}
                         onChange={(e) => setTel(e.target.value)}
                         ></input>
                     </div>

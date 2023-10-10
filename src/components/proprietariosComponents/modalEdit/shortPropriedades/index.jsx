@@ -7,39 +7,41 @@ function ShortPropriedadesEdit({proprietarioProp}){
 
     const [proprietario, setProprietario] = useState([])
     const [nome, setNome] = useState("")
-    const [data_nas, setDataNas] = useState("")
+    const [nascimento, setDataNas] = useState("")
     const [sexo, setSexo] = useState(true)
-    const [n_tel, setTelefone] = useState("")
+    const [telefone, setTelefone] = useState("")
     const [email, setEmail] = useState("")
-    const [t_doc, setTipoDoc] = useState(1)
-    const [n_doc, setNumDoc] = useState("")
-    const [obs, setObs] = useState("")
+    const [identificacao, setTipoDoc] = useState(1)
+    const [identificacaoNumero, setNumDoc] = useState("")
+    const [observacao, setobservacao] = useState("")
 
     const getProprietario = async(proprietarioId) => {
         try {
-            const response = await sbk4Fetch.get(`/proprietarios/${proprietarioId}/`)
+            const response = await sbk4Fetch.get(`/proprietario/${proprietarioId}`)
             const data = response.data
             setProprietario(data)
             setNome(data.nome)
-            setDataNas(data.data_nas)
+            setDataNas(data.nascimento)
             setSexo(data.sexo)
-            setTelefone(data.n_tel)
+            setTelefone(data.telefone)
             setEmail(data.email)
-            setTipoDoc(data.t_doc)
-            setNumDoc(data.n_doc)
-            setObs(data.obs)
+            setTipoDoc(data.identificacao)
+            setNumDoc(data.identificacaoNumero)
+            setobservacao(data.observacao)
         } catch (error) {
             console.log(error);
         }
     }
 
     const editProprietario = async(e) => {
-        const proprietario = {nome, data_nas, sexo, n_tel, email, t_doc, n_doc, obs}
+        e.preventDefault()
+        const proprietario = {nome, nascimento, sexo, telefone, email, identificacao, identificacaoNumero, observacao}
         try{
-            await sbk4Fetch.put(`/proprietarios/${proprietarioProp.id}/`, proprietario)
+            await sbk4Fetch.put(`/proprietario/${proprietarioProp.id}`, proprietario)
         }catch(error){
             console.log(error)
         }
+        location.reload()
     }
 
     useEffect(() => {
@@ -70,7 +72,7 @@ function ShortPropriedadesEdit({proprietarioProp}){
                         <input 
                         class="form-control" 
                         type={"date"}
-                        value={data_nas}
+                        value={nascimento}
                         onChange={(e) => setDataNas(e.target.value)}
                         ></input>
                     </div>
@@ -83,7 +85,7 @@ function ShortPropriedadesEdit({proprietarioProp}){
                         <input 
                         class="form-control" 
                         type={"number"}
-                        value={n_tel}
+                        value={telefone}
                         onChange={(e) => setTelefone(e.target.value)}
                         ></input>
                     </div>
@@ -104,34 +106,34 @@ function ShortPropriedadesEdit({proprietarioProp}){
                         <label htmlFor="sexo">Sexo</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <select class="form-control" name="sexo" id="selectSexo" value={sexo} onChange={(e) => setSexo(e.target.value)}>
+                        <select class="form-control" name="sexo" id="selectSexo" value={sexo} onChange={(e) => setSexo(e.target.value === 1)}>
                             <option value={1}>Homem</option>
                             <option value={0}>Mulher</option>
                         </select>
                     </div>
                     <div class="col-auto mb-3">
-                        <select class="form-control" name="indentificacao" id="selectDoc" value={t_doc} onChange={(e) => setTipoDoc(e.target.value)}>
-                            <option value={1}>RG</option>
-                            <option value={2}>CNH</option>
-                            <option value={3}>CPF</option>
+                        <select class="form-control" name="indentificacao" id="selectDoc" value={identificacao} onChange={(e) => setTipoDoc(e.target.value)}>
+                            <option value={"RG"}>RG</option>
+                            <option value={"CPF"}>CPF</option>
+                            <option value={"CNPF"}>CNPJ</option>
                         </select>
                     </div>
                     <div class="col-auto">
                         <input 
                         class="form-control" 
                         type={"number"}
-                        value={n_doc}
+                        value={identificacaoNumero}
                         onChange={(e) => setNumDoc(e.target.value)}
                         ></input>
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-6">
-                            <label>Observações</label>
+                            <label>observações</label>
                             <input 
                             class="form-control" 
                             type="text"
-                            value={obs}
-                            onChange={(e) => setObs(e.target.value)}
+                            value={observacao}
+                            onChange={(e) => setobservacao(e.target.value)}
                             />
                         </div>
                     </div>

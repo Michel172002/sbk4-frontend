@@ -7,15 +7,15 @@ function ShortPropriedadesEdit({imovelProp}){
     const [proprietarios, setProprietarios] = useState([])
     const getProprietarios = async() => {
         try{
-            const response = await sbk4Fetch.get("/proprietarios/")
+            const response = await sbk4Fetch.get("/proprietario")
             const data = response.data
-            setProprietarios(data)
+            setProprietarios(data.content)
           }catch(error){
             console.log(error)
         }
     }
 
-    const [proprietario, setProprietario] = useState("")
+    const [idProp, setIdProp] = useState("")
     const [tipo, setTipo] = useState("CASA")
     const [preco, setPreco] = useState("")
     const [alugando, setAlugando] = useState(false)
@@ -32,19 +32,22 @@ function ShortPropriedadesEdit({imovelProp}){
     const [descricao, setDescricao] = useState("")
 
     const editImovel = async(e) => {
-        const imovel = {proprietario, tipo, preco, alugando, financia, area, rua, bairro, cidade, numero, complemento, estado, cep, comodos, descricao}       
+        e.preventDefault()
+
+        const imovel = {idProp, tipo, preco, alugando, financia, area, rua, bairro, cidade, numero, complemento, estado, cep, comodos, descricao}       
         try{
-            await sbk4Fetch.put(`/imoveis/${imovelProp.id}/`, imovel)
+            await sbk4Fetch.put(`/imovel/${imovelProp.id}`, imovel)
         }catch(error){
             console.log(error);
         }
+        location.reload()
     }
 
     const getImovel = async(imovelId) => {
         try {
-            const response = await sbk4Fetch.get(`/imoveis/${imovelId}/`)
+            const response = await sbk4Fetch.get(`/imovel/${imovelId}`)
             const data = response.data
-            setProprietario(data.proprietario)
+            setIdProp(data.proprietario.id)
             setTipo(data.tipo)
             setPreco(data.preco)
             setAlugando(data.alugando)
@@ -172,7 +175,7 @@ function ShortPropriedadesEdit({imovelProp}){
 
                     <div class="col-auto">
                             <label htmlFor="proprietario">Proprietario</label>
-                            <select class="form-control" name="idProp" id="idProp" value={proprietario} onChange={(e) => setProprietario(e.target.value)}>
+                            <select class="form-control" name="idProp" id="idProp" value={idProp} onChange={(e) => setIdProp(e.target.value)}>
                                 {proprietarios.length === 0 ? (<option value={null}>Sem Proprietarios</option>): (
                                     proprietarios.map((proprietario) => (
                                         <option value={proprietario.id}>{proprietario.nome}</option>

@@ -10,9 +10,9 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
 
   const getProprietarios = async() => {
     try{
-      const response = await sbk4Fetch.get("/proprietarios/")
+      const response = await sbk4Fetch.get("/proprietario")
       const data = response.data
-      setProprietarios(data)
+      setProprietarios(data.content)
     }catch(error){
       console.log(error)
     }
@@ -25,21 +25,21 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
 
   const getImoveisProprietarios = async(idProp) => {
     try{
-      const response = await sbk4Fetch.get("/imoveis/")
-      const data = response.data
-      setImoveis(data)
-      
-      var imovelList = []
-      imoveis.forEach(imovel => {
-        if(imovel.proprietario === idProp){
-          imovelList.push(imovel)
+      const response = await sbk4Fetch.get("/imovel");
+      const data = response.data;
+  
+      var imovelList = [];
+      data.content.forEach(imovel => {
+        if(imovel.proprietario.id === idProp){
+          imovelList.push(imovel);
         }
       });
-      setImoveis(imovelList)
-    }catch(error){
-      console.log(error)
+  
+      setImoveis(imovelList);
+    } catch(error){
+      console.log(error);
     } 
-  }
+  }  
   
   const showDeleteModal = (id) => {
     setId(id)
@@ -55,15 +55,15 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
   const submitDelete = async(id) => {
     try {
       imoveis.map(async(imovel) => 
-        await sbk4Fetch.delete(`/imoveis/${imovel.id}`)
+        await sbk4Fetch.delete(`/imovel/${imovel.id}`)
       )
 
-      await sbk4Fetch.delete(`/proprietarios/${id}`)
+      await sbk4Fetch.delete(`/proprietario/${id}`)
       setDisplayConfirmationModal(false)
-      location.reload()
     } catch (error) {
       console.log(error);
     }
+    location.reload()
   }
 
   useEffect(() => {
@@ -88,7 +88,7 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
                 <tr>
                   <th scope="row">{proprietario.id}</th>
                   <td>{proprietario.nome}</td>
-                  <td>{proprietario.n_tel}</td>
+                  <td>{proprietario.telefone}</td>
                   <td className="teste">
                     <div className="td_Button">
                     <button onClick={() => handleOpenModalDados(proprietario)}><FaClipboardList/></button>

@@ -10,11 +10,11 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
 
   const getCorretores = async() => {
     try{
-      const response = await sbk4Fetch.get("/corretores/")
+      const response = await sbk4Fetch.get("/corretor")
 
       const data = response.data
 
-      setCorretores(data)
+      setCorretores(data.content)
     }catch(error){
       console.log(error)
     }
@@ -36,7 +36,7 @@ function Table({handleOpenModalEdit, handleOpenModalDados}){
 
   const submitDelete = async(id) => {
     try {
-      await sbk4Fetch.delete(`/corretores/${id}`)
+      await sbk4Fetch.delete(`/corretor/${id}`)
       setDisplayConfirmationModal(false)
       location.reload()
     } catch (error) {

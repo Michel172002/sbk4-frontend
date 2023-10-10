@@ -6,22 +6,26 @@ import sbk4Fetch from "../../../../axios/config.js";
 function ShortPropriedades(){
 
     const [nome, setNome] = useState()
-    const [data_nas, setDataNas] = useState()
+    const [nascimento, setDataNas] = useState()
     const [sexo, setSexo] = useState(true)
-    const [n_tel, setTelefone] = useState()
+    const [telefone, setTelefone] = useState()
     const [email, setEmail] = useState()
-    const [t_doc, setTipoDoc] = useState(1)
-    const [n_doc, setNumDoc] = useState()
-    const [obs, setObs] = useState()
+    const [identificacao, setTipoDoc] = useState(1)
+    const [identificacaoNumero, setNumDoc] = useState()
+    const [observacao, setobservacao] = useState()
 
-    const createProprietario = async() => {
-        const proprietario = {nome, data_nas, sexo, n_tel, email, t_doc, n_doc, obs}
+    const createProprietario = async(e) => {
+        e.preventDefault()
+
+        const proprietario = {nome, nascimento, sexo, telefone, email, identificacao, identificacaoNumero, observacao}
 
         try{
-            await sbk4Fetch.post("/proprietarios/", proprietario)
+            await sbk4Fetch.post("/proprietario", proprietario)
         }catch(error){
             console.log(error)
         }
+        
+        location.reload()
     }
 
     return(
@@ -77,16 +81,16 @@ function ShortPropriedades(){
                         <label htmlFor="sexo">Sexo</label>
                     </div>
                     <div class="col-auto mb-3">
-                        <select class="form-control" name="sexo" id="selectSexo" onChange={(e) => setSexo(e.target.value)}>
+                        <select class="form-control" name="sexo" id="selectSexo" onChange={(e) => setSexo(e.target.value === 1)}>
                             <option value={1}>Homem</option>
                             <option value={0}>Mulher</option>
                         </select>
                     </div>
                     <div class="col-auto mb-3">
                         <select class="form-control" name="indentificacao" id="selectDoc" onChange={(e) => setTipoDoc(e.target.value)}>
-                            <option value={1}>RG</option>
-                            <option value={2}>CNH</option>
-                            <option value={3}>CPF</option>
+                            <option value={"RG"}>RG</option>
+                            <option value={"CPF"}>CPF</option>
+                            <option value={"CNPJ"}>CNPJ</option>
                         </select>
                     </div>
                     <div class="col-auto">
@@ -97,11 +101,11 @@ function ShortPropriedades(){
                         ></input>
                     </div>
                     <div class="col-5">
-                        <label>Observações</label>
+                        <label>observacaoervações</label>
                         <input 
                         class="form-control" 
                         type="text"
-                        onChange={(e) => setObs(e.target.value)}
+                        onChange={(e) => setobservacao(e.target.value)}
                         />
                     </div>
                     <div class="col-auto">

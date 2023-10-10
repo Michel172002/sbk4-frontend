@@ -35,12 +35,14 @@ const ShortPropriedadesEdit= ({clienteProp}) => {
     }
 
     const editCliente = async(e) => {
+        e.preventDefault()
         const clienteEditado = {nome, dataNas, sexo, telefone, email, identificacao, identificacaoNumber, observacao, procTipo, procAlugando, procComodos, ativo: true}
         try {
             await sbk4Fetch.put(`/cliente/${clienteProp.id}`, clienteEditado)
         } catch (error) {
             console.log(error);
         }
+        location.reload();
     }
 
     useEffect(() => {

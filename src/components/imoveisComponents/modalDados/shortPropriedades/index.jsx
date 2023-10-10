@@ -6,7 +6,7 @@ function ShortPropriedadesDados({imovelProp}){
 
     const getProprietario = async(id) => {
         try{
-            const response = await sbk4Fetch.get(`/proprietarios/${id}`)
+            const response = await sbk4Fetch.get(`/proprietario/${id}`)
             const data = response.data
             setProprietario(data)
           }catch(error){
@@ -32,9 +32,9 @@ function ShortPropriedadesDados({imovelProp}){
 
     const getImovel = async(imovelId) => {
         try {
-            const response = await sbk4Fetch.get(`/imoveis/${imovelId}/`)
+            const response = await sbk4Fetch.get(`/imovel/${imovelId}`)
             const data = response.data
-            getProprietario(data.proprietario)
+            getProprietario(data.proprietario.id)
             setTipo(data.tipo)
             setPreco(data.preco)
             setAlugando(data.alugando)

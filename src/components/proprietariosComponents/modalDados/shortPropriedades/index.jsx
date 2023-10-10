@@ -11,23 +11,23 @@ function ShortPropriedadesDados({proprietarioProp}){
     const [sexo, setSexo] = useState(true)
     const [n_tel, setTelefone] = useState("")
     const [email, setEmail] = useState("")
-    const [t_doc, setTipoDoc] = useState(1)
-    const [n_doc, setNumDoc] = useState("")
+    const [identificacao, setTipoDoc] = useState(1)
+    const [identificacaoNumero, setNumDoc] = useState("")
     const [obs, setObs] = useState("")
 
     const getProprietario = async(proprietarioId) => {
         try {
-            const response = await sbk4Fetch.get(`/proprietarios/${proprietarioId}/`)
+            const response = await sbk4Fetch.get(`/proprietario/${proprietarioId}`)
             const data = response.data
             setProprietario(data)
             setNome(data.nome)
-            setDataNas(data.data_nas)
+            setDataNas(data.nascimento)
             setSexo(data.sexo)
-            setTelefone(data.n_tel)
+            setTelefone(data.telefone)
             setEmail(data.email)
-            setTipoDoc(data.t_doc)
-            setNumDoc(data.n_doc)
-            setObs(data.obs)
+            setTipoDoc(data.identificacao)
+            setNumDoc(data.identificacaoNumero)
+            setObs(data.observacao)
         } catch (error) {
             console.log(error);
         }
@@ -41,15 +41,15 @@ function ShortPropriedadesDados({proprietarioProp}){
         }
     }
 
-    const getTipoDoc = (t_doc) => {
-        if(t_doc === 1) {
+    const getTipoDoc = (identificacao) => {
+        if(identificacao === "RG") {
             return <label>RG:</label>
         }
-        if(t_doc === 2) {
-            return <label>CNH:</label>
-        }
-        if(t_doc === 3) {
+        if(identificacao === "CPF") {
             return <label>CPF:</label>
+        }
+        if(identificacao === "CNPJ") {
+            return <label>CNPJ:</label>
         }
     }
 
@@ -98,10 +98,10 @@ function ShortPropriedadesDados({proprietarioProp}){
                         {getSexo(sexo)}
                     </div>
                     <div class="col-auto mb-3">
-                        {getTipoDoc(t_doc)}
+                        {getTipoDoc(identificacao)}
                     </div>
                     <div class="col-auto">
-                        <label class="form-control">{n_doc}</label>
+                        <label class="form-control">{identificacaoNumero}</label>
                     </div>
                 </div>
                 <div class="row justify-content-center">
