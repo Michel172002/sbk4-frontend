@@ -19,13 +19,13 @@ function AppRoutes(){
  <BrowserRouter>
  <StoreProvaider>
     <Routes>
-      <Route path="/" element={<Inicial/>}></Route>
-      <Route path='/login' element={<Login/>}></Route>
-      <Route path='/register' element={<Register/>}></Route>
-      <Route path='/clientes' element={<Clientes/>}></Route>
-      <Route path='/proprietarios' element={<Proprietarios/>}></Route>
-      <Route path='/imoveis' element={<Imoveis/>}></Route>
-      <Route path='/corretores' element={<Corretores/>}></Route>
+      <Route path="/" element={<Login/>} />
+      <Route path='/inicio' element={<Inicial/>} />
+      <Route path='/register' element={<Register/>} />
+      <Route path='/clientes' element={<Clientes/>} />
+      <Route path='/proprietarios' element={<Proprietarios/>} />
+      <Route path='/imoveis' element={<Imoveis/>} />
+      <Route path='/corretores' element={<Corretores/>} />
     </Routes>
     </StoreProvaider>
   </BrowserRouter>
