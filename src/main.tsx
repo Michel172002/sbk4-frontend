@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './samples/node-api'
 import 'styles/index.css'
-import AppRoutes from './routes.jsx'
+import AppRoutes from './routes/routes.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify'
 

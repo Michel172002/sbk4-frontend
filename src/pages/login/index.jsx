@@ -41,7 +41,7 @@ function Login() {
 
       toast.dismiss(loaderToast);
 
-      navigate('/inicio');
+      navigate('/');
     } catch (error) {
       console.error("Login failed", error);
 
@@ -54,22 +54,22 @@ function Login() {
   return (
     <div>
       <Containner>
-        <div class="sidenav">
-          <div class="login-main-text">
+        <div className="sidenav">
+          <div className="login-main-text">
             <img src={Logo} alt="" />
           </div>
         </div>
-        <div class="main">
-          <div class="col-md-6 col-sm-12">
-            <div class="login-form">
-              <h1 class="login">Login</h1>
+        <div className="main">
+          <div className="col-md-6 col-sm-12">
+            <div className="login-form">
+              <h1 className="login">Login</h1>
               <br />
               <form>
-                <div class="form-group">
+                <div className="form-group">
                   <label>Nome</label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Nome"
                     name="user"
                     onChange={onChange}
@@ -77,11 +77,11 @@ function Login() {
                   />
                 </div>
                 <br />
-                <div class="form-group">
+                <div className="form-group">
                   <label>Senha</label>
                   <input
                     type="password"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Senha"
                     name="password"
                     onChange={onChange}
@@ -90,17 +90,17 @@ function Login() {
                 </div>
                 <button
                   type="submit"
-                  class="btn btn-login"
+                  className="btn btn-login"
                   onClick={handleLogin}>
                   Login
                 </button>
-                <button
+                {/* <button
                   type="submit"
-                  class="btn btn-register "
+                  className="btn btn-register "
                   formAction="/register"
                 >
                   Register
-                </button>
+                </button> */}
               </form>              
             </div>
           </div>
