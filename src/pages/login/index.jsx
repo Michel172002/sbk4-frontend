@@ -3,6 +3,7 @@ import { Containner } from "./styled.js";
 import Logo from "/src/assets/logo.png";
 import sbk4Fetch from '../../axios/config.js'
 import useStorage from '../../utils/useStorege.js'
+import jwtDecode from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,6 +15,7 @@ function initialState() {
 function Login() {
   const [values, setValues] = useState(initialState);
   const [token, setToken, removeToken] = useStorage('token');
+  const [user, setUser, removeUser] = useStorage('user');
   const navigate = useNavigate();
 
   function onChange(event) {
@@ -36,8 +38,10 @@ function Login() {
       });
 
       const token = res.data.token;
-
       setToken(token);
+      
+      const decoded = await jwtDecode(token);
+      setUser(decoded.sub);
 
       toast.dismiss(loaderToast);
 
@@ -101,7 +105,7 @@ function Login() {
                 >
                   Register
                 </button> */}
-              </form>              
+              </form>
             </div>
           </div>
         </div>
