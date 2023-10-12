@@ -4,6 +4,8 @@ import Logo from "/src/assets/logo.png";
 import sbk4Fetch from '../../axios/config.js'
 import useStorage from '../../utils/useStorege.js'
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function initialState() {
   return { user: "", password: "" };
@@ -13,7 +15,6 @@ function Login() {
   const [values, setValues] = useState(initialState);
   const [token, setToken, removeToken] = useStorage('token');
   const navigate = useNavigate();
-  const [loginError, setLoginError] = useState(false)
 
   function onChange(event) {
     const { value, name } = event.target;
@@ -26,6 +27,8 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault()
 
+    const loaderToast = toast.loading("Fazendo o login...");
+
     try {
       const res = await sbk4Fetch.post('/user/login', {
         nome: values.user,
@@ -35,16 +38,16 @@ function Login() {
       const token = res.data.token;
 
       setToken(token);
-      navigate('/inicio');
 
+      toast.dismiss(loaderToast);
+
+      navigate('/inicio');
     } catch (error) {
       console.error("Login failed", error);
 
-      setLoginError(true)
+      toast.dismiss(loaderToast);
 
-      setTimeout(() => {
-        setLoginError(false);
-      }, 5000);
+      toast.error('Usuário e/ou senha incorretos.');
     }
   }
 
@@ -98,10 +101,7 @@ function Login() {
                 >
                   Register
                 </button>
-              </form>
-              {loginError &&
-                <p className="error-message">Nome e/ou Senha incorretos.</p>
-              }
+              </form>              
             </div>
           </div>
         </div>

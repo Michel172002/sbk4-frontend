@@ -4,10 +4,12 @@ import './samples/node-api'
 import 'styles/index.css'
 import AppRoutes from './routes.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { ToastContainer } from 'react-toastify'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <ToastContainer />
     <AppRoutes/>
   </React.StrictMode>
 )
