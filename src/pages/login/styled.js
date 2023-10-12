@@ -99,4 +99,12 @@ button:hover{
     text-align: center;
 }
 
+.error-message {
+    margin-top: 5%;
+    color: #FF0000;
+    padding: 5px;
+    text-align: center;
+    font-size: 0.85rem;
+  }  
+
 `

@@ -13,6 +13,7 @@ function Login() {
   const [values, setValues] = useState(initialState);
   const [token, setToken, removeToken] = useStorage('token');
   const navigate = useNavigate();
+  const [loginError, setLoginError] = useState(false)
 
   function onChange(event) {
     const { value, name } = event.target;
@@ -32,12 +33,18 @@ function Login() {
       });
 
       const token = res.data.token;
-      
+
       setToken(token);
       navigate('/inicio');
 
     } catch (error) {
       console.error("Login failed", error);
+
+      setLoginError(true)
+
+      setTimeout(() => {
+        setLoginError(false);
+      }, 5000);
     }
   }
 
@@ -92,6 +99,9 @@ function Login() {
                   Register
                 </button>
               </form>
+              {loginError &&
+                <p className="error-message">Nome e/ou Senha incorretos.</p>
+              }
             </div>
           </div>
         </div>
