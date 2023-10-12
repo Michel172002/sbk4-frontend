@@ -4,6 +4,8 @@ import './samples/node-api'
 import 'styles/index.css'
 import AppRoutes from './routes/routes.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import { ToastContainer } from 'react-toastify'
 
 

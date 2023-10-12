@@ -23,7 +23,9 @@ margin-left:20%;
 
 .main {
     padding: 0px 10px;
-}
+    // border: 2px solid #000;
+    // border-radius: 10px;
+  }
 
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
@@ -81,7 +83,6 @@ img{
     margin-top: 5%;
     background-color: #0F1A2C !important;
     color: #fff;
-    width: 100px;
 }
 .btn-register{
     margin-top: 5%;
@@ -92,7 +93,7 @@ img{
 }
 
 button:hover{
-        color:#A5A5A5;
+    background-color: #0F1A2C !important;
 }
 .login{
     padding: 10%;
