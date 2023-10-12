@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Containner } from "./styled.js";
 import Logo from "/src/assets/logo.png";
+import sbk4Fetch from '../../axios/config.js'
+import useStorage from '../../utils/useStorege.js'
+import { useNavigate } from "react-router-dom";
 
 function initialState() {
   return { user: "", password: "" };
@@ -8,6 +11,8 @@ function initialState() {
 
 function Login() {
   const [values, setValues] = useState(initialState);
+  const [token, setToken, removeToken] = useStorage('token');
+  const navigate = useNavigate();
 
   function onChange(event) {
     const { value, name } = event.target;
@@ -15,6 +20,25 @@ function Login() {
       ...values,
       [name]: value,
     });
+  }
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+
+    try {
+      const res = await sbk4Fetch.post('/user/login', {
+        nome: values.user,
+        senha: values.password
+      });
+
+      const token = res.data.token;
+      
+      setToken(token);
+      navigate('/inicio');
+
+    } catch (error) {
+      console.error("Login failed", error);
+    }
   }
 
   return (
@@ -54,7 +78,10 @@ function Login() {
                     value={values.password}
                   />
                 </div>
-                <button type="submit" class="btn btn-login" formAction="/">
+                <button
+                  type="submit"
+                  class="btn btn-login"
+                  onClick={handleLogin}>
                   Login
                 </button>
                 <button
