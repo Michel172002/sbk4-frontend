@@ -9,7 +9,7 @@ import { FaIdBadge } from 'react-icons/fa6'
 
 const StyledNav = styled(Nav)`
   background: linear-gradient(45deg, #0F1A2C, #1E2F46);
-  width: 20vw;
+  width: 300px;
   padding: 0;
   position: fixed;
   // height: calc(100vh - 1rem);
@@ -38,7 +38,7 @@ const StyledNavLink = styled(NavLink)`
   &:hover:not(.active) {
     background-color: rgba(302, 302, 302, 0.1);
     // color: #0F1A2C;
-    color: #CACACA;
+    color: white;
   }
 `;
 
@@ -49,21 +49,20 @@ function Aside() {
       <div className="m-3 p-3 mb-4">
         <img src={Logo} alt="Logo" className="img-fluid" />
       </div>
-      <hr style={{ color: '#92ead4' }} />
       <StyledNavLink className={'px-2 py-1 rounded mx-2 my-1'} to={'/'}>
-        <BsFillHouseDoorFill /> Início
+        <BsFillHouseDoorFill className="mx-3" /> Início
       </StyledNavLink>
       <StyledNavLink className={'px-2 py-1 rounded mx-2 my-1'} to={'/clientes'}>
-        <FaUsers /> Clientes
+        <FaUsers className="mx-3" /> Clientes
       </StyledNavLink>
       <StyledNavLink className={'px-2 py-1 rounded mx-2 my-1'} to={'/imoveis'}>
-        <BsFillBuildingsFill /> Imóveis
+        <BsFillBuildingsFill className="mx-3" /> Imóveis
       </StyledNavLink>
       <StyledNavLink className={'px-2 py-1 rounded mx-2 my-1'} to={'/proprietarios'}>
-        <GoPasskeyFill /> Proprietários
+        <GoPasskeyFill className="mx-3" /> Proprietários
       </StyledNavLink>
       <StyledNavLink className={'px-2 py-1 rounded mx-2 my-1'} to={'/corretores'}>
-        <FaIdBadge /> Corretores
+        <FaIdBadge className="mx-3" /> Corretores
       </StyledNavLink>
     </StyledNav>
   )

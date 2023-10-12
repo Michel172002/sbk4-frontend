@@ -13,6 +13,9 @@ import styled from 'styled-components';
 const StyledAside = styled(MDBCol)`
   background: linear-gradient(45deg, #0F1A2C, #1E2F46);
   padding-top: 20px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-left: 5px solid transparent;
 `;
 
 const StyledButton = styled(MDBBtn)`
@@ -82,10 +85,10 @@ function Login() {
   return (
     <MDBContainer fluid>
       <MDBRow className='vh-100'>
-        <StyledAside sm="7" className='d-flex align-items-center justify-content-center rounded shadow'>
+        <StyledAside sm="7" className='d-flex align-items-center justify-content-center shadow'>
           <img src={logo} alt="Logo" className="img-fluid p-3" />
         </StyledAside>
-        <MDBCol sm="5" className='d-flex align-items-center justify-content-center rounded shadow'>
+        <MDBCol sm="5" className='d-flex align-items-center justify-content-center shadow'>
           <MDBCard className='m-3 p-3 w-75 shadow'>
             <h3 className="fw-bold mb-3 text-center mt-4">Log in</h3>
 
