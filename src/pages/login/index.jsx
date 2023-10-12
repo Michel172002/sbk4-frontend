@@ -1,12 +1,40 @@
 import React, { useState } from 'react';
-import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput } from 'mdb-react-ui-kit';
-import sbk4Fetch from '../../axios/config.js'
-import useStorage from '../../utils/useStorege.js'
+import { MDBBtn, MDBContainer, MDBRow, MDBCol, MDBInput, MDBCard } from 'mdb-react-ui-kit';
+import sbk4Fetch from '../../axios/config.js';
+import useStorage from '../../utils/useStorege.js';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import logo from '../../assets/logo.png'
+import logo from '../../assets/logo.png';
+import styled from 'styled-components';
+
+
+const StyledAside = styled(MDBCol)`
+  background: linear-gradient(45deg, #0F1A2C, #1E2F46);
+  padding-top: 20px;
+`;
+
+const StyledButton = styled(MDBBtn)`
+  background-color: #0F1A2C;
+  transition: background-color 0.5s ease;
+
+  &:hover {
+    background-color: #1E2F46;
+    color: #fff;
+  }
+
+  &:focus {
+    outline: none;
+    background-color: #1E2F46;
+    color: #fff;
+  }
+
+  &:active {
+    background-color: #0D1827;
+    color: #fff;
+  }
+`;
 
 function Login() {
   const [values, setValues] = useState({ user: '', password: '' });
@@ -54,26 +82,25 @@ function Login() {
   return (
     <MDBContainer fluid>
       <MDBRow className='vh-100'>
-        <MDBCol sm="7" className='d-flex align-items-center justify-content-center' style={{ backgroundColor: '#0F1A2C' }}>
-          <img src={logo} alt="Logo" className="img-fluid" />
-        </MDBCol>
+        <StyledAside sm="7" className='d-flex align-items-center justify-content-center'>
+          <img src={logo} alt="Logo" className="img-fluid p-3" />
+        </StyledAside>
         <MDBCol sm="5" className='d-flex align-items-center justify-content-center'>
-          <div className='d-flex flex-column justify-content-center w-100 pt-4 m-5'>
-
-            <h3 className="fw-bold mb-3 text-center">Log in</h3>
+          <MDBCard className='m-3 p-3 w-75 shadow'>
+            <h3 className="fw-bold mb-3 text-center mt-4">Log in</h3>
 
             <form onSubmit={handleLogin}>
               <MDBInput wrapperClass='mb-4 w-100' label='Nome' id='formControlLg' type='text' size="lg" name="user" value={values.user} required onChange={onChange} />
               <MDBInput wrapperClass='mb-4 w-100' label='Senha' id='formControlLg' type='password' size="lg" name="password" value={values.password} required onChange={onChange} />
 
-              <MDBBtn type='submit' className="mb-4 w-100" size='lg' style={{ backgroundColor: '#0F1A2C' }}>Login</MDBBtn>
+              <StyledButton type='submit' className={`mb-4 w-100`} size='lg'>
+                Login
+              </StyledButton>
             </form>
-
-          </div>
+          </MDBCard>
         </MDBCol>
       </MDBRow>
     </MDBContainer>
-
   );
 }
 
