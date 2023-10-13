@@ -4,7 +4,7 @@ export const Containner = styled.div`
 
 margin-top: -9%;
 margin-left: 25%;
-overflow: auto;
+// overflow: auto;
 height: 57vh;
 width: 70vw;
 .thead-dark{
@@ -17,12 +17,11 @@ tbody{
 }
 tbody : hover {
     color: #087660;
-  
+
 }
 .td_Button{
     width: 160px;
-  
-    
+
 }
 .teste{
     width: 100px;

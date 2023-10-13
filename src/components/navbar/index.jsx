@@ -1,7 +1,7 @@
 import { Containner } from './styled.js'
 import useStorage from '../../utils/useStorege.js';
 import { useNavigate } from 'react-router-dom';
-import { MDBBtn, MDBIcon, MDBBadge } from 'mdb-react-ui-kit';
+import { MDBBtn, MDBIcon, MDBBadge, MDBContainer } from 'mdb-react-ui-kit';
 import { BiSolidUserCircle } from 'react-icons/bi'
 
 
@@ -18,7 +18,7 @@ function Navbar() {
 
   return (
     <div>
-      <Containner className='d-flex justify-content-between'>
+      <Containner className='d-flex justify-content-between border rounded'>
         <div>
           <h3><BiSolidUserCircle /> {user}</h3>
         </div>

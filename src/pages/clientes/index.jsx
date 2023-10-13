@@ -95,6 +95,8 @@ function Clientes() {
           <ShortPropriedadesDados clienteProp={clienteSelecionado} />
         </Containner>
       </ReactModal>
+
+
       <Navbar />
       <Aside />
       <br />
