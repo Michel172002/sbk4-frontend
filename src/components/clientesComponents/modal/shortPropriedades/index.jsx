@@ -9,6 +9,8 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 import Form from 'react-bootstrap/Form';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ShortPropriedades = () => {
   const [nome, setNome] = useState("");
@@ -26,6 +28,8 @@ const ShortPropriedades = () => {
   const createCliente = async (e) => {
     e.preventDefault();
 
+    const loaderToast = toast.loading("Cadastrando...");
+
     const cliente = {
       nome: nome,
       dataNas: dataNas,
@@ -42,10 +46,12 @@ const ShortPropriedades = () => {
 
     try {
       const res = await sbk4Fetch.post("/cliente", cliente);
-      console.log(res);
+      toast.dismiss(loaderToast);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
+
     location.reload();
   };
 
@@ -135,7 +141,7 @@ const ShortPropriedades = () => {
           type='text'
           onChange={(e) => setObservacao(e.target.value)}
         />
-        <MDBBtn color='success' type='submit' block>
+        <MDBBtn color='success' type='submit' size="lg" block>
           Cadastrar
         </MDBBtn>
       </form>
