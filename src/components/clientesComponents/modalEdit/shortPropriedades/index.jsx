@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
-import { Containner } from "./styled.js";
+// import { Containner } from "./styled.js";
 import sbk4Fetch from "../../../../axios/config.js";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput,
+  MDBBtn,
+  MDBIcon,
+} from "mdb-react-ui-kit";
+import Form from 'react-bootstrap/Form';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ShortPropriedadesEdit = ({ clienteProp }) => {
   const [nome, setNome] = useState("");
@@ -36,6 +47,9 @@ const ShortPropriedadesEdit = ({ clienteProp }) => {
 
   const editCliente = async (e) => {
     e.preventDefault();
+
+    const loaderToast = toast.loading("Editando...");
+
     const clienteEditado = {
       nome,
       dataNas,
@@ -52,8 +66,10 @@ const ShortPropriedadesEdit = ({ clienteProp }) => {
     };
     try {
       await sbk4Fetch.put(`/cliente/${clienteProp.id}`, clienteEditado);
+      toast.dismiss(loaderToast)
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
     location.reload();
   };
@@ -65,176 +81,105 @@ const ShortPropriedadesEdit = ({ clienteProp }) => {
   }, [clienteProp]);
 
   return (
-    <Containner>
-      <form
-        class="needs-validation"
-        novalidate
-        onSubmit={(e) => editCliente(e)}
-      >
-        <div class="col align-self-center">
-          <div class="row justify-content-around">
-            <div class="col-auto">
-              <div>
-                <label htmlFor="nome">Nome</label>
-              </div>
-              <div>
-                <input
-                  class="form-control"
-                  type={"text"}
-                  value={nome}
-                  onChange={(e) => setNome(e.target.value)}
-                ></input>
-              </div>
-            </div>
-            <div class="col-auto">
-              <div>
-                <label htmlFor="nascimento">Data de Nascimento</label>
-              </div>
-              <div>
-                <input
-                  class="form-control"
-                  type={"date"}
-                  value={dataNas}
-                  onChange={(e) => setDataNasm(e.target.value)}
-                ></input>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-around">
-            <div class="col-auto mb-2">
-              <div>
-                <label htmlFor="telefone">Telefone</label>
-              </div>
-              <div class="col-auto">
-                <input
-                  class="form-control"
-                  type={"number"}
-                  value={telefone}
-                  onChange={(e) => setTelefone(e.target.value)}
-                ></input>
-              </div>
-            </div>
-            <div class="col-auto">
-              <div>
-                <label htmlFor="email">Email</label>
-              </div>
-              <div class="col-auto">
-                <input
-                  class="form-control"
-                  type={"email"}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                ></input>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-around">
-            <div class="col-auto">
-              <label htmlFor="sexo">Sexo</label>
-              <div>
-                <select
-                  class="form-control"
-                  name="sexo"
-                  id="selectSexo"
-                  value={sexo}
-                  onChange={(e) => setSexo(e.target.value === "true")}
-                >
-                  <option value={"true"}>Homem</option>
-                  <option value={"false"}>Mulher</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-auto mb-3">
-              <div class="col-3">
-                <select
-                  class="form-control"
-                  name="indentificacao"
-                  id="selectDoc"
-                  value={identificacao}
-                  onChange={(e) => setTipoDoc(e.target.value)}
-                >
-                  <option value={"RG"}>RG</option>
-                  <option value={"CNH"}>CNH</option>
-                  <option value={"CNPJ"}>CNPJ</option>
-                </select>
-              </div>
-              <div class="col-auto">
-                <input
-                  class="form-control"
-                  type={"number"}
-                  value={identificacaoNumber}
-                  onChange={(e) => setNumDoc(e.target.value)}
-                ></input>
-              </div>
-            </div>
-            <div class="row justify-content-around">
-              <div class="col-auto">
-                <label htmlFor="procura">Procurando</label>
-                <input
-                  class="form-control"
-                  type={"text"}
-                  value={procTipo}
-                  onChange={(e) => setProcTipo(e.target.value)}
-                ></input>
-              </div>
-
-              <div class="col-auto mb-3">
-                <div>
-                  <div>
-                    <label htmlFor="comodos">Comodos</label>
-                  </div>
-                  <div class="col-auto mb-2">
-                    <input
-                      class="form-control"
-                      type={"text"}
-                      value={procComodos}
-                      onChange={(e) => setComodos(e.target.value)}
-                    ></input>
-                  </div>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-auto offset-md-3">
-                    <label htmlFor="tipo">Tipo</label>
-                    <div>
-                      <div>
-                        <input
-                          type="radio"
-                          id="alugar"
-                          name="tipoRadio"
-                          value={"alugar"}
-                          onChange={() => setAlugar(true)}
-                        ></input>
-                        <label htmlFor="alugar">Alugar</label>
-                      </div>
-                      <div>
-                        <input
-                          type="radio"
-                          id="comprar"
-                          name="tipoRadio"
-                          value={"comprar"}
-                          onChange={() => setAlugar(false)}
-                        ></input>
-                        <label htmlFor="comprar">Comprar</label>
-                      </div>
-                    </div>
-                  </div>
-                  <label>Observações</label>
-                  <input
-                    class="form-control"
-                    type="text"
-                    value={observacao}
-                    onChange={(e) => setObservacao(e.target.value)}
-                  />
-                </div>
-                <div class="col-auto">
-                  <input class="btn btn-success btn-lg" type={"submit"} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+<MDBContainer>
+      <form onSubmit={editCliente}>
+        <MDBRow className='mb-4'>
+          <MDBCol>
+            <MDBInput
+              id='form3Example1'
+              label='Nome'
+              type='text'
+              onChange={(e) => setNome(e.target.value)}
+              value={nome}
+            />
+          </MDBCol>
+          <MDBCol>
+            <MDBInput
+              id='form3Example2'
+              label='Data de Nascimento'
+              type='date'
+              onChange={(e) => setDataNas(e.target.value)}
+              value={dataNas}
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol sm={2}>
+            <MDBInput
+              className='mb-4'
+              type='number'
+              label='Telefone'
+              onChange={(e) => setTelefone(e.target.value)}
+              value={telefone}
+            />
+          </MDBCol>
+          <MDBCol sm={4}>
+            <MDBInput
+              className='mb-4'
+              type='email'
+              label='Email'
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
+          </MDBCol>
+          <MDBCol sm={2}>
+            <Form.Select className="mb-4" value={identificacao} onChange={(e) => setTipoDoc(e.target.value)}>
+              <option>Tipo Doc.</option>
+              <option value={'RG'}>RG</option>
+              <option value={'CPF'}>CPF</option>
+              <option value={'CNPJ'}>CNPJ</option>
+            </Form.Select>
+          </MDBCol>
+          <MDBCol sm={4}>
+            <MDBInput
+              className='mb-4'
+              type='number'
+              label='Número Doc.'
+              onChange={(e) => setNumDoc(e.target.value)}
+              value={identificacaoNumber}
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol sm={4}>
+            <MDBInput
+              className='mb-4'
+              label='Procurando'
+              type='text'
+              onChange={(e) => setProcTipo(e.target.value)}
+              value={procTipo}
+            />
+          </MDBCol>
+          <MDBCol sm={2}>
+            <MDBInput
+              className='mb-4'
+              label='Comodos'
+              type='text'
+              onChange={(e) => setComodos(e.target.value)}
+              value={procComodos}
+            />
+          </MDBCol>
+          <MDBCol sm={2}>
+            <Form.Select className="mb-4" value={procAlugando} onChange={(e) => setAlugar(e.target.value)}>
+              <option>Tipo</option>
+              <option value={true}>Alugar</option>
+              <option value={false}>Compar</option>
+            </Form.Select>
+          </MDBCol>
+        </MDBRow>
+        <MDBInput
+          className='mb-4'
+          label='Observações'
+          type='text'
+          onChange={(e) => setObservacao(e.target.value)}
+          value={observacao}
+        />
+        <MDBBtn color='success' type='submit' size="lg" block>
+          Cadastrar
+        </MDBBtn>
       </form>
-    </Containner>
+    </MDBContainer>
+    // </Containner>
   );
 };
 export default ShortPropriedadesEdit;

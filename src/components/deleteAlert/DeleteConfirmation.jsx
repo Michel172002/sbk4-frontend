@@ -11,17 +11,17 @@ const DeleteConfirmation = ({
   return (
     <Modal show={showModal} onHide={hideModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Delete Confirmation</Modal.Title>
+        <Modal.Title>Confirmação</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div className="alert alert-danger">{message}</div>
+        <div className="alert fs-6">{message}</div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="default" onClick={hideModal}>
           Cancelar
         </Button>
         <Button variant="danger" onClick={() => confirmModal(id)}>
-          Deletar
+          Excluir
         </Button>
       </Modal.Footer>
     </Modal>
