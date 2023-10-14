@@ -27,6 +27,7 @@ const ShortPropriedadesEdit = ({ clienteProp }) => {
   const [procComodos, setComodos] = useState("");
 
   const getCliente = async (clienteId) => {
+    const loader = toast.loading("Carregando informações...");
     try {
       const response = await sbk4Fetch.get(`/cliente/${clienteId}`);
       const data = response.data;
@@ -42,7 +43,10 @@ const ShortPropriedadesEdit = ({ clienteProp }) => {
       setComodos(data.procComodos);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
+
+    toast.dismiss(loader);
   };
 
   const editCliente = async (e) => {
@@ -175,7 +179,7 @@ const ShortPropriedadesEdit = ({ clienteProp }) => {
           value={observacao}
         />
         <MDBBtn color='success' type='submit' size="lg" block>
-          Cadastrar
+          Editar
         </MDBBtn>
       </form>
     </MDBContainer>

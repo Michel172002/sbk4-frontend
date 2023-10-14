@@ -10,10 +10,12 @@ import { ToastContainer } from 'react-toastify'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <>
     <ToastContainer />
-    <AppRoutes/>
-  </React.StrictMode>
+    <AppRoutes />
+  </>
+  //{/* </React.StrictMode> */ }
 )
 
 postMessage({ payload: 'removeLoading' }, '*')
