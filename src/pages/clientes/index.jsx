@@ -1,17 +1,17 @@
 import Aside from "../..//components/aside/index.jsx";
 import Navbar from "../..//components/navbar/index.jsx";
 import ReactModal from "react-modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HeaderModal from "../..//components/clientesComponents/modal/header/index.jsx";
 import ShortPropriedades from "../..//components/clientesComponents/modal/shortPropriedades/index.jsx";
 import Table from "../../components/clientesComponents/table/index.jsx";
-import FormPesquisar from "../../components/clientesComponents/formPesquisar/index.jsx";
 import Header from "../../components/header/index.jsx";
 import { Containner } from "./styled.js";
 import HeaderModalEdit from "../../components/clientesComponents/modalEdit/header/index.jsx";
 import ShortPropriedadesEdit from "../../components/clientesComponents/modalEdit/shortPropriedades/index.jsx";
 import HeaderModalDados from "../../components/clientesComponents/modalDados/header/index.jsx";
 import ShortPropriedadesDados from "../../components/clientesComponents/modalDados/shortPropriedades/index.jsx";
+import sbk4Fetch from "../../axios/config.js";
 
 ReactModal.setAppElement("#root");
 
@@ -19,7 +19,27 @@ function Clientes() {
   const [modalCreateIsOpen, setIsOpenCreate] = useState(false);
   const [modalEditIsOpen, setIsOpenEdit] = useState(false);
   const [modalDadosIsOpen, setIsOpenDados] = useState(false);
+  const [clienteSelecionado, setClienteSelecionado] = useState(null);
+  const [clientes, setClientes] = useState([]);
 
+  // Clientes
+  const getClientes = async () => {
+    try {
+      const response = await sbk4Fetch.get("/cliente");
+
+      const data = response.data;
+
+      setClientes(data.content);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getClientes();
+  }, []);
+
+  // Modais
   const handleOpenModalCreate = () => {
     return setIsOpenCreate(true);
   };
@@ -27,8 +47,6 @@ function Clientes() {
   const handleCloseModalCreate = () => {
     return setIsOpenCreate(false);
   };
-
-  const [clienteSelecionado, setClienteSelecionado] = useState(null);
 
   const handleOpenModalEdit = (cliente) => {
     setClienteSelecionado(cliente);
@@ -50,6 +68,19 @@ function Clientes() {
 
   return (
     <Containner>
+      <Navbar />
+      <Aside />
+      <br />
+      <Header />
+      <br />
+      <Table
+        handleOpenModalEdit={handleOpenModalEdit}
+        handleOpenModalDados={handleOpenModalDados}
+        clientes={clientes}
+        handleOpenModal={handleOpenModalCreate}
+      />
+
+      {/* Modais */}
       <ReactModal
         isOpen={modalCreateIsOpen}
         onRequestClose={handleOpenModalCreate}
@@ -65,6 +96,7 @@ function Clientes() {
           <ShortPropriedades />
         </Containner>
       </ReactModal>
+
       <ReactModal
         isOpen={modalEditIsOpen}
         onRequestClose={handleCloseModalEdit}
@@ -80,6 +112,7 @@ function Clientes() {
           <ShortPropriedadesEdit clienteProp={clienteSelecionado} />
         </Containner>
       </ReactModal>
+
       <ReactModal
         isOpen={modalDadosIsOpen}
         onRequestClose={handleCloseModalDados}
@@ -95,19 +128,6 @@ function Clientes() {
           <ShortPropriedadesDados clienteProp={clienteSelecionado} />
         </Containner>
       </ReactModal>
-
-
-      <Navbar />
-      <Aside />
-      <br />
-      <Header />
-      <FormPesquisar handleOpenModal={handleOpenModalCreate} />
-      {/* <Pesquisar/> */}
-      <br />
-      <Table
-        handleOpenModalEdit={handleOpenModalEdit}
-        handleOpenModalDados={handleOpenModalDados}
-      />
     </Containner>
   );
 }

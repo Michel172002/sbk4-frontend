@@ -2,8 +2,8 @@ import { Containner } from "./styled.js"
 function HeaderModal(handleCloseModalCreate){
     return(
         <Containner>
-            <label htmlFor="titulo">Cadastrar Cliente</label>
-            <button class="btn btn-danger" onClick={() => handleCloseModalCreate.handleCloseModalCreate()}>x</button>
+            <label className="mx-5" htmlFor="titulo">Cadastrar Cliente</label>
+            <button class="btn btn-danger m-1" onClick={() => handleCloseModalCreate.handleCloseModalCreate()}>X</button>
         </Containner>
     )
 }
