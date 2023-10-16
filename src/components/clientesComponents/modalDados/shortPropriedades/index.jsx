@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
-import { Containner } from "./styled.js";
+import React, { useEffect, useState, useRef } from "react";
 import sbk4Fetch from "../../../../axios/config.js";
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import formatPhoneNumber from '../../../../utils/formatPhoneNumber.js'
+import styled from "styled-components";
 
 const ShortPropriedadesDados = ({ clienteProp }) => {
   const [nome, setNome] = useState("");
@@ -16,6 +20,7 @@ const ShortPropriedadesDados = ({ clienteProp }) => {
   const [procComodos, setComodos] = useState("");
 
   const getCliente = async (clienteId) => {
+    const loader = toast.loading("Carregando informações...");
     try {
       const response = await sbk4Fetch.get(`/cliente/${clienteId}`);
       const data = response.data;
@@ -32,43 +37,30 @@ const ShortPropriedadesDados = ({ clienteProp }) => {
       setComodos(data.procComodos);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
+    toast.dismiss(loader);
   };
 
   const getSexo = (sexo) => {
-    if (sexo) {
-      return <label class="form-control">Homem</label>;
-    } else {
-      return <label class="form-control">Mulher</label>;
-    }
+    return sexo ? "Homem" : "Mulher";
   };
 
   const getTipoDoc = (identificacao) => {
-    if (identificacao === "RG") {
-      return <label>RG:</label>;
-    }
-    if (identificacao === "CPF") {
-      return <label>CPF:</label>;
-    }
-    if (identificacao === "CNPJ") {
-      return <label>CNPJ:</label>;
+    switch (identificacao) {
+      case "RG":
+        return "RG:";
+      case "CPF":
+        return "CPF:";
+      case "CNPJ":
+        return "CNPJ:";
+      default:
+        return "Identificação:";
     }
   };
 
   const getTipoProc = (procAlugando) => {
-    if (procAlugando) {
-      return (
-        <label class="form-control" htmlFor="tipo_proc">
-          Alugar
-        </label>
-      );
-    } else {
-      return (
-        <label class="form-control" htmlFor="tipo_proc">
-          Comprar
-        </label>
-      );
-    }
+    return procAlugando ? "Alugar" : "Comprar";
   };
 
   useEffect(() => {
@@ -77,99 +69,125 @@ const ShortPropriedadesDados = ({ clienteProp }) => {
     }
   }, [clienteProp]);
 
+  const StyledCard = styled(MDBCard)`
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    // text-align: center;
+    border-radius: 0.25rem;
+
+    .title {
+      border-bottom: 1px solid #000;
+      box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2);
+    }
+    .title>p{
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    button {
+      background: transparent;
+    color: black;
+    border: 1.75px solid lightgray;
+    border-radius: 12.5%;
+    filter: opacity(66%);
+    transition: 0.3s;
+    }
+
+    button:hover {
+      filter: opacity(100%);
+    }
+
+  `;
+
   return (
-    <Containner>
-      <form class="needs-validation" novalidate>
-        <div class="col align-self-center">
-          <div class="row justify-content-around">
-            <div class="col-auto">
-              <div>
-                <label htmlFor="nome">Nome:</label>
-              </div>
-              <div>
-                <label class="form-control">{nome}</label>
-              </div>
+    <MDBContainer>
+      <StyledCard className="shadow">
+        <MDBCardBody>
+          <MDBCardTitle>
+            <div className="title mb-3">
+              <p>{nome}</p>
             </div>
-            <div class="col-auto">
-              <div>
-                <label htmlFor="nascimento">Data de Nascimento:</label>
-              </div>
-              <div>
-                <label class="form-control" htmlFor="nascimento">
-                  {dataNasm}
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-around">
-            <div class="col-auto mb-2">
-              <div>
-                <label htmlFor="telefone">Telefone:</label>
-              </div>
-              <div class="col-auto">
-                <label class="form-control" htmlFor="telefone">
-                  {telefone}
-                </label>
-              </div>
-            </div>
-            <div class="col-auto">
-              <div>
-                <label htmlFor="email">Email:</label>
-              </div>
-              <div class="col-auto">
-                <label class="form-control" htmlFor="email">
-                  {email}
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-around">
-            <div class="col-auto">
-              <label htmlFor="sexo">Sexo:</label>
-              <div>{getSexo(sexo)}</div>
-            </div>
-            <div class="col-auto mb-3">
-              <div class="col-3">{getTipoDoc(identificacao)}</div>
-              <div class="col-auto">
-                <label class="form-control" htmlFor="identificacaoNumber">
-                  {identificacaoNumber}
-                </label>
-              </div>
-            </div>
-            <div class="row justify-content-around">
-              <div class="col-auto">
-                <label htmlFor="procura">Procurando:</label>
-                <label class="form-control" htmlFor="procura">
-                  {procTipo}
-                </label>
-              </div>
-              <div class="col-auto mb-3">
-                <div>
-                  <div>
-                    <label htmlFor="comodos">Comodos:</label>
-                  </div>
-                  <div class="col-auto mb-2">
-                    <label class="form-control" htmlFor="comodos">
-                      {procComodos}
-                    </label>
-                  </div>
-                </div>
-                <div class="row align-items-center">
-                  <div class="col-auto offset-md-3">
-                    <label htmlFor="tipo">Tipo:</label>
-                    <div>{getTipoProc(procAlugando)}</div>
-                  </div>
-                  <label>observacaoervações</label>
-                  <label class="form-control" htmlFor="observacao">
-                    {observacao}
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </Containner>
+          </MDBCardTitle>
+          <MDBCardText>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Data Nasc.:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{new Date(dataNasm).toLocaleDateString('pt-BR')}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Telefone:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{formatPhoneNumber(telefone)}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Email:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{email}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>{getTipoDoc(identificacao)}</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{identificacaoNumber}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Procurando:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{procTipo}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Comodos:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{procComodos}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Tipo:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{getTipoProc(procAlugando)}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Observações:</p>
+              </MDBCol>
+              <MDBCol>
+                <small><strong>{observacao}</strong></small>
+              </MDBCol>
+            </MDBRow>
+          </MDBCardText>
+        </MDBCardBody>
+      </StyledCard>
+    </MDBContainer>
   );
 };
+
 export default ShortPropriedadesDados;

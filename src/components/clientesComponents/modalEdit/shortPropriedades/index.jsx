@@ -45,7 +45,6 @@ const ShortPropriedadesEdit = ({ clienteProp }) => {
       console.log(error);
       toast.error(error.message);
     }
-
     toast.dismiss(loader);
   };
 
