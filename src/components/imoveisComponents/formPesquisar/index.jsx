@@ -1,43 +1,31 @@
 import { Containner } from "./styled.js";
-import { FaSearch } from "react-icons/fa";
+import { MDBInput } from "mdb-react-ui-kit";
 
-function FormPesquisar(handleOpenModalCreate) {
+function FormPesquisar({ handleOpenModal, search }) {
+  const handleSearch = (e) => {
+    search(e.target.value);
+  };
+
   return (
-    <div>
+    <div className="mb-2">
       <Containner>
-        <form class="needs-validation" novalidate>
-          <div class="row align-items-center">
-            <div class="col-auto mb-3">
-              <select class="form-select" id="selectSearch" name="selectSearch">
-                <option value="rua">Rua</option>
-                <option value="BAIRRO">Bairro</option>
-                <option value="CIDADE">Cidade</option>
-                <option value="ESTADO">Estado</option>
-                <option value="CEP">CEP</option>
-              </select>
-            </div>
-            <div class="col-md-5 mb-3">
-              <input
+        <form className="needs-validation" noValidate>
+          <div className="row align-items-center">
+            <div className="col-md-5 mb-3">
+              <MDBInput
+                className="shadow"
                 type="text"
-                class="form-control"
-                id="validationCustom03"
-                placeholder="Pesquise Aqui"
-                required
+                label="Pesquisar imóvel"
+                onChange={handleSearch}
               />
-              <div class="invalid-feedback">Please provide a valid value.</div>
             </div>
-            <div class="col mb-3">
-              <button class="btn btn-secondary" type="submit">
-                <FaSearch />
-              </button>
-            </div>
-            <div class="col-auto mb-3 ms-auto">
+            <div className="col-auto mb-3 ms-auto">
               <a
-                class="btn btn-success btn-lg"
-                onClick={() => handleOpenModalCreate.handleOpenModalCreate()}
+                className="btn btn-success btn-lg shadow"
+                onClick={() => handleOpenModal()}
                 role="button"
               >
-                Novo Imovel
+                Novo Imóvel
               </a>
             </div>
           </div>
@@ -48,3 +36,4 @@ function FormPesquisar(handleOpenModalCreate) {
 }
 
 export default FormPesquisar;
+

@@ -31,7 +31,7 @@ function AppRoutes() {
             <Route path='/imoveis' element={<Imoveis />} />
             <Route path='/corretores' element={<Corretores />} />
           </Route>
-          
+
         </Routes>
       </StoreProvaider>
     </BrowserRouter>

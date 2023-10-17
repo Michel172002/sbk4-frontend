@@ -166,7 +166,7 @@ const ShortPropriedadesEdit = ({ clienteProp }) => {
             <Form.Select className="mb-4" value={procAlugando} onChange={(e) => setAlugar(e.target.value)}>
               <option>Tipo</option>
               <option value={true}>Alugar</option>
-              <option value={false}>Compar</option>
+              <option value={false}>Comprar</option>
             </Form.Select>
           </MDBCol>
         </MDBRow>

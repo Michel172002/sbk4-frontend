@@ -15,7 +15,7 @@ function Inicial() {
         <Pesquisar />
         <br />
         <br />
-        <Grids />
+        {/* <Grids /> */}
       </Containner>
     </div>
   );

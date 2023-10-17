@@ -1,38 +1,38 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import sbk4Fetch from "../../../../axios/config.js";
-import { Containner } from "./styled.js";
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBListGroup, MDBListGroupItem } from "mdb-react-ui-kit";
+import Form from 'react-bootstrap/Form';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import styled from "styled-components";
 
 function ShortPropriedades() {
-  const [proprietarios, setProprietarios] = useState([]);
-
-  const getProprietarios = async () => {
-    try {
-      const response = await sbk4Fetch.get("/proprietario");
-      const data = response.data;
-      setProprietarios(data.content);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const [idProp, setIdProp] = useState();
+  const [idProp, setIdProp] = useState("");
   const [tipo, setTipo] = useState("CASA");
-  const [preco, setPreco] = useState();
+  const [preco, setPreco] = useState("");
   const [alugando, setAlugando] = useState(false);
   const [financia, setFinancia] = useState(false);
-  const [area, setArea] = useState();
-  const [rua, setRua] = useState();
-  const [bairro, setBairro] = useState();
-  const [cidade, setCidade] = useState();
-  const [numero, setNumero] = useState();
-  const [complemento, setComplemento] = useState();
-  const [estado, setEstado] = useState();
-  const [cep, setCep] = useState();
-  const [comodos, setComodos] = useState();
-  const [descricao, setDescricao] = useState();
+  const [area, setArea] = useState("");
+  const [rua, setRua] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [numero, setNumero] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [estado, setEstado] = useState("");
+  const [cep, setCep] = useState("");
+  const [comodos, setComodos] = useState("");
+  const [descricao, setDescricao] = useState("");
+
+  const [proprietarios, setProprietarios] = useState([]);
+  const [showProprietariosList, setShowProprietariosList] = useState(false);
+  const [inputProprietario, setInputProprietario] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const createImovel = async (e) => {
     e.preventDefault();
+
+    const loaderToast = toast.loading("Cadastrando...");
+
     const imovel = {
       idProp,
       tipo,
@@ -53,260 +53,215 @@ function ShortPropriedades() {
 
     try {
       await sbk4Fetch.post("/imovel", imovel);
+      toast.dismiss(loaderToast);
     } catch (error) {
       console.log(error);
+      toast.dismiss(loaderToast)
+      toast.error(error.message);
     }
-    location.reload();
+    // location.reload();
   };
+
+  const getProprietarios = async () => {
+    const res = await sbk4Fetch.get('/proprietario')
+    const data = res.data.content
+    setProprietarios(data);
+  }
 
   useEffect(() => {
     getProprietarios();
+  }, [])
 
-    if (proprietarios.length >= 1) {
-      setIdProp(proprietarios[0].id);
-    }
-  }, [proprietarios]);
+  const handleSearchProprietario = (e) => {
+    const input = e.target.value
+    setInputProprietario(input)
+
+    const results = proprietarios.filter((prop) => {
+      return prop.nome.toLowerCase().includes(input.toLowerCase());
+    })
+
+    setSearchResults(results);
+    setShowProprietariosList(true);
+  }
+
+  const selectProprietario = (e) => {
+    const selected = e.target.value;
+    console.log(selected);
+    setIdProp(selected);
+    setShowProprietariosList(false);
+  };
+
+  const AbsoluteDiv = styled.div`
+  position: absolute;
+  z-index: 1;
+`;
 
   return (
-    <Containner>
-      <form
-        class="needs-validation"
-        novalidate
-        onSubmit={(e) => createImovel(e)}
-      >
-        <div class="col align-self-center">
-          <div class="row justify-content-around">
-            <div class="col-8">
-              <div>
-                <label htmlFor="nome">Rua</label>
-              </div>
-              <div>
-                <input
-                  class="form-control"
-                  type={"text"}
-                  onChange={(e) => setRua(e.target.value)}
-                ></input>
-              </div>
-            </div>
-            <div class="col-2 mb-2">
-              <div>
-                <label htmlFor="numero">Numero</label>
-              </div>
-              <div>
-                <input
-                  class="form-control"
-                  type={"text"}
-                  onChange={(e) => setNumero(e.target.value)}
-                ></input>
-              </div>
-            </div>
-            <div class="col-auto mb-2">
-              <div>
-                <label htmlFor="bairro">Bairro</label>
-              </div>
-              <div>
-                <input
-                  class="form-control"
-                  type={"text"}
-                  onChange={(e) => setBairro(e.target.value)}
-                ></input>
-              </div>
-            </div>
-            <div class="col-auto mb-2">
-              <div>
-                <label htmlFor="estado">Cidade</label>
-              </div>
-              <div>
-                <input
-                  class="form-control"
-                  type={"text"}
-                  onChange={(e) => setCidade(e.target.value)}
-                ></input>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-around">
-            <div class="col-auto mb-2">
-              <div>
-                <label htmlFor="estado">Estado</label>
-              </div>
-              <div class="col-auto">
-                <input
-                  class="form-control"
-                  type={"text"}
-                  onChange={(e) => setEstado(e.target.value)}
-                ></input>
-              </div>
-            </div>
-            <div class="col-auto">
-              <div>
-                <label htmlFor="cep">CEP</label>
-              </div>
-              <div class="col-5">
-                <input
-                  class="form-control"
-                  type={"text"}
-                  onChange={(e) => setCep(e.target.value)}
-                ></input>
-              </div>
-            </div>
-            <div class="col-8 mb-3">
-              <div>
-                <label htmlFor="complemento">Complemento</label>
-              </div>
-              <div class="col-5">
-                <input
-                  class="form-control"
-                  type={"text"}
-                  onChange={(e) => setComplemento(e.target.value)}
-                ></input>
-              </div>
-            </div>
-
-            <div class="col-auto">
-              <label htmlFor="proprietario">Proprietario</label>
-              <select
-                class="form-control"
-                name="idProp"
-                id="idProp"
-                onChange={(e) => setIdProp(e.target.value)}
-              >
-                {proprietarios.length === 0 ? (
-                  <option value={null}>Sem Proprietarios</option>
-                ) : (
-                  proprietarios.map((proprietario) => (
-                    <option value={proprietario.id}>{proprietario.nome}</option>
-                  ))
-                )}
-              </select>
-            </div>
-          </div>
-          <div class="row justify-content-around">
-            <div class="col-3">
-              <div>
-                <label htmlFor="preco">Preco</label>
-              </div>
-              <div class="col-auto">
-                <input
-                  class="form-control"
-                  type={"number"}
-                  onChange={(e) => setPreco(e.target.value)}
-                ></input>
-              </div>
-            </div>
-            <div class="col-3">
-              <label htmlFor="tipo">Tipo</label>
-              <div>
-                <select
-                  class="form-control"
-                  name="tipo"
-                  id="selectTipo"
-                  onChange={(e) => setTipo(e.target.value)}
-                >
-                  <option value={"CASA"}>Casa</option>
-                  <option value={"APARTAMENTO"}>Apartamento</option>
-                  <option value={"LOTE"}>Lote</option>
-                  <option value={"SALA COMERCIAL"}>Sala Comercial</option>
-                  <option value={"KIT NET"}>Kit Net</option>
-                  <option value={"CHACARA"}>Chacara</option>
-                  <option value={"TERRENO"}>Terreno</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-2">
-              <label htmlFor="tipo">Financia</label>
-              <div>
-                <input
-                  type="radio"
-                  id="sim"
-                  name="financiaRadio"
-                  value={"sim"}
-                  onChange={() => setFinancia(true)}
-                ></input>
-                <label htmlFor="sim">Sim</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="nao"
-                  name="financiaRadio"
-                  value={"nao"}
-                  onChange={() => setFinancia(false)}
-                ></input>
-                <label htmlFor="nao">Não</label>
-              </div>
-            </div>
-            <div class="col-3 ">
-              <label htmlFor="tipo">ALUGAR/VENDER</label>
-              <div>
-                <input
-                  type="radio"
-                  id="alugar"
-                  name="tipoRadio"
-                  value={"alugar"}
-                  onChange={() => setAlugando(true)}
-                ></input>
-                <label htmlFor="alugar">Alugar</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="comprar"
-                  name="tipoRadio"
-                  value={"comprar"}
-                  onChange={() => setAlugando(false)}
-                ></input>
-                <label htmlFor="comprar">Vender</label>
-              </div>
-            </div>
-
-            <div class="row align-items-center">
-              <div class="col-3 mb-2">
-                <div>
-                  <label htmlFor="email">Comodos</label>
-                </div>
-                <div>
-                  <input
-                    class="form-control"
-                    type={"text"}
-                    onChange={(e) => setComodos(e.target.value)}
-                  ></input>
-                </div>
-              </div>
-              <div class="col-3">
-                <div>
-                  <label htmlFor="email">Area</label>
-                </div>
-                <div>
-                  <input
-                    class="form-control"
-                    type={"text"}
-                    onChange={(e) => setArea(e.target.value)}
-                  ></input>
-                </div>
-              </div>
-              <div class="col-6">
-                <div>
-                  <label htmlFor="email">Descricao</label>
-                </div>
-                <div>
-                  <input
-                    class="form-control"
-                    type={"text"}
-                    onChange={(e) => setDescricao(e.target.value)}
-                  ></input>
-                </div>
-              </div>
-            </div>
-            <div class="row align-items-center">
-              <div class="col-auto">
-                <input class="btn btn-success btn-lg" type={"submit"} />
-              </div>
-            </div>
-          </div>
-        </div>
+    <MDBContainer>
+      <form onSubmit={createImovel}>
+        <MDBRow className='mb-4 mt-4'>
+          <MDBCol sm={6}>
+            <MDBInput
+              id="proprietarioSearchInput"
+              label="Search Proprietario"
+              type="text"
+              value={inputProprietario}
+              onChange={handleSearchProprietario}
+            />
+            {showProprietariosList && (
+              <AbsoluteDiv> {/* Use the styled component here */}
+                <MDBListGroup style={{ minWidth: '34.23rem' }} light small>
+                  {searchResults.map((proprietario) => (
+                    <MDBListGroupItem
+                      key={proprietario.id}
+                      value={proprietario.id}
+                      tag='button'
+                      action
+                      type='button'
+                      className='px-3 border'
+                      onClick={selectProprietario}
+                    >
+                      {proprietario.nome} | {proprietario.identificacao}: {proprietario.identificacaoNumero}
+                    </MDBListGroupItem>
+                  ))}
+                </MDBListGroup>
+              </AbsoluteDiv>
+            )}
+          </MDBCol>
+        </MDBRow>
+        <MDBRow className='mb-4 mt-4'>
+          <MDBCol>
+            <MDBInput
+              id='form3Example1'
+              label='Rua'
+              type='text'
+              onChange={(e) => setRua(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol>
+            <MDBInput
+              id='form3Example2'
+              label='Número'
+              type='text'
+              onChange={(e) => setNumero(e.target.value)}
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol sm={2}>
+            <MDBInput
+              className='mb-4'
+              type='text'
+              label='Bairro'
+              onChange={(e) => setBairro(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol sm={4}>
+            <MDBInput
+              className='mb-4'
+              type='text'
+              label='Cidade'
+              onChange={(e) => setCidade(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol sm={2}>
+            <MDBInput
+              className='mb-4'
+              type='text'
+              label='Estado'
+              onChange={(e) => setEstado(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol sm={4}>
+            <MDBInput
+              className='mb-4'
+              type='text'
+              label='CEP'
+              onChange={(e) => setCep(e.target.value)}
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol sm={4}>
+            <MDBInput
+              className='mb-4'
+              label='Complemento'
+              type='text'
+              onChange={(e) => setComplemento(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol sm={4}>
+            <MDBInput
+              className='mb-4'
+              label='Área'
+              type='text'
+              onChange={(e) => setArea(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol sm={4}>
+            <MDBInput
+              className='mb-4'
+              label='Descrição'
+              type='text'
+              onChange={(e) => setDescricao(e.target.value)}
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol sm={4}>
+            <MDBInput
+              className='mb-4'
+              type='number'
+              label='Preço'
+              onChange={(e) => setPreco(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol sm={4}>
+            <Form.Select className="mb-4" onChange={(e) => setTipo(e.target.value)}>
+              <option>Tipo</option>
+              <option value={"CASA"}>Casa</option>
+              <option value={"APARTAMENTO"}>Apartamento</option>
+              <option value={"LOTE"}>Lote</option>
+              <option value={"SALA COMERCIAL"}>Sala Comercial</option>
+              <option value={"KIT NET"}>Kit Net</option>
+              <option value={"CHACARA"}>Chácara</option>
+              <option value={"TERRENO"}>Terreno</option>
+            </Form.Select>
+          </MDBCol>
+          <MDBCol sm={4}>
+            <Form.Check
+              type="checkbox"
+              label="Financia"
+              onChange={() => setFinancia(!financia)}
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBRow>
+          <MDBCol sm={6}>
+            <Form.Check
+              type="radio"
+              label="Alugar"
+              name="alugarRadio"
+              checked={alugando}
+              onChange={() => setAlugando(true)}
+            />
+          </MDBCol>
+          <MDBCol sm={6}>
+            <Form.Check
+              type="radio"
+              label="Vender"
+              name="alugarRadio"
+              checked={!alugando}
+              onChange={() => setAlugando(false)}
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBBtn color='success' type='submit' size="lg" block>
+          Cadastrar
+        </MDBBtn>
       </form>
-    </Containner>
+    </MDBContainer>
   );
 }
+
 export default ShortPropriedades;

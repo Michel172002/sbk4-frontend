@@ -24,12 +24,12 @@ function Navbar() {
         </div>
         <ul>
           <li>
-            <MDBBtn size='lg' floating>
+            <MDBBtn size='lg' title='Configurações' floating>
               <MDBIcon fas icon="cog" />
             </MDBBtn>
           </li>
           <li>
-            <MDBBtn size='lg' floating onClick={handleLogout}>
+            <MDBBtn size='lg' title='Sair' floating onClick={handleLogout}>
               <MDBIcon fas icon="sign-out-alt" />
             </MDBBtn>
           </li>
