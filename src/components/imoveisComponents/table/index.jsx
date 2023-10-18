@@ -5,6 +5,8 @@ import Spinner from 'react-bootstrap/Spinner';
 import DeleteConfirmation from "../../deleteAlert/DeleteConfirmation.jsx";
 import FormPesquisar from "../formPesquisar/index.jsx";
 import formatPhoneNumber from '../../../utils/formatPhoneNumber.js';
+import formatCurrency from "../../../utils/formatCurrency.js";
+import sbk4Fetch from "../../../axios/config.js";
 
 function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imoveis }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -56,7 +58,7 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
   };
 
   const filteredData = imoveis.filter((item) =>
-    item.proprietario.toLowerCase().includes(searchTerm.toLowerCase())
+    item.proprietario.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -75,11 +77,10 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
               <tr className="text-center">
                 <th className="text-white">#</th>
                 <th className="text-white">Tipo</th>
-                <th className="text-white">Alugando</th>
-                <th className="text-white">Preço</th>
+                <th className="text-white">Disp. para</th>
+                {/* <th className="text-white">Preço</th> */}
                 <th className="text-white">Bairro</th>
                 <th className="text-white">Cidade</th>
-                <th className="text-white">Comodos</th>
                 <th className="text-white">Config</th>
               </tr>
             </MDBTableHead>
@@ -94,10 +95,9 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
                     <th scope="row">{imovel.id}</th>
                     <td>{imovel.tipo}</td>
                     <td>{imovel.alugando ? "Aluguel" : "Compra"}</td>
-                    <td>{imovel.preco}</td>
+                    {/* <td>{formatCurrency(imovel.preco)}</td> */}
                     <td>{imovel.bairro}</td>
                     <td>{imovel.cidade}</td>
-                    <td>{imovel.comodos}</td>
                     <td>
                       <div className="">
                         <MDBBtn className="actionButtons" title="Detalhes" floating onClick={() => handleOpenModalDados(imovel)}>

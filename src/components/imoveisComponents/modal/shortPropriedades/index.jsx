@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import sbk4Fetch from "../../../../axios/config.js";
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBListGroup, MDBListGroupItem } from "mdb-react-ui-kit";
 import Form from 'react-bootstrap/Form';
@@ -6,9 +6,15 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styled from "styled-components";
 
+const AbsoluteDiv = styled.div`
+  position: absolute;
+  z-index: 1;
+`;
+
+
 function ShortPropriedades() {
   const [idProp, setIdProp] = useState("");
-  const [tipo, setTipo] = useState("CASA");
+  const [tipo, setTipo] = useState("");
   const [preco, setPreco] = useState("");
   const [alugando, setAlugando] = useState(false);
   const [financia, setFinancia] = useState(false);
@@ -27,6 +33,7 @@ function ShortPropriedades() {
   const [showProprietariosList, setShowProprietariosList] = useState(false);
   const [inputProprietario, setInputProprietario] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [proprietarioSelecionado, setProprietarioSelecionado] = useState("");
 
   const createImovel = async (e) => {
     e.preventDefault();
@@ -34,32 +41,35 @@ function ShortPropriedades() {
     const loaderToast = toast.loading("Cadastrando...");
 
     const imovel = {
-      idProp,
-      tipo,
-      preco,
-      alugando,
-      financia,
-      area,
-      rua,
-      bairro,
-      cidade,
-      numero,
-      complemento,
-      estado,
-      cep,
-      comodos,
-      descricao,
+      idProp: idProp,
+      tipo: tipo,
+      preco: preco,
+      alugando: alugando,
+      financia: financia,
+      area: area,
+      rua: rua,
+      bairro: bairro,
+      cidade: cidade,
+      numero: numero,
+      complemento: complemento,
+      estado: estado,
+      cep: cep,
+      comodos: comodos,
+      descricao: descricao,
     };
 
+    console.log(imovel)
+
     try {
-      await sbk4Fetch.post("/imovel", imovel);
+      const res = await sbk4Fetch.post("/imovel", imovel);
+      console.log('res: ', res)
       toast.dismiss(loaderToast);
     } catch (error) {
       console.log(error);
       toast.dismiss(loaderToast)
       toast.error(error.message);
     }
-    // location.reload();
+    location.reload();
   };
 
   const getProprietarios = async () => {
@@ -67,10 +77,6 @@ function ShortPropriedades() {
     const data = res.data.content
     setProprietarios(data);
   }
-
-  useEffect(() => {
-    getProprietarios();
-  }, [])
 
   const handleSearchProprietario = (e) => {
     const input = e.target.value
@@ -84,32 +90,40 @@ function ShortPropriedades() {
     setShowProprietariosList(true);
   }
 
-  const selectProprietario = (e) => {
+  const selectProprietario = (e, proprietario) => {
     const selected = e.target.value;
-    console.log(selected);
+
+    setProprietarioSelecionado(`${proprietario.nome} | ${proprietario.identificacao}: ${proprietario.identificacaoNumero}`)
     setIdProp(selected);
     setShowProprietariosList(false);
+    setInputProprietario("");
   };
 
-  const AbsoluteDiv = styled.div`
-  position: absolute;
-  z-index: 1;
-`;
+  window.addEventListener("click", function (event) {
+    if (showProprietariosList) {
+      setShowProprietariosList(false);
+      setInputProprietario("");
+    }
+  })
+
+  useEffect(() => {
+    getProprietarios();
+  }, [])
 
   return (
     <MDBContainer>
       <form onSubmit={createImovel}>
-        <MDBRow className='mb-4 mt-4'>
+        <MDBRow className='mb-4'>
           <MDBCol sm={6}>
             <MDBInput
               id="proprietarioSearchInput"
-              label="Search Proprietario"
+              label="Procurar Proprietário"
               type="text"
               value={inputProprietario}
               onChange={handleSearchProprietario}
             />
             {showProprietariosList && (
-              <AbsoluteDiv> {/* Use the styled component here */}
+              <AbsoluteDiv>
                 <MDBListGroup style={{ minWidth: '34.23rem' }} light small>
                   {searchResults.map((proprietario) => (
                     <MDBListGroupItem
@@ -119,7 +133,7 @@ function ShortPropriedades() {
                       action
                       type='button'
                       className='px-3 border'
-                      onClick={selectProprietario}
+                      onClick={(e) => selectProprietario(e, proprietario)}
                     >
                       {proprietario.nome} | {proprietario.identificacao}: {proprietario.identificacaoNumero}
                     </MDBListGroupItem>
@@ -128,9 +142,22 @@ function ShortPropriedades() {
               </AbsoluteDiv>
             )}
           </MDBCol>
-        </MDBRow>
-        <MDBRow className='mb-4 mt-4'>
           <MDBCol>
+            <MDBInput
+              id="proprietarioSelecionado"
+              label="Proprietário Selecionado"
+              type="text"
+              value={proprietarioSelecionado}
+              disabled
+              required
+            />
+          </MDBCol>
+        </MDBRow>
+
+        <hr />
+
+        <MDBRow className='mb-4 mt-4'>
+          <MDBCol sm={5} className="mt-4">
             <MDBInput
               id='form3Example1'
               label='Rua'
@@ -138,7 +165,7 @@ function ShortPropriedades() {
               onChange={(e) => setRua(e.target.value)}
             />
           </MDBCol>
-          <MDBCol>
+          <MDBCol sm={1} className="mt-4">
             <MDBInput
               id='form3Example2'
               label='Número'
@@ -146,17 +173,24 @@ function ShortPropriedades() {
               onChange={(e) => setNumero(e.target.value)}
             />
           </MDBCol>
-        </MDBRow>
-        <MDBRow>
-          <MDBCol sm={2}>
+          <MDBCol sm={4} className="mt-4">
             <MDBInput
-              className='mb-4'
               type='text'
               label='Bairro'
               onChange={(e) => setBairro(e.target.value)}
             />
           </MDBCol>
-          <MDBCol sm={4}>
+          <MDBCol sm={2} className="mt-4">
+            <MDBInput
+              label='Complemento'
+              type='text'
+              onChange={(e) => setComplemento(e.target.value)}
+            />
+          </MDBCol>
+        </MDBRow>
+
+        <MDBRow>
+          <MDBCol sm={5}>
             <MDBInput
               className='mb-4'
               type='text'
@@ -164,7 +198,7 @@ function ShortPropriedades() {
               onChange={(e) => setCidade(e.target.value)}
             />
           </MDBCol>
-          <MDBCol sm={2}>
+          <MDBCol sm={1}>
             <MDBInput
               className='mb-4'
               type='text'
@@ -181,42 +215,39 @@ function ShortPropriedades() {
             />
           </MDBCol>
         </MDBRow>
-        <MDBRow>
+
+        <hr />
+
+        <MDBRow className="mt-4">
           <MDBCol sm={4}>
-            <MDBInput
-              className='mb-4'
-              label='Complemento'
-              type='text'
-              onChange={(e) => setComplemento(e.target.value)}
+            <Form.Check
+              type="radio"
+              label="Alugar"
+              name="alugarRadio"
+              checked={alugando}
+              onChange={() => setAlugando(true)}
             />
           </MDBCol>
           <MDBCol sm={4}>
-            <MDBInput
-              className='mb-4'
-              label='Área'
-              type='text'
-              onChange={(e) => setArea(e.target.value)}
+            <Form.Check
+              type="radio"
+              label="Vender"
+              name="alugarRadio"
+              checked={!alugando}
+              onChange={() => setAlugando(false)}
             />
           </MDBCol>
           <MDBCol sm={4}>
-            <MDBInput
-              className='mb-4'
-              label='Descrição'
-              type='text'
-              onChange={(e) => setDescricao(e.target.value)}
+            <Form.Check
+              type="checkbox"
+              label="Financia"
+              onChange={() => setFinancia(!financia)}
             />
           </MDBCol>
         </MDBRow>
+
         <MDBRow>
-          <MDBCol sm={4}>
-            <MDBInput
-              className='mb-4'
-              type='number'
-              label='Preço'
-              onChange={(e) => setPreco(e.target.value)}
-            />
-          </MDBCol>
-          <MDBCol sm={4}>
+          <MDBCol sm={3} className="mt-4">
             <Form.Select className="mb-4" onChange={(e) => setTipo(e.target.value)}>
               <option>Tipo</option>
               <option value={"CASA"}>Casa</option>
@@ -228,31 +259,39 @@ function ShortPropriedades() {
               <option value={"TERRENO"}>Terreno</option>
             </Form.Select>
           </MDBCol>
-          <MDBCol sm={4}>
-            <Form.Check
-              type="checkbox"
-              label="Financia"
-              onChange={() => setFinancia(!financia)}
+          <MDBCol sm={3} className="mt-4">
+            <MDBInput
+              className='mb-4'
+              type='text'
+              label='Comodos'
+              onChange={(e) => setComodos(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol sm={3} className="mt-4">
+            <MDBInput
+              className='mb-4'
+              label='Área (m²)'
+              type='text'
+              onChange={(e) => setArea(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol sm={3} className="mt-4">
+            <MDBInput
+              className='mb-4'
+              type='number'
+              label='Preço'
+              onChange={(e) => setPreco(e.target.value)}
             />
           </MDBCol>
         </MDBRow>
-        <MDBRow>
+
+        <MDBRow className="mb-4">
           <MDBCol sm={6}>
-            <Form.Check
-              type="radio"
-              label="Alugar"
-              name="alugarRadio"
-              checked={alugando}
-              onChange={() => setAlugando(true)}
-            />
-          </MDBCol>
-          <MDBCol sm={6}>
-            <Form.Check
-              type="radio"
-              label="Vender"
-              name="alugarRadio"
-              checked={!alugando}
-              onChange={() => setAlugando(false)}
+            <MDBInput
+              className='mb-4'
+              label='Descrição'
+              type='text'
+              onChange={(e) => setDescricao(e.target.value)}
             />
           </MDBCol>
         </MDBRow>
