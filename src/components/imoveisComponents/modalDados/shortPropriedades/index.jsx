@@ -152,17 +152,17 @@ function ShortPropriedadesDados({ imovelProp }) {
         <MDBCardBody>
           <MDBCardTitle>
             <div className="title mb-3">
-              <p className="mb-5">Imóvel #{idMovel}</p>
+              <p className="">Imóvel #{idMovel}</p>
 
-              <div className="fs-6">
+              <div className="fs-6 mb-3">
                 <MDBRow>
                   <MDBCol sm={4}>
                     <p>Proprietário: {proprietario && <strong>{proprietario.nome}</strong>}</p>
                   </MDBCol>
-                  <MDBCol sm={4}>
+                  <MDBCol sm={4} className="text-center">
                     <p><HiOutlinePhone /> {proprietario && <strong>{proprietario.telefone}</strong>}</p>
                   </MDBCol>
-                  <MDBCol sm={4}>
+                  <MDBCol sm={4} className="text-center">
                     <p><HiOutlineMail />  {proprietario && <strong>{proprietario.email}</strong>}</p>
                   </MDBCol>
                 </MDBRow>

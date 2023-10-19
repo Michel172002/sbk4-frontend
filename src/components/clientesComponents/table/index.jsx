@@ -37,7 +37,6 @@ const Table = ({ handleOpenModalEdit, handleOpenModalDados, clientes, handleOpen
     }
   };
 
-  // Fetch data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -74,7 +73,7 @@ const Table = ({ handleOpenModalEdit, handleOpenModalDados, clientes, handleOpen
             </Spinner>
           </div>
         ) : (
-          <MDBTable hover responsive>
+          <MDBTable hover responsive className="table-sm">
             <MDBTableHead className="thead">
               <tr className="text-center">
                 <th className="text-white">#</th>
@@ -86,7 +85,7 @@ const Table = ({ handleOpenModalEdit, handleOpenModalDados, clientes, handleOpen
                 <th className="text-white"><MDBIcon fas icon="cog" /></th>
               </tr>
             </MDBTableHead>
-            <MDBTableBody>
+            <MDBTableBody className="overflow-y-auto">
               {filteredData.length === 0 ? (
                 <tr>
                   <td colSpan="6">Não há registros.</td>
