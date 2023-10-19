@@ -6,6 +6,39 @@ import 'react-toastify/dist/ReactToastify.css';
 import formatPhoneNumber from '../../../../utils/formatPhoneNumber.js'
 import styled from "styled-components";
 
+
+const StyledCard = styled(MDBCard)`
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    // text-align: center;
+    border-radius: 0.25rem;
+
+    .title {
+      border-bottom: 1px solid #000;
+      box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2);
+    }
+    .title>p{
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    button {
+      background: transparent;
+    color: black;
+    border: 1.75px solid lightgray;
+    border-radius: 12.5%;
+    filter: opacity(66%);
+    transition: 0.3s;
+    }
+
+    button:hover {
+      filter: opacity(100%);
+    }
+
+  `;
+
 const ShortPropriedadesDados = ({ clienteProp }) => {
   const [nome, setNome] = useState("");
   const [dataNasm, setDataNasm] = useState("");
@@ -68,38 +101,6 @@ const ShortPropriedadesDados = ({ clienteProp }) => {
       getCliente(clienteProp.id);
     }
   }, [clienteProp]);
-
-  const StyledCard = styled(MDBCard)`
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 1.5rem;
-    // text-align: center;
-    border-radius: 0.25rem;
-
-    .title {
-      border-bottom: 1px solid #000;
-      box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2);
-    }
-    .title>p{
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    button {
-      background: transparent;
-    color: black;
-    border: 1.75px solid lightgray;
-    border-radius: 12.5%;
-    filter: opacity(66%);
-    transition: 0.3s;
-    }
-
-    button:hover {
-      filter: opacity(100%);
-    }
-
-  `;
 
   return (
     <MDBContainer>

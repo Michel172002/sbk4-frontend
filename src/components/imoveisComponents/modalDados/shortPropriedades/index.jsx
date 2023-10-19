@@ -2,18 +2,48 @@ import { useState } from "react";
 import { Containner } from "./styled.js";
 import { useEffect } from "react";
 import sbk4Fetch from "../../../../axios/config.js";
-function ShortPropriedadesDados({ imovelProp }) {
-  const getProprietario = async (id) => {
-    try {
-      const response = await sbk4Fetch.get(`/proprietario/${id}`);
-      const data = response.data;
-      setProprietario(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+import formatCurrency from "../../../../utils/formatCurrency.js";
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import formatPhoneNumber from '../../../../utils/formatPhoneNumber.js'
+import styled from "styled-components";
+import { HiOutlineMail, HiOutlinePhone } from 'react-icons/hi'
 
-  const [proprietario, setProprietario] = useState([]);
+const StyledCard = styled(MDBCard)`
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    // text-align: center;
+    border-radius: 0.25rem;
+
+    .title {
+      border-bottom: 1px solid #000;
+      box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2);
+    }
+    .title>p{
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    button {
+      background: transparent;
+    color: black;
+    border: 1.75px solid lightgray;
+    border-radius: 12.5%;
+    filter: opacity(66%);
+    transition: 0.3s;
+    }
+
+    button:hover {
+      filter: opacity(100%);
+    }
+
+  `;
+
+function ShortPropriedadesDados({ imovelProp }) {
+  const [proprietario, setProprietario] = useState({});
   const [tipo, setTipo] = useState("CASA");
   const [preco, setPreco] = useState("");
   const [alugando, setAlugando] = useState(false);
@@ -28,12 +58,29 @@ function ShortPropriedadesDados({ imovelProp }) {
   const [cep, setCep] = useState("");
   const [comodos, setComodos] = useState("");
   const [descricao, setDescricao] = useState("");
+  const [idMovel, setIdImovel] = useState("");
+
+
+  const getProprietario = async (id) => {
+    try {
+      const response = await sbk4Fetch.get(`/proprietario/${id}`);
+      const data = response.data;
+      console.log('proprietario', data)
+      data.telefone = formatPhoneNumber(data.telefone);
+      setProprietario(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getImovel = async (imovelId) => {
+    const loader = toast.loading("Carregando informações...");
+
     try {
       const response = await sbk4Fetch.get(`/imovel/${imovelId}`);
       const data = response.data;
       getProprietario(data.proprietario.id);
+      setIdImovel(data.id);
       setTipo(data.tipo);
       setPreco(data.preco);
       setAlugando(data.alugando);
@@ -50,43 +97,46 @@ function ShortPropriedadesDados({ imovelProp }) {
       setDescricao(data.descricao);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
+
+    toast.dismiss(loader);
   };
 
   const getTipo = (tipo) => {
     if (tipo === "APARTAMENTO") {
-      return <label class="form-control">APARTAMENTO</label>;
+      return <strong>APARTAMENTO</strong>;
     }
     if (tipo === "LOTE") {
-      return <label class="form-control">LOTE</label>;
+      return <strong>LOTE</strong>;
     }
     if (tipo === "SALA COMERCIAL") {
-      return <label class="form-control">SALA COMERCIAL</label>;
+      return <strong>SALA COMERCIAL</strong>;
     }
     if (tipo === "KIT NET") {
-      return <label class="form-control">KIT NET</label>;
+      return <strong>KIT NET</strong>;
     }
     if (tipo === "CHACARA") {
-      return <label class="form-control">CHACARA</label>;
+      return <strong>CHACARA</strong>;
     }
     if (tipo === "TERRENO") {
-      return <label class="form-control">TERRENO</label>;
+      return <strong>TERRENO</strong>;
     }
   };
 
   const getFinancia = (financia) => {
     if (financia) {
-      return <label class="form-control">Financiavel</label>;
+      return <strong>Financiável</strong>;
     } else {
-      return <label class="form-control">Não Financiavel</label>;
+      return <strong>Não Financiável</strong>;
     }
   };
 
   const getAlugando = (alugando) => {
     if (alugando) {
-      return <label class="form-control">Disponivel para Locação</label>;
+      return <strong>Aluguel</strong>;
     } else {
-      return <label class="form-control">Disponivel para venda</label>;
+      return <strong>Venda</strong>;
     }
   };
 
@@ -94,150 +144,149 @@ function ShortPropriedadesDados({ imovelProp }) {
     if (imovelProp) {
       getImovel(imovelProp.id);
     }
-  }, [imovelProp]);
+  }, []);
 
   return (
-    <Containner>
-      <form class="needs-validation" novalidate>
-        <div class="col align-self-center">
-          <div class="row justify-content-around">
-            <div class="col-8">
-              <div>
-                <label htmlFor="rua">Rua:</label>
-              </div>
-              <div>
-                <label class="form-control" htmlFor="rua">
-                  {rua}
-                </label>
-              </div>
-            </div>
-            <div class="col-2 mb-2">
-              <div>
-                <label htmlFor="numero">Numero:</label>
-              </div>
-              <div>
-                <label class="form-control" htmlFor="numero">
-                  {numero}
-                </label>
-              </div>
-            </div>
-            <div class="col-auto mb-2">
-              <div>
-                <label htmlFor="bairro">Bairro:</label>
-              </div>
-              <div>
-                <label class="form-control" htmlFor="bairro">
-                  {bairro}
-                </label>
-              </div>
-            </div>
-            <div class="col-auto mb-2">
-              <div>
-                <label htmlFor="cidade">Cidade:</label>
-              </div>
-              <div>
-                <label class="form-control" htmlFor="cidade">
-                  {cidade}
-                </label>
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-around">
-            <div class="col-auto mb-2">
-              <div>
-                <label htmlFor="estado">Estado:</label>
-              </div>
-              <div class="col-auto">
-                <label class="form-control" htmlFor="estado">
-                  {estado}
-                </label>
-              </div>
-            </div>
-            <div class="col-5">
-              <div>
-                <label htmlFor="cep">CEP:</label>
-              </div>
-              <div class="col-5">
-                <label class="form-control" htmlFor="cep">
-                  {cep}
-                </label>
-              </div>
-            </div>
-            <div class="col-8 mb-3">
-              <div>
-                <label htmlFor="complemento">Complemento:</label>
-              </div>
-              <div class="col-5">
-                <label class="form-control" htmlFor="complemento">
-                  {complemento}
-                </label>
-              </div>
-            </div>
+    <MDBContainer>
+      <StyledCard className="shadow">
+        <MDBCardBody>
+          <MDBCardTitle>
+            <div className="title mb-3">
+              <p className="mb-5">Imóvel #{idMovel}</p>
 
-            <div class="col-auto">
-              <label htmlFor="proprietario">Proprietario:</label>
-              <label class="form-control" htmlFor="proprietario">
-                {proprietario.nome}
-              </label>
-            </div>
-          </div>
-          <div class="row justify-content-around">
-            <div class="col-3">
-              <div>
-                <label htmlFor="preco">Preco:</label>
-              </div>
-              <div class="col-auto">
-                <label class="form-control" htmlFor="preco">
-                  {preco}
-                </label>
+              <div className="fs-6">
+                <MDBRow>
+                  <MDBCol sm={4}>
+                    <p>Proprietário: {proprietario && <strong>{proprietario.nome}</strong>}</p>
+                  </MDBCol>
+                  <MDBCol sm={4}>
+                    <p><HiOutlinePhone /> {proprietario && <strong>{proprietario.telefone}</strong>}</p>
+                  </MDBCol>
+                  <MDBCol sm={4}>
+                    <p><HiOutlineMail />  {proprietario && <strong>{proprietario.email}</strong>}</p>
+                  </MDBCol>
+                </MDBRow>
+
               </div>
             </div>
-            <div class="col-3">
-              <label htmlFor="tipo">Tipo:</label>
-              <div>{getTipo(tipo)}</div>
-            </div>
-            <div class="col-2">
-              <label htmlFor="tipo">Financia:</label>
-              {getFinancia(financia)}
-            </div>
-            <div class="col-3 ">
-              <label htmlFor="tipo">ALUGAR/VENDER:</label>
-              {getAlugando(alugando)}
-            </div>
-            <div class="row align-items-center">
-              <div class="col-3 mb-2">
-                <div>
-                  <label htmlFor="comodos">Comodos:</label>
-                </div>
-                <div>
-                  <label class="form-control" htmlFor="comodos">
-                    {comodos}
-                  </label>
-                </div>
-              </div>
-              <div class="col-3">
-                <div>
-                  <label htmlFor="area">Area:</label>
-                </div>
-                <div>
-                  <label class="form-control">{area}</label>
-                </div>
-              </div>
-              <div class="col-6">
-                <div>
-                  <label htmlFor="descricao">Descricao:</label>
-                </div>
-                <div>
-                  <label class="form-control" htmlFor="descricao">
-                    {descricao}
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </Containner>
+          </MDBCardTitle>
+          <MDBCardText>
+
+            <MDBRow>
+              <MDBCol sm={2}>
+                <p>Tipo:</p>
+              </MDBCol>
+              <MDBCol>
+                {getTipo(tipo)}
+              </MDBCol>
+
+              <MDBCol sm={2}>
+                <p>Rua:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{rua}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={2}>
+                <p>Comodos:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{comodos}</strong>
+              </MDBCol>
+
+              <MDBCol sm={2}>
+                <p>Número:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{numero}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={2}>
+                <p>Area:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{area} m²</strong>
+              </MDBCol>
+
+              <MDBCol sm={2}>
+                <p>Bairro:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{bairro}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={2}>
+                <p>Preço:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{formatCurrency(parseFloat(preco))}</strong>
+              </MDBCol>
+
+              <MDBCol sm={2}>
+                <p>Complemento:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{complemento}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={2}>
+                <p>Disp. para:</p>
+              </MDBCol>
+              <MDBCol>
+                {getAlugando(alugando)}
+              </MDBCol>
+
+              <MDBCol sm={2}>
+                <p>Cidade:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{cidade}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={2}>
+                <p>Financiamento</p>
+              </MDBCol>
+              <MDBCol>
+                {getFinancia(financia)}
+              </MDBCol>
+
+              <MDBCol sm={2}>
+                <p>Estado:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{estado}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={2}>
+                <p>Descrição:</p>
+              </MDBCol>
+              <MDBCol>
+                <small><strong>{descricao}</strong></small>
+              </MDBCol>
+
+              <MDBCol sm={2}>
+                <p>CEP:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{cep}</strong>
+              </MDBCol>
+            </MDBRow>
+          </MDBCardText>
+        </MDBCardBody>
+      </StyledCard>
+    </MDBContainer>
   );
 }
 export default ShortPropriedadesDados;

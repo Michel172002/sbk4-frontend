@@ -35,7 +35,6 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
     }
   };
 
-  // Fetch data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -75,10 +74,10 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
           <MDBTable hover responsive>
             <MDBTableHead className="thead">
               <tr className="text-center">
-                <th className="text-white">#</th>
+                {/* <th className="text-white">#</th> */}
                 <th className="text-white">Tipo</th>
                 <th className="text-white">Disp. para</th>
-                {/* <th className="text-white">Preço</th> */}
+                <th className="text-white">Preço</th>
                 <th className="text-white">Bairro</th>
                 <th className="text-white">Cidade</th>
                 <th className="text-white">Config</th>
@@ -92,10 +91,10 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
               ) : (
                 filteredData.map((imovel, index) => (
                   <tr className="text-center" key={index}>
-                    <th scope="row">{imovel.id}</th>
+                    {/* <th scope="row">{imovel.id}</th> */}
                     <td>{imovel.tipo}</td>
                     <td>{imovel.alugando ? "Aluguel" : "Compra"}</td>
-                    {/* <td>{formatCurrency(imovel.preco)}</td> */}
+                    <td>{formatCurrency(imovel.preco)}</td>
                     <td>{imovel.bairro}</td>
                     <td>{imovel.cidade}</td>
                     <td>

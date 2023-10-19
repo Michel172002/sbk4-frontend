@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styled from "styled-components";
+import formatCurrency from "../../../../utils/formatCurrency.js";
 
 const AbsoluteDiv = styled.div`
   position: absolute;
@@ -46,15 +47,15 @@ function ShortPropriedades() {
       preco: preco,
       alugando: alugando,
       financia: financia,
-      area: area,
+      area: area.toString(),
       rua: rua,
       bairro: bairro,
       cidade: cidade,
-      numero: numero,
+      numero: numero.toString(),
       complemento: complemento,
       estado: estado,
       cep: cep,
-      comodos: comodos,
+      comodos: comodos.toString(),
       descricao: descricao,
     };
 
@@ -169,7 +170,7 @@ function ShortPropriedades() {
             <MDBInput
               id='form3Example2'
               label='Número'
-              type='text'
+              type='number'
               onChange={(e) => setNumero(e.target.value)}
             />
           </MDBCol>
@@ -203,7 +204,9 @@ function ShortPropriedades() {
               className='mb-4'
               type='text'
               label='Estado'
-              onChange={(e) => setEstado(e.target.value)}
+              maxLength={'2'}
+              value={estado}
+              onChange={(e) => setEstado(e.target.value.toUpperCase())}
             />
           </MDBCol>
           <MDBCol sm={4}>
@@ -262,7 +265,7 @@ function ShortPropriedades() {
           <MDBCol sm={3} className="mt-4">
             <MDBInput
               className='mb-4'
-              type='text'
+              type='number'
               label='Comodos'
               onChange={(e) => setComodos(e.target.value)}
             />
@@ -271,7 +274,7 @@ function ShortPropriedades() {
             <MDBInput
               className='mb-4'
               label='Área (m²)'
-              type='text'
+              type='number'
               onChange={(e) => setArea(e.target.value)}
             />
           </MDBCol>

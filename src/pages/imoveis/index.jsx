@@ -24,7 +24,6 @@ function Imoveis() {
   const [imoveis, setImoveis] = useState([]);
 
   // Imoveis
-  // Clientes
   const getImoveis = async () => {
     try {
       const response = await sbk4Fetch.get("/imovel");
