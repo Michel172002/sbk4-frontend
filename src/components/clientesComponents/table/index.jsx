@@ -73,7 +73,7 @@ const Table = ({ handleOpenModalEdit, handleOpenModalDados, clientes, handleOpen
             </Spinner>
           </div>
         ) : (
-          <MDBTable hover responsive className="table-sm">
+          <MDBTable hover responsive>
             <MDBTableHead className="thead">
               <tr className="text-center">
                 <th className="text-white">#</th>

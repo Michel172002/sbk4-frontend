@@ -10,6 +10,7 @@ import sbk4Fetch from "../../../axios/config.js";
 
 function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imoveis }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("");
   const [id, setId] = useState(null);
   const [displayConfirmationModal, setDisplayConfirmationModal] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
@@ -52,13 +53,35 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
   }, []);
 
   // Pesquisa table
-  const search = (query) => {
+  const search = (filter, query) => {
+    setFilter(filter);
     setSearchTerm(query);
   };
 
-  const filteredData = imoveis.filter((item) =>
-    item.proprietario.nome.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+
+  // TODO: tudo funcionando mas buga se filtrar e voltar pro filtro inicial.
+  // Fazer uma forma de resetar ao estado inicial depois que filtrar
+  const filteredData = imoveis.filter((item) => {
+  //  if()
+    if (filter) {
+      if (filter === 'preco') {
+        const queryValue = parseFloat(searchTerm);
+        if (!isNaN(queryValue)) {
+          return item[filter] <= queryValue;
+        } else {
+          return true;
+        }
+      } else if (filter === 'alugando') {
+        return item.alugando === (true);
+      }  else if(filter === 'compra') {
+        return item.alugando === (false)
+      }
+      else {
+        return item[filter].toString().toLowerCase().includes(searchTerm.toLowerCase());
+      }
+    }
+    return true;
+  });
 
   return (
     <>
@@ -84,7 +107,7 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
               </tr>
             </MDBTableHead>
             <MDBTableBody>
-              {imoveis.length === 0 ? (
+              {filteredData.length === 0 ? (
                 <tr>
                   <td colSpan="7">Sem Imoveis</td>
                 </tr>
