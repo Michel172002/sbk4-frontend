@@ -19,7 +19,10 @@ function Proprietarios() {
   const [modalCreateIsOpen, setIsOpenCreate] = useState(false);
   const [modalEditIsOpen, setIsOpenEdit] = useState(false);
   const [modalDadosIsOpen, setIsOpenDados] = useState(false);
+  const [proprietarioSelecionado, setProprietarioSelecionado] = useState(null);
 
+
+  // Modais
   const handleOpenModalCreate = () => {
     return setIsOpenCreate(true);
   };
@@ -27,8 +30,6 @@ function Proprietarios() {
   const handleCloseModalCreate = () => {
     return setIsOpenCreate(false);
   };
-
-  const [proprietarioSelecionado, setProprietarioSelecionado] = useState(null);
 
   const handleOpenModalEdit = (proprietario) => {
     setProprietarioSelecionado(proprietario);
@@ -48,9 +49,33 @@ function Proprietarios() {
     return setIsOpenDados(false);
   };
 
+
+    // Get proprietarios aqui
+    // Passar como prop para a table
+    // Mover o FormPesquisar para dentro da Table
+    // Criar a funcao search na table
+    // Passar o modal handleOpenModalCreate como prop para a table
+      // Dentro da table passar o mesmo modal como prop para o Form
+
+
+    // Formatar o formulario de criação
+    // Formatar o formulário de edição
+    // Formatar o modal de exibir dados
   return (
     <div>
       <Containner>
+        <Navbar />
+        <Aside />
+        <br />
+        <Header />
+        <FormPesquisar handleOpenModal={handleOpenModalCreate} />
+        <br />
+        <Table
+          handleOpenModalEdit={handleOpenModalEdit}
+          handleOpenModalDados={handleOpenModalDados}
+        />
+
+
         <ReactModal
           isOpen={modalCreateIsOpen}
           onRequestClose={handleOpenModalCreate}
@@ -66,6 +91,7 @@ function Proprietarios() {
             <ShortPropriedades />
           </Containner>
         </ReactModal>
+
         <ReactModal
           isOpen={modalEditIsOpen}
           onRequestClose={handleCloseModalEdit}
@@ -81,6 +107,7 @@ function Proprietarios() {
             <ShortPropriedadesEdit proprietarioProp={proprietarioSelecionado} />
           </Containner>
         </ReactModal>
+
         <ReactModal
           isOpen={modalDadosIsOpen}
           onRequestClose={handleCloseModalDados}
@@ -98,17 +125,7 @@ function Proprietarios() {
             />
           </Containner>
         </ReactModal>
-        <Navbar />
-        <Aside />
-        <br />
-        <Header />
-        <FormPesquisar handleOpenModal={handleOpenModalCreate} />
-        {/* <Pesquisar/> */}
-        <br />
-        <Table
-          handleOpenModalEdit={handleOpenModalEdit}
-          handleOpenModalDados={handleOpenModalDados}
-        />
+
       </Containner>
     </div>
   );

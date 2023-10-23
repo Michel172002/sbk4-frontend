@@ -59,10 +59,7 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
   };
 
 
-  // TODO: tudo funcionando mas buga se filtrar e voltar pro filtro inicial.
-  // Fazer uma forma de resetar ao estado inicial depois que filtrar
   const filteredData = imoveis.filter((item) => {
-  //  if()
     if (filter) {
       if (filter === 'preco') {
         const queryValue = parseFloat(searchTerm);
@@ -73,7 +70,7 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, handleOpenModal, imo
         }
       } else if (filter === 'alugando') {
         return item.alugando === (true);
-      }  else if(filter === 'compra') {
+      } else if (filter === 'compra') {
         return item.alugando === (false)
       }
       else {

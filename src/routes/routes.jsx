@@ -13,6 +13,7 @@ import {
   Route,
 } from "react-router-dom";
 import PrivateRoutes from './privateRoutes';
+import Config from '../pages/config/config';
 
 
 function AppRoutes() {
@@ -30,6 +31,7 @@ function AppRoutes() {
             <Route path='/proprietarios' element={<Proprietarios />} />
             <Route path='/imoveis' element={<Imoveis />} />
             <Route path='/corretores' element={<Corretores />} />
+            <Route path='/config' element={<Config />} />
           </Route>
 
         </Routes>

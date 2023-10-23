@@ -16,6 +16,10 @@ function Navbar() {
     navigate('/login');
   }
 
+  const handleConfig = () => {
+    navigate('/config')
+  }
+
   return (
     <div>
       <Containner className='d-flex justify-content-between border rounded'>
@@ -24,7 +28,7 @@ function Navbar() {
         </div>
         <ul>
           <li>
-            <MDBBtn size='lg' title='Configurações' floating>
+            <MDBBtn size='lg' title='Configurações' floating onClick={handleConfig}>
               <MDBIcon fas icon="cog" />
             </MDBBtn>
           </li>
