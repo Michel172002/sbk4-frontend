@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { Containner } from "./styled.js";
 import sbk4Fetch from "../../../../axios/config.js";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput,
+  MDBBtn,
+  MDBIcon,
+} from "mdb-react-ui-kit";
+import Form from 'react-bootstrap/Form';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ShortPropriedadesEdit({ proprietarioProp }) {
   const [proprietario, setProprietario] = useState([]);
@@ -11,10 +22,12 @@ function ShortPropriedadesEdit({ proprietarioProp }) {
   const [email, setEmail] = useState("");
   const [identificacao, setTipoDoc] = useState(1);
   const [identificacaoNumero, setNumDoc] = useState("");
-  const [observacao, setobservacao] = useState("");
+  const [observacao, setObservacao] = useState("");
 
   const getProprietario = async (proprietarioId) => {
     try {
+      const loaderToast = toast.loading("Carregando Informações...");
+
       const response = await sbk4Fetch.get(`/proprietario/${proprietarioId}`);
       const data = response.data;
       setProprietario(data);
@@ -25,14 +38,19 @@ function ShortPropriedadesEdit({ proprietarioProp }) {
       setEmail(data.email);
       setTipoDoc(data.identificacao);
       setNumDoc(data.identificacaoNumero);
-      setobservacao(data.observacao);
+      setObservacao(data.observacao);
+
+      toast.dismiss(loaderToast);
     } catch (error) {
       console.log(error);
+      toast.error(error.message)
     }
   };
 
   const editProprietario = async (e) => {
     e.preventDefault();
+
+    const loader = toast.loading("Editando...")
     const proprietario = {
       nome,
       nascimento,
@@ -45,10 +63,12 @@ function ShortPropriedadesEdit({ proprietarioProp }) {
     };
     try {
       await sbk4Fetch.put(`/proprietario/${proprietarioProp.id}`, proprietario);
+      toast.dismiss(loader)
     } catch (error) {
       console.log(error);
+      toast.error(error.message)
     }
-    location.reload();
+    // location.reload();
   };
 
   useEffect(() => {
@@ -56,119 +76,79 @@ function ShortPropriedadesEdit({ proprietarioProp }) {
       getProprietario(proprietarioProp.id);
     }
   }, [proprietarioProp]);
+
   return (
-    <Containner>
-      <form
-        class="needs-validation"
-        novalidate
-        onSubmit={(e) => editProprietario(e)}
-      >
-        <div class="col align-self-center">
-          <div class="row justify-content-center">
-            <div class="col-auto mb-3">
-              <label htmlFor="nome">Nome</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"text"}
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-              ></input>
-            </div>
-            <div class="col-auto mb-3">
-              <label htmlFor="nascimento">Data de Nascimento</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"date"}
-                value={nascimento}
-                onChange={(e) => setDataNas(e.target.value)}
-              ></input>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-auto mb-3">
-              <label htmlFor="telefone">Telefone</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"number"}
-                value={telefone}
-                onChange={(e) => setTelefone(e.target.value)}
-              ></input>
-            </div>
-            <div class="col-auto mb-3">
-              <label htmlFor="email">Email</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"email"}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></input>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-auto">
-              <label htmlFor="sexo">Sexo</label>
-            </div>
-            <div class="col-auto mb-3">
-              <select
-                class="form-control"
-                name="sexo"
-                id="selectSexo"
-                value={sexo}
-                onChange={(e) => setSexo(e.target.value === 1)}
-              >
-                <option value={1}>Homem</option>
-                <option value={0}>Mulher</option>
-              </select>
-            </div>
-            <div class="col-auto mb-3">
-              <select
-                class="form-control"
-                name="indentificacao"
-                id="selectDoc"
-                value={identificacao}
-                onChange={(e) => setTipoDoc(e.target.value)}
-              >
-                <option value={"RG"}>RG</option>
-                <option value={"CPF"}>CPF</option>
-                <option value={"CNPF"}>CNPJ</option>
-              </select>
-            </div>
-            <div class="col-auto">
-              <input
-                class="form-control"
-                type={"number"}
-                value={identificacaoNumero}
-                onChange={(e) => setNumDoc(e.target.value)}
-              ></input>
-            </div>
-            <div class="row justify-content-center">
-              <div class="col-6">
-                <label>observações</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  value={observacao}
-                  onChange={(e) => setobservacao(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-auto">
-              <input class="btn btn-success btn-lg" type={"submit"} />
-            </div>
-          </div>
-        </div>
-      </form>
-    </Containner>
+    <MDBContainer>
+    <form onSubmit={editProprietario}>
+      <MDBRow className='mb-4'>
+        <MDBCol>
+          <MDBInput
+            id='form3Example1'
+            label='Nome'
+            type='text'
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+        </MDBCol>
+        <MDBCol>
+          <MDBInput
+            id='form3Example2'
+            label='Data de Nascimento'
+            type='date'
+            value={nascimento}
+            onChange={(e) => setDataNas(e.target.value)}
+          />
+        </MDBCol>
+      </MDBRow>
+      <MDBRow>
+        <MDBCol sm={2}>
+          <MDBInput
+            className='mb-4'
+            type='number'
+            label='Telefone'
+            value={telefone}
+            onChange={(e) => setTelefone(e.target.value)}
+          />
+        </MDBCol>
+        <MDBCol sm={4}>
+          <MDBInput
+            className='mb-4'
+            type='email'
+            label='Email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </MDBCol>
+        <MDBCol sm={2}>
+          <Form.Select className="mb-4" onChange={(e) => setTipoDoc(e.target.value)} value={identificacao}>
+            <option>Tipo Doc.</option>
+            <option value={'RG'}>RG</option>
+            <option value={'CPF'}>CPF</option>
+            <option value={'CNPJ'}>CNPJ</option>
+          </Form.Select>
+        </MDBCol>
+        <MDBCol sm={4}>
+          <MDBInput
+            className='mb-4'
+            type='number'
+            label='Número Doc.'
+            value={identificacaoNumero}
+            onChange={(e) => setNumDoc(e.target.value)}
+          />
+        </MDBCol>
+      </MDBRow>
+      <MDBInput
+        className='mb-4'
+        label='Observações'
+        type='text'
+        value={observacao}
+        onChange={(e) => setObservacao(e.target.value)}
+      />
+      <MDBBtn color='success' type='submit' size="lg" block>
+        Cadastrar
+      </MDBBtn>
+    </form>
+  </MDBContainer>
   );
 }
 export default ShortPropriedadesEdit;

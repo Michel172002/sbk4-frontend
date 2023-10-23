@@ -12,7 +12,7 @@ function Inicial() {
         <Aside />
         <br />
         <Header />
-        <Pesquisar />
+        {/* <Pesquisar /> */}
         <br />
         <br />
         {/* <Grids /> */}

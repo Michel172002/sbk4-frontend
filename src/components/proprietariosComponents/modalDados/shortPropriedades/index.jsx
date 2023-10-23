@@ -1,6 +1,44 @@
 import { useEffect, useState } from "react";
 import { Containner } from "./styled.js";
 import sbk4Fetch from "../../../../axios/config.js";
+import styled from "styled-components";
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBContainer, MDBRow, MDBCol } from "mdb-react-ui-kit";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import formatPhoneNumber from '../../../../utils/formatPhoneNumber.js'
+
+
+const StyledCard = styled(MDBCard)`
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    // text-align: center;
+    border-radius: 0.25rem;
+
+    .title {
+      border-bottom: 1px solid #000;
+      box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.2);
+    }
+    .title>p{
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    button {
+      background: transparent;
+    color: black;
+    border: 1.75px solid lightgray;
+    border-radius: 12.5%;
+    filter: opacity(66%);
+    transition: 0.3s;
+    }
+
+    button:hover {
+      filter: opacity(100%);
+    }
+
+  `;
 
 function ShortPropriedadesDados({ proprietarioProp }) {
   const [proprietario, setProprietario] = useState([]);
@@ -14,6 +52,7 @@ function ShortPropriedadesDados({ proprietarioProp }) {
   const [obs, setObs] = useState("");
 
   const getProprietario = async (proprietarioId) => {
+    const loader = toast.loading("Carregando informações...");
     try {
       const response = await sbk4Fetch.get(`/proprietario/${proprietarioId}`);
       const data = response.data;
@@ -28,7 +67,9 @@ function ShortPropriedadesDados({ proprietarioProp }) {
       setObs(data.observacao);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
+    toast.dismiss(loader);
   };
 
   const getSexo = (sexo) => {
@@ -56,65 +97,67 @@ function ShortPropriedadesDados({ proprietarioProp }) {
       getProprietario(proprietarioProp.id);
     }
   }, [proprietarioProp]);
+
+
   return (
-    <Containner>
-      <form class="needs-validation" novalidate>
-        <div class="col align-self-center">
-          <div class="row justify-content-center">
-            <div class="col-auto mb-3">
-              <label htmlFor="nome">Nome:</label>
+    <MDBContainer>
+      <StyledCard className="shadow">
+        <MDBCardBody>
+          <MDBCardTitle>
+            <div className="title mb-3">
+              <p>{nome}</p>
             </div>
-            <div class="col-auto mb-3">
-              <label class="form-control" htmlFor="nome">
-                {nome}
-              </label>
-            </div>
-            <div class="col-auto mb-3">
-              <label htmlFor="nascimento">Data de Nascimento:</label>
-            </div>
-            <div class="col-auto mb-3">
-              <label class="form-control" htmlFor="nascimento">
-                {data_nas}
-              </label>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-auto mb-3">
-              <label htmlFor="telefone">Telefone:</label>
-            </div>
-            <div class="col-auto mb-3">
-              <label class="form-control" htmlFor="telefone">
-                {n_tel}
-              </label>
-            </div>
-            <div class="col-auto mb-3">
-              <label htmlFor="email">Email:</label>
-            </div>
-            <div class="col-auto mb-3">
-              <label class="form-control" htmlFor="email">
-                {email}
-              </label>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-auto">
-              <label htmlFor="sexo">Sexo:</label>
-            </div>
-            <div class="col-auto mb-3">{getSexo(sexo)}</div>
-            <div class="col-auto mb-3">{getTipoDoc(identificacao)}</div>
-            <div class="col-auto">
-              <label class="form-control">{identificacaoNumero}</label>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-5">
-              <label>Observações:</label>
-              <label class="form-control">{obs}</label>
-            </div>
-          </div>
-        </div>
-      </form>
-    </Containner>
+          </MDBCardTitle>
+          <MDBCardText>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Data Nasc.:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{new Date(data_nas).toLocaleDateString('pt-BR')}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Telefone:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{formatPhoneNumber(n_tel)}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Email:</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{email}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>{getTipoDoc(identificacao)}</p>
+              </MDBCol>
+              <MDBCol>
+                <strong>{identificacaoNumero}</strong>
+              </MDBCol>
+            </MDBRow>
+
+            <MDBRow>
+              <MDBCol sm={3}>
+                <p>Observações:</p>
+              </MDBCol>
+              <MDBCol>
+                <small><strong>{obs}</strong></small>
+              </MDBCol>
+            </MDBRow>
+          </MDBCardText>
+        </MDBCardBody>
+      </StyledCard>
+    </MDBContainer>
   );
 }
 export default ShortPropriedadesDados;

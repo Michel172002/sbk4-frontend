@@ -1,6 +1,6 @@
 import { Containner } from "./styled.js";
 import ReactModal from "react-modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Aside from "../../components/aside/index.jsx";
 import Navbar from "../../components/navbar/index.jsx";
 import Header from "../../components/header/index.jsx";
@@ -12,6 +12,7 @@ import HeaderModalEdit from "../../components/proprietariosComponents/modalEdit/
 import ShortPropriedadesEdit from "../../components/proprietariosComponents/modalEdit/shortPropriedades/index.jsx";
 import HeaderModalDados from "../../components/proprietariosComponents/modalDados/header/index.jsx";
 import ShortPropriedadesDados from "../../components/proprietariosComponents/modalDados/shortPropriedades/index.jsx";
+import sbk4Fetch from "../../axios/config.js";
 
 ReactModal.setAppElement("#root");
 
@@ -20,6 +21,25 @@ function Proprietarios() {
   const [modalEditIsOpen, setIsOpenEdit] = useState(false);
   const [modalDadosIsOpen, setIsOpenDados] = useState(false);
   const [proprietarioSelecionado, setProprietarioSelecionado] = useState(null);
+  const [proprietarios, setProprietarios] = useState([]);
+
+  // Proprietarios
+  const getProprietarios = async () => {
+    try {
+      const response = await sbk4Fetch.get("/proprietario");
+      console.log(response)
+
+      const data = response.data;
+
+      setProprietarios(data.content);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getProprietarios();
+  }, []);
 
 
   // Modais
@@ -49,18 +69,9 @@ function Proprietarios() {
     return setIsOpenDados(false);
   };
 
-
-    // Get proprietarios aqui
-    // Passar como prop para a table
-    // Mover o FormPesquisar para dentro da Table
-    // Criar a funcao search na table
-    // Passar o modal handleOpenModalCreate como prop para a table
-      // Dentro da table passar o mesmo modal como prop para o Form
-
-
-    // Formatar o formulario de criação
-    // Formatar o formulário de edição
-    // Formatar o modal de exibir dados
+  // Formatar o formulario de criação
+  // Formatar o formulário de edição
+  // Formatar o modal de exibir dados
   return (
     <div>
       <Containner>
@@ -68,11 +79,12 @@ function Proprietarios() {
         <Aside />
         <br />
         <Header />
-        <FormPesquisar handleOpenModal={handleOpenModalCreate} />
-        <br />
+        <br />\
         <Table
           handleOpenModalEdit={handleOpenModalEdit}
           handleOpenModalDados={handleOpenModalDados}
+          proprietarios={proprietarios}
+          handleOpenModal={handleOpenModalCreate}
         />
 
 

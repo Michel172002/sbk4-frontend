@@ -3,7 +3,7 @@ import { Containner } from "./styled.js"
 function Header(){
 var page=window.location.pathname;
 if(page=="/"){
-    page="Informações"
+    page="Home"
 }
 var pageReplace=page.replace(/^\//,"")
     return(
