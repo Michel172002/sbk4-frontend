@@ -4,28 +4,21 @@ export const Containner = styled.div`
 
 margin-top: -9%;
 margin-left: 25%;
-overflow: auto;
 height: 57vh;
 width: 70vw;
-.thead-dark{
-    background-color: #0f1a2c;
-    color:white;
-
+.thead {
+  background: linear-gradient(45deg, #0F1A2C, #1E2F46);
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
-tbody{
-    border-bottom:2px solid #A0A0A0;
+.actionButtons {
+  margin: 2px;
+  background: linear-gradient(45deg, #0F1A2C, #1E2F46);
+  color: #CACACA;
 }
-tbody : hover {
-    color: #087660;
-  
+.actionButtons:hover {
+  background-color: rgba(302, 302, 302, 0.1);
+  color: white;
 }
-.td_Button{
-    width: 160px;
-  
-    
-}
-.teste{
-    width: 100px;
-}
-
 `

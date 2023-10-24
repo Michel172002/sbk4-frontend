@@ -68,7 +68,7 @@ function ShortPropriedadesEdit({ proprietarioProp }) {
       console.log(error);
       toast.error(error.message)
     }
-    // location.reload();
+    location.reload();
   };
 
   useEffect(() => {
@@ -145,7 +145,7 @@ function ShortPropriedadesEdit({ proprietarioProp }) {
         onChange={(e) => setObservacao(e.target.value)}
       />
       <MDBBtn color='success' type='submit' size="lg" block>
-        Cadastrar
+        Editar
       </MDBBtn>
     </form>
   </MDBContainer>

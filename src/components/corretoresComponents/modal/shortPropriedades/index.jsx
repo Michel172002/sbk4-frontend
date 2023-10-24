@@ -1,7 +1,17 @@
 import sbk4Fetch from "../../../../axios/config.js";
 import { Containner } from "./styled.js";
-
 import { useState } from "react";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput,
+  MDBBtn,
+  MDBIcon,
+} from "mdb-react-ui-kit";
+import Form from 'react-bootstrap/Form';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ShortPropriedades = () => {
   const [nome, setName] = useState();
@@ -11,69 +21,55 @@ const ShortPropriedades = () => {
   const createCorretor = async (e) => {
     e.preventDefault();
 
+    const loaderToast = toast.loading("Cadastrando...");
+
     const corretor = { nome, telefone, creci, ativo: true };
 
     try {
       await sbk4Fetch.post("/corretor", corretor);
+      toast.dismiss(loaderToast);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
 
     location.reload();
   };
 
   return (
-    <Containner>
-      <form
-        class="needs-validation"
-        novalidate
-        onSubmit={(e) => createCorretor(e)}
-      >
-        <div class="col align-self-center">
-          <div class="row justify-content-center">
-            <div class="col-auto mb-3">
-              <label htmlFor="nome">Nome</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"text"}
-                onChange={(e) => setName(e.target.value)}
-              ></input>
-            </div>
-            <div class="col-auto mb-3">
-              <label htmlFor="creci">Creci</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"text"}
-                onChange={(e) => setCreci(e.target.value)}
-              ></input>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-auto mb-3">
-              <label htmlFor="telefone">Telefone</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"text"}
-                onChange={(e) => setTel(e.target.value)}
-              ></input>
-            </div>
-            <div class="col-auto setoff-mb-3">
-              <input
-                type="submit"
-                value="Criar Corretor"
-                class="btn btn-success btn-lg"
-              />
-            </div>
-          </div>
-        </div>
+    <MDBContainer>
+      <form onSubmit={createCorretor}>
+        <MDBRow className='mb-4'>
+          <MDBCol>
+            <MDBInput
+              id='form3Example1'
+              label='Nome'
+              type='text'
+              onChange={(e) => setName(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol>
+            <MDBInput
+              id='form3Example2'
+              label='Creci'
+              type='number'
+              onChange={(e) => setCreci(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol>
+          <MDBInput
+              id='form3Example2'
+              label='Telefone'
+              type='text'
+              onChange={(e) => setTel(e.target.value)}
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBBtn color='success' type='submit' size="lg" block>
+          Cadastrar
+        </MDBBtn>
       </form>
-    </Containner>
+    </MDBContainer>
   );
 };
 export default ShortPropriedades;

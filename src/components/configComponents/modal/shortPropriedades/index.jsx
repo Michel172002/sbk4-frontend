@@ -35,7 +35,7 @@ const ShortPropriedades = () => {
       toast.error(error.message);
     }
 
-    // location.reload();
+    location.reload();
   };
 
   return (

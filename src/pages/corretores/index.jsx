@@ -20,7 +20,27 @@ function Corretores() {
   const [modalCreateIsOpen, setIsOpenCreate] = useState(false);
   const [modalEditIsOpen, setIsOpenEdit] = useState(false);
   const [modalDadosIsOpen, setIsOpenDados] = useState(false);
+  const [corretorSelecionado, setCorretorSelecionado] = useState(null);
+  const [corretores, setCorretores] = useState([]);
 
+  // Corretores
+  const getCorretores = async () => {
+    try {
+      const response = await sbk4Fetch.get("/corretor");
+
+      const data = response.data;
+
+      setCorretores(data.content);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getCorretores();
+  }, []);
+
+  //Modais
   const handleOpenModalCreate = () => {
     return setIsOpenCreate(true);
   };
@@ -28,8 +48,6 @@ function Corretores() {
   const handleCloseModalCreate = () => {
     return setIsOpenCreate(false);
   };
-
-  const [corretorSelecionado, setCorretorSelecionado] = useState(null);
 
   const handleOpenModalEdit = (corretor) => {
     setCorretorSelecionado(corretor);
@@ -51,6 +69,19 @@ function Corretores() {
 
   return (
     <Containner>
+      <Navbar />
+      <Aside />
+      <br />
+      <Header />
+      <br />
+      <Table
+        handleOpenModalEdit={handleOpenModalEdit}
+        handleOpenModalDados={handleOpenModalDados}
+        corretores={corretores}
+        handleOpenModal={handleOpenModalCreate}
+      />
+
+      {/* Modais */}
       <ReactModal
         isOpen={modalCreateIsOpen}
         onRequestClose={handleOpenModalCreate}
@@ -66,6 +97,7 @@ function Corretores() {
           <ShortPropriedades />
         </Containner>
       </ReactModal>
+
       <ReactModal
         isOpen={modalEditIsOpen}
         onRequestClose={handleCloseModalEdit}
@@ -81,6 +113,7 @@ function Corretores() {
           <ShortPropriedadesEdit corretorProp={corretorSelecionado} />
         </Containner>
       </ReactModal>
+
       <ReactModal
         isOpen={modalDadosIsOpen}
         onRequestClose={handleCloseModalDados}
@@ -96,17 +129,6 @@ function Corretores() {
           <ShortPropriedadesDados corretorProp={corretorSelecionado} />
         </Containner>
       </ReactModal>
-      <Navbar />
-      <Aside />
-      <br />
-      <Header />
-      <FormPesquisar handleOpenModalCreate={handleOpenModalCreate} />
-      {/* <Pesquisar/> */}
-      <br />
-      <Table
-        handleOpenModalEdit={handleOpenModalEdit}
-        handleOpenModalDados={handleOpenModalDados}
-      />
     </Containner>
   );
 }

@@ -1,7 +1,17 @@
 import { Containner } from "./styled.js";
 import sbk4Fetch from "../../../../axios/config.js";
-
 import { useEffect, useState } from "react";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput,
+  MDBBtn,
+  MDBIcon,
+} from "mdb-react-ui-kit";
+import Form from 'react-bootstrap/Form';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ShortPropriedadesEdit = ({ corretorProp }) => {
   const [corretor, setCorretor] = useState([]);
@@ -10,6 +20,7 @@ const ShortPropriedadesEdit = ({ corretorProp }) => {
   const [creci, setCreci] = useState("");
 
   const getCorretor = async (corretorId) => {
+    const loader = toast.loading("Carregando informações...");
     try {
       const response = await sbk4Fetch.get(`/corretor/${corretorId}`);
       const data = response.data;
@@ -19,16 +30,23 @@ const ShortPropriedadesEdit = ({ corretorProp }) => {
       setTel(data.telefone);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
+    toast.dismiss(loader);
   };
 
   const editCorretor = async (e) => {
     e.preventDefault();
+
+    const loaderToast = toast.loading("Editando...");
+
     const corretorEditado = { nome, telefone, creci, ativo: true };
     try {
       await sbk4Fetch.put(`/corretor/${corretorProp.id}`, corretorEditado);
+      toast.dismiss(loaderToast)
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
     location.reload();
   };
@@ -40,60 +58,42 @@ const ShortPropriedadesEdit = ({ corretorProp }) => {
   }, [corretorProp]);
 
   return (
-    <Containner>
-      <form
-        class="needs-validation"
-        novalidate
-        onSubmit={(e) => editCorretor(e)}
-      >
-        <div class="col align-self-center">
-          <div class="row justify-content-center">
-            <div class="col-auto mb-3">
-              <label htmlFor="nome">Nome</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"text"}
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-              ></input>
-            </div>
-            <div class="col-auto mb-3">
-              <label htmlFor="creci">Creci</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"text"}
-                value={creci}
-                onChange={(e) => setCreci(e.target.value)}
-              ></input>
-            </div>
-          </div>
-          <div class="row justify-content-center">
-            <div class="col-auto mb-3">
-              <label htmlFor="telefone">Telefone</label>
-            </div>
-            <div class="col-auto mb-3">
-              <input
-                class="form-control"
-                type={"text"}
-                value={telefone}
-                onChange={(e) => setTel(e.target.value)}
-              ></input>
-            </div>
-            <div class="col-auto setoff-mb-3">
-              <input
-                type="submit"
-                value="Editar Corretor"
-                class="btn btn-success btn-lg"
-              />
-            </div>
-          </div>
-        </div>
+    <MDBContainer>
+      <form onSubmit={editCorretor}>
+        <MDBRow className='mb-4'>
+          <MDBCol>
+            <MDBInput
+              id='form3Example1'
+              label='Nome'
+              type='text'
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol>
+            <MDBInput
+              id='form3Example2'
+              label='Creci'
+              type='number'
+              value={creci}
+              onChange={(e) => setCreci(e.target.value)}
+            />
+          </MDBCol>
+          <MDBCol>
+            <MDBInput
+              id='form3Example2'
+              label='Telefone'
+              type='number'
+              value={telefone}
+              onChange={(e) => setTel(e.target.value)}
+            />
+          </MDBCol>
+        </MDBRow>
+        <MDBBtn color='success' type='submit' size="lg" block>
+          Editar
+        </MDBBtn>
       </form>
-    </Containner>
+    </MDBContainer>
   );
 };
 export default ShortPropriedadesEdit;
