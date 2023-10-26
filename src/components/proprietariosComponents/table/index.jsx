@@ -68,8 +68,6 @@ function Table({ handleOpenModalEdit, handleOpenModalDados, proprietarios, handl
   const fetchData = async () => {
     try {
       const response = await sbk4Fetch.get("/imovel");
-      const data = response.data;
-      imoveis = data.content;
       setLoading(false);
     } catch (error) {
       console.log(error);

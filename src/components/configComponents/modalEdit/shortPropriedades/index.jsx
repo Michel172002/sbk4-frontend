@@ -61,9 +61,9 @@ const ShortPropriedadesEdit = ({ userProp }) => {
   }, [userProp]);
 
   return (
-<MDBContainer>
+    <MDBContainer>
       <form onSubmit={editUser}>
-      <MDBRow className='mb-4'>
+        <MDBRow className='mb-4'>
           <MDBCol>
             <MDBInput
               id='form3Example1'
@@ -83,7 +83,7 @@ const ShortPropriedadesEdit = ({ userProp }) => {
             />
           </MDBCol>
           <MDBCol>
-          <MDBInput
+            <MDBInput
               id='form3Example2'
               label='Cargo'
               type='text'
