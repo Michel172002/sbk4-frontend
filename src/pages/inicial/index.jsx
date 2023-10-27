@@ -12,10 +12,7 @@ function Inicial() {
         <Aside />
         <br />
         <Header />
-        {/* <Pesquisar /> */}
-        <br />
-        <br />
-        {/* <Grids /> */}
+        <Grids />
       </Containner>
     </div>
   );

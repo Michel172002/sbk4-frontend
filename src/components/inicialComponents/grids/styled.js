@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Containner = styled.div`
 
 color: black;
-margin-top: 3%;
+margin-top: 2.5%;
 margin-left: 25%;
 overflow: auto;
 
@@ -12,9 +12,9 @@ h4{
     font-size: 1.5vw;
     background-color:#0f1a2c;
     color:white;
- 
+
 }
-height: 55vh;
+height: 60vh;
 
 width: 68vw;
 `
