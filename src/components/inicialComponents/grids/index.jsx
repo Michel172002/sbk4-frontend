@@ -69,6 +69,14 @@ function Grids() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  const getAlugando = (alugando) => {
+    if (alugando) {
+      return <strong>ALUGUEL</strong>;
+    } else {
+      return <strong>VENDA</strong>;
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -122,7 +130,7 @@ function Grids() {
                     key={imovel.id}
                   >
                     <div>
-                      <div className='fw-bold'>{imovel.tipo} para ALUGUEL</div>
+                      <div className='fw-bold'>{imovel.tipo} para {getAlugando(imovel.alugando)}</div>
                       <div className='text-muted'>{imovel.bairro} - {imovel.cidade}</div>
                     </div>
                   </MDBListGroupItem>
